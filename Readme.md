@@ -1,61 +1,166 @@
-# Links to Sample Capstones
+## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
+## Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Summarization
+
+Proposed by Group Initiative and Idea 
+
+## Project Objectives:
+The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased summaries of the topic. This project will explore the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  summarizations. Specifically, this project will focus on:
+
+Developing several agents based on customizing open-source LLMs for specific tasks, such as bias detection, summarization, knowledge graph maintenance, data collection, and chat functionality.
+Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on comparing compute resources, reducing redundancy of collected information, accuracy of bias classification, and quality of news summarization.
 
 
-----
+## System Architecture
+ 
+```bash
+Diagram
+```
 
-## Spring  2024
+## Agent Architecture Interaction Diagram:
 
+Anticipated Multi-Agent System Workflow:
 
-1. [Capstone Group 0 : Predicting blood transfusions for coronary artery]()
+1-  User provides  a topic or article query to the system→ **Agent7** checks for existing knowledge.
 
-    - [Publication Link](https://link.springer.com/article/10.1007/s00521-024-10309-9)
+2- If knowledge is outdated, it requests fresh updates from **Agent2**.
 
+3- **Agent3** & **Agent4** analyze the bias and fact check new data before storage.
 
+4- **Agent5** integrates verified data into knowledge graph.
 
-2. [Capstone Group 1 : Mapping Deprived Areas](https://github.com/akhil97/Capstone-Group1)
+5- **Agent6** generates an unbiased, multi-source summary.
 
-
-
-3. [Capstone Group 3 : Neural Network SOM](https://github.com/amir-jafari/SOM)
-
-   - [Package Link](https://pypi.org/project/NNSOM/)
-
-
-
-4. [Capstone Group 5 : RAG](https://github.com/arjbingly/grag)
-
-   - [Package Link](https://pypi.org/project/grag/)
+6- **Agent7** returns a response with neutral summary, bias trends, fact-checks, and balanced perspectives.
 
 
+```bash
+Diagram
+```
 
-5. [Capstone Group 8 : GNN Recommendation System](https://github.com/twallett/DynamicRecSys)
+## Tech Stack:
 
-
-
-6. [Capstone Group 9 : Medical Visual QA](https://github.com/KumarAditya98/Medical-Visual-Question-Answering-using-Multimodal-Fusion)
-
-    - [Publication Link](https://link.springer.com/article/10.1007/s00521-024-10318-8)
-
-
-
-7. [Capstone Group 10 : GNN Fraud Detection](https://github.com/ChiragLakhanpal/Leveraging-Graph-Based-Learning-for-Enhanced-Fraud-Detection)
-    
-    - [Publication Link](https://link.springer.com/article/10.1007/s00521-024-10397-7?utm_source=rct_congratemailt&utm_medium=email&utm_campaign=nonoa_20240917&utm_content=10.1007%2Fs00521-024-10397-7)
-
-
-----
-
-## Fall 2024
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Pytorch](https://img.shields.io/badge/Pytorch-%23FF6F00.svg?style=for-the-badge&logo=Pytorch&logoColor=white)
+![Neo4j](https://img.shields.io/badge/Neo4j-3670A0?style=for-the-badge&logo=Neo4j&logoColor=ffdd54)
+![Pytorch](https://img.shields.io/badge/Sql-%23FF6F00.svg?style=for-the-badge&logo=Sql&logoColor=white)
+![React](https://img.shields.io/badge/Docker-%2320232a.svg?style=for-the-badge&logo=Docker&logoColor=%2361DAFB)
+![Pytorch](https://img.shields.io/badge/Aws-%23FF6F00.svg?style=for-the-badge&logo=Aws&logoColor=white)
 
 
-1. [Capstone Group 1 : Advancing Temporal Forecasting: A Comparative Analysis of Conventional Paradigms and Deep Learning Architectures on Publicly Accessible Datasets](https://github.com/hslgao4/Capstone-Group-1)
+## Project Approach:
+The project will proceed in several phases:
 
-    - [Publication Link - UnderReview]()
+Requirement Analysis: Collaborate with lead researchers to define key components of News knowledge sharing experiences and specify chatbot performance requirements.
+## Technical Phase 
 
-2. [Capstone Group 2 : Optimizing Information Retrieval: A Hybrid Model Leveraging MAR and RAPTOR Frameworks](https://github.com/Akamemz/MAR-RAPTOR-hybrid-model)
+1. Week1. Environment Setup and technology stack Selection
+      - Setup Tech stack environment
+      -  Choose LLM frameworks
+      - select graph database
+      - Setup project documentation 
+2. Week2: Basic agent framework Implementation /Data collection 
+      - Implement basic agent communication 
+      - Create Basic UI prototype
+      -  Setup testing environment 
+      - News article scrapping/Data preprocessing/API Integration
+3. Week 3: Knowledge Graph Agent 
+      - Graph database setup
+      - Entity Extraction 
+      - Relationship Mapping 
+      - Dynamic update mechanism
+4. Week4: Basic Agent communication 
+      - Inter-agent messaging
+      - Memory sharing implementation
+      - State Management 
+5. Week5: Specialized Agent Development(Bias and Summarization Agent)
+      - Bias Detection Agent 
+      - Bias detection models
+      - Pattern recognition
+      - Source Credibility analysis
+      - Contextual analysis
+      - Text Summarization models 
+      - Bias removal techniques
+      - Context Preservation
+      - Output formatting
+6. Integration and Enhancement/UI Development
+      - System Integration/Component integration
+      - End-to-end testing 
+      - Performance Optimization
+      - user interface refinement
+      - interactive features
+      - Visualization components
+7. Testing and Documentation 
+      - Comprehensive testing 
+      - Unit Testing 
+      - Integration testing 
+      - Performance testing 
+      - User acceptance testing
 
-    - [Publication Link - UnderReview]()
 
-3. [Capstone Group 5 : FolkRAG: A Retrieval-Augmented Generation System for Cultural Heritage Materials](https://github.com/GWU-MS-DS/Capstone)
+## Research Writing Phase/Structure 
 
-    - [Publication Link - UnderReview]()
+1. Introduction
+   - Problem Statement
+   - Current Challenges
+   - Proposed Solution
+
+2. Related Work
+    - Existing Bias Detection Methods
+    - Multi-Agent Systems in NLP
+    - News Summarization Techniques
+
+3. Methodology
+     - System Architecture
+     - Agent Descriptions
+     - Implementation Details
+
+4. Experiments
+    - Dataset Description
+    - Evaluation Metrics
+    - Results Analysis
+
+5. Discussion
+   - Comparative Analysis
+   - Limitations
+   - Future Work
+
+
+## Folder Structure
+
+
+```
+
+├── src
+│   ├── component
+│   
+├── demo  |
+│   └── fig
+├── full_report
+│   ├── Latex_report
+│   │   └── fig
+│   ├── Markdown_Report
+│   └── Word_Report
+├── presentation
+└── research_paper
+    ├── Latex
+    │   └── Fig
+    └── Word
+```
+
+___
+
+
+
+## Contact
+**Advisor: Amir Jafari**
+
+   Email: ajafari@gmail.com
+
+   The George Washington University, Washington DC
+
+   Data Science Program
+
+   GitHub: https://github.com/amir-jafari/Capstone
+
+
