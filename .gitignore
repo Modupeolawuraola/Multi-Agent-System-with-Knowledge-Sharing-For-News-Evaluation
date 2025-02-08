@@ -1,3 +1,32 @@
-\.idea
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
 
-docs/_build
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sphinx documentation
+docs/_build/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
