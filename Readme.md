@@ -36,6 +36,10 @@ Anticipated Multi-Agent System Workflow:
 ```bash
 Diagram
 ```
+## Knowledge Graph
+
+Structure:
+![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
 
 ## Tech Stack:
 
@@ -97,10 +101,6 @@ Requirement Analysis: Collaborate with lead researchers to define key components
       - Performance testing 
       - User acceptance testing
 
-## Knowledge Graph
-
-Structure:
-![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
 
 
 ## Research Writing Phase/Structure 
