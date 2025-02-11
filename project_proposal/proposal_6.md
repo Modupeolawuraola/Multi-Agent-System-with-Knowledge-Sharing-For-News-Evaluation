@@ -22,8 +22,8 @@
 
 ## 2 Dataset:  
 
-            The dataset for fine-tuning and customization is still TBD. However, data will likely consist of relevant open-source academic texts,
-             dialogue datasets, and domain-specific content to build the required context for medical field perspectives.
+            The dataset for fine-tuning and customization is still TBD. However, data will likely consist of relevant open-source news,
+             article datasets.
             
 
 ## 3 Rationale:  
@@ -59,9 +59,9 @@
 ## 7 Possible Issues:  
 
             Potential challenges for this project include:
-             **Limited Training Data**: Finding appropriate datasets for Retrieval-Augmented Generation or fine-tuning the LLM may be a limiting factor.
+             **Limited Training Data**: Finding appropriate datasets for Knowledge Graph or fine-tuning the LLM may be a limiting factor.
              **Complexity of Interdisciplinary Teams**: Designing prompts and interactions to genuinely foster  collaborations of diverse teams, requiring careful iteration and feedback.
-             **Interdisciplinary Collaboration**: This project spans multiple disciplines (e.g., Public Health, Medicine, Education, Data Science, Software Engineering), 
+             **Interdisciplinary Collaboration**: This project spans multiple disciplines news  (e.g.Health News, Politics News, Education News, Technology News), 
              requiring effective collaboration and understanding across fields.
             
 
