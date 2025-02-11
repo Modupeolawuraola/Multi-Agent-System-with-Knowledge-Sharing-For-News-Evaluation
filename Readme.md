@@ -13,7 +13,8 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 ## System Architecture
  
 ```bash
-Diagram
+![multiagent-diagram](https://github.com/user-attachments/assets/8bda669a-6ac3-4421-a485-8ae5edb64310)
+
 ```
 
 ## Agent Architecture Interaction Diagram:
