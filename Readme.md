@@ -12,9 +12,8 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 
 ## System Architecture
  
-```bash
-Diagram
-```
+![multiagent-diagram_v3](https://github.com/user-attachments/assets/bb406a4a-0e7c-464a-8c91-30fd90d342ea)
+
 
 ## Agent Architecture Interaction Diagram:
 
@@ -36,6 +35,10 @@ Anticipated Multi-Agent System Workflow:
 ```bash
 Diagram
 ```
+## Knowledge Graph
+
+Structure:
+![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
 
 ## Tech Stack:
 
@@ -96,6 +99,7 @@ Requirement Analysis: Collaborate with lead researchers to define key components
       - Integration testing 
       - Performance testing 
       - User acceptance testing
+
 
 
 ## Research Writing Phase/Structure 
