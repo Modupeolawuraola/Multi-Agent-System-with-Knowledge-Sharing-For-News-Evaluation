@@ -5,7 +5,7 @@ Agent Structure
 -------------
 The system consists of seven specialized agents working together:
 
-![multiagent-diagram_v3](https://github.com/user-attachments/assets/bb406a4a-0e7c-464a-8c91-30fd90d342ea)
+![Multiagent-system](https://github.com/Modupeolawuraola/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation/blob/main/assets/fig/system_image.png?raw=true)
 
 1. **Agent 7 (User Interface Agent)**
     * Handles user queries
@@ -34,7 +34,7 @@ The system consists of seven specialized agents working together:
 
 Workflow
 --------
-![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
+![project_KG_schema]()
 
 1. User query → Agent 7
 2. Knowledge check
