@@ -14,12 +14,12 @@ def test_complete_workflow():
         current_status="ready"
     )
 
-    # Use .invoke() instead of .run()
+    # Use .invoke()
     final_state = workflow.invoke(initial_state)
 
     # Check workflow completion
     assert final_state['current_status'] in ['retrieval_complete', 'workflow_complete']
-    assert 'articles' in final_state  # Verify articles exist
+    assert 'articles' in final_state
 
     # Check if articles have bias analysis
     if final_state['articles']:

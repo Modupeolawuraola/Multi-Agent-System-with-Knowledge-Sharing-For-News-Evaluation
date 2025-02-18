@@ -1,4 +1,4 @@
-# tests/test_retriever_updater.py
+
 import pytest
 from src.components.retriever_Agent.retriever_agent import RetrieverAgent
 from src.components.updater_agent.updater_agent import UpdaterAgent  # Import directly from updater_agent.py

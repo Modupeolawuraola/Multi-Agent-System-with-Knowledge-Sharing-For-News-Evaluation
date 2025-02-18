@@ -20,7 +20,7 @@ def new_collector_Agent(state: GraphState) -> GraphState:
         else:
             from_date = None
 
-        #fectch article(you can modify the query based on your needs
+        #fectch article
         articles=news_tool.get_news_article(
             query="technology",
             from_date=from_date)
