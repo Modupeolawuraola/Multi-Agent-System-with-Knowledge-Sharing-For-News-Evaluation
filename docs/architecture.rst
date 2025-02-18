@@ -5,7 +5,7 @@ Agent Structure
 -------------
 The system consists of seven specialized agents working together:
 
-![Multiagent-system](https://github.com/Modupeolawuraola/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation/blob/main/assets/fig/system_image.png?raw=true)
+![Multiagent-system](../assets/fig/system_image.png)
 
 1. **Agent 7 (User Interface Agent)**
     * Handles user queries
