@@ -35,7 +35,7 @@ def bias_analyzer_agent(graph_state: GraphState) -> GraphState:
 
         # Update state
         new_state['articles'] = analyzed_articles
-        new_state['current_status'] = 'analysis_complete'
+        new_state['current_status'] = 'bias_analysis_complete'
 
     except Exception as e:
         print(f"Error in bias analysis: {e}")

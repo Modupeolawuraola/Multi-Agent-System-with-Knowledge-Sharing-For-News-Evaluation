@@ -14,22 +14,13 @@ def create_workflow():
     workflow.add_node("updater", UpdaterAgent)
     workflow.add_node("retriever", RetrieverAgent)
 
-    # Define routing function
-    def get_next_step(state: GraphState) -> str:
-        status_map = {
-            'ready': "collector",
-            'collection_complete': "analyzer",
-            'analysis_complete': "updater",
-            'update_complete': "retriever",
-            'retrieval_complete': END
-        }
-        return status_map.get(state['current_status'], state['current_status'])
+
 
     # Add edges
-    workflow.add_edge(START, get_next_step)
-    workflow.add_edge("collector", get_next_step)
-    workflow.add_edge("analyzer", get_next_step)
-    workflow.add_edge("updater", get_next_step)
-    workflow.add_edge("retriever", get_next_step)
+    workflow.add_edge(START, "collector")
+    workflow.add_edge("collector", "analyzer")
+    workflow.add_edge("analyzer", "updater")
+    workflow.add_edge("updater", "retriever")
+    workflow.add_edge("retriever", END)
 
     return workflow.compile()
