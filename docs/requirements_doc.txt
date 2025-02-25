@@ -1,3 +1,5 @@
-echo "sphinx>=5.0.0
+cat > docs/requirements_doc.txt << 'EOF'
+sphinx>=5.0.0
 sphinx_rtd_theme>=1.0.0
-myst_parser>=0.18.0" > docs/requirements_doc.txt
+myst_parser>=0.18.0
+EOF
