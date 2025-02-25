@@ -18,6 +18,6 @@ class GraphState(TypedDict):
     article:List[NewsArticle]
     last_retrieved_date:Optional[str]
     current_status:str
-    bias_agent:List[Dict]
+    bias_agent:Optional[Dict]
     current_status:str
     error:Optional[str]

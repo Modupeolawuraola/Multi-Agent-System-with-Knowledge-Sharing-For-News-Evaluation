@@ -1,26 +1,57 @@
 
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import BedrockChat
 from .b_prompts import (
     Bias_detection_prompt,
     Deep_analysis_prompt,
     Verify_prompt
 )
 from dotenv import load_dotenv
+import boto3
 import os
 
 load_dotenv()
 
 
+def create_bedrock_client():
+    """Create bedrock authenticated Bedrock client"""
+    try:
+        session = boto3.Session(
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            aws_session_token=os.getenv('AWS_SESSION_TOKEN'),
+            region_name=os.getenv('AWS_REGION', 'us-east-1')
+        )
+        bedrock_client= session.client(service_name='bedrock-runtime',
+                                       region_name=os.getenv('AWS_REGION', 'us-east-1')
+                                       )
+        return bedrock_client
+    except Exception as e:
+        print(f"Error creating bedrock client: {e}")
+        raise
+
 def create_llm():
-    api_key = os.getenv('OPENAI_API_KEY')
-    print(f"API key loaded: {api_key[:8]}...")
-    return ChatOpenAI(
-        api_key=api_key,
-        model="gpt-4",
-        temperature=0.2
-    )
+    """Create Bedrock LLm Instance"""
+    try:
+        client = create_bedrock_client()
+        #initialize anthropic calude model through bedrock
+
+        llm= BedrockChat(
+            client= client,
+            model_id = "anthropic.claude-3-sonnet-20240229-v1:0",
+            model_kwargs={
+                "max_tokens":4096,
+                "temperature":0.2,
+                "top_p":0.9
+            }
+        )
+        return llm
+    except Exception as e:
+        print(f"Error initializing Bedrock LLM: {e}")
+        raise
+
+
 
 
 def create_bias_analysis_chain():

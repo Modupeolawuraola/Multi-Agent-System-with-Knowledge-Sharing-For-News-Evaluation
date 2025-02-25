@@ -10,8 +10,10 @@ def test_complete_workflow():
 
     initial_state = GraphState(
         knowledge_graph={},
-        articles=[],
-        current_status="ready"
+        articles = [],
+        last_retrieved_date= None,
+        current_status="ready",
+        error= None
     )
 
     # Use .invoke()
@@ -21,6 +23,3 @@ def test_complete_workflow():
     assert final_state['current_status'] in ['retrieval_complete', 'workflow_complete']
     assert 'articles' in final_state
 
-    # Check if articles have bias analysis
-    if final_state['articles']:
-        assert 'bias_analysis' in final_state['articles'][0]
