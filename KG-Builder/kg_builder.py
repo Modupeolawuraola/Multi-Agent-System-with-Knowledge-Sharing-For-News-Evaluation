@@ -1,0 +1,150 @@
+import os, json
+import torch
+import boto3
+from dotenv import load_dotenv
+from langchain_core.documents import Document
+from langchain_experimental.graph_transformers import LLMGraphTransformer
+from langchain_neo4j import Neo4jGraph
+from langchain_openai import ChatOpenAI
+from langchain_community.graphs.graph_document import Node, Relationship
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from langchain_community.llms import HuggingFacePipeline
+
+load_dotenv()
+
+ARTICLE_FILENAME = 'political_news_20250217_164112.json'
+device = "cuda" if torch.cuda.is_available() else "cpu"
+# model_id = "microsoft/Phi-3.5-mini-instruct"
+# model = AutoModelForCausalLM.from_pretrained(model_id,
+#                                              force_download=True,
+#                                              resume_download=True).to(device)
+
+#bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
+#model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+
+# def invoke_claude(prompt):
+#     payload = {
+#         "prompt": f"\n\nHuman: {prompt}\n\nAssistant:",
+#         "max_tokens_to_sample": 1024,
+#         "temperature": 0.7,
+#         "top_p": 0.9
+#     }
+
+    # response = bedrock.invoke_model(
+    #     modelId=model_id,
+    #     contentType="application/json",
+    #     accept="application/json",
+    #     body=json.dumps(payload)
+    # )
+    #
+    # result = json.loads(response["body"].read().decode("utf-8"))
+    # return result.get("completion", "")
+
+
+def create_kg():
+    with open(ARTICLE_FILENAME, encoding="utf-8") as json_file:
+        articles_data = json.load(json_file)
+    articles = articles_data.get('articles', [])
+    #
+    # pipe = pipeline(
+    #     "text-generation",
+    #     model="microsoft/Phi-3.5-mini-instruct",
+    #     max_length=1024,
+    #     temperature=0.7,
+    # )
+    # llm = HuggingFacePipeline(pipeline=pipe)
+
+    llm = ChatOpenAI(
+        openai_api_key=os.getenv('OPENAI_API_KEY'),
+        # temperature=0,
+        # model_name="gpt-4-turbo"
+        model_name="gpt-4o-mini"
+    )
+
+
+    graph = Neo4jGraph(
+        url=os.getenv("NEO4J_URI"),
+        username=os.getenv("NEO4J_USERNAME"),
+        password=os.getenv("NEO4J_PASSWORD")
+    )
+
+    article_transformer = LLMGraphTransformer(llm=llm)
+
+    for article in articles:
+        source = article.get("source")
+        source_name = source["name"] if isinstance(source, dict) else source
+
+        author = article.get("author")
+        published_at = article.get("publishedAt")
+        url = article.get("url")
+        title = article.get("title")
+        full_content = article.get("full_content")  # your main text
+
+        # 5. Create a LangChain Document with minimal necessary metadata
+        article_doc = [
+            Document(
+                page_content=full_content or "",
+                metadata={
+                    "source_name": source_name,
+                    "author": author,
+                    "publishedAt": published_at,
+                    "url": url,
+                    "title": title
+                }
+            )
+        ]
+
+        # convert the article to a graph
+        graph_docs = article_transformer.convert_to_graph_documents(article_doc)
+
+        # create the article node
+        graph.query(
+            """
+            MERGE (a:Article {url: $url})
+            SET a.source_name = $source_name,
+                a.author = $author,
+                a.publishedAt = $publishedAt,
+                a.title = $title,
+                a.full_content = $full_content
+            """,
+            {
+                "url": url,
+                "source_name": source_name,
+                "author": author,
+                "publishedAt": published_at,
+                "title": title,
+                "full_content": full_content
+            }
+        )
+
+        article_node = Node(
+            id=url,
+            type="Article"
+        )
+
+        # create relationships between the article node and the generated graph
+        for graph_doc in graph_docs:
+            for node in graph_doc.nodes:
+                graph_doc.relationships.append(
+                    Relationship(
+                        source=article_node,
+                        target=node,
+                        type="HAS_ENTITY"
+                    )
+                )
+
+        # add the generated nodes and relationships to the graph
+        graph.add_graph_documents(graph_docs)
+
+    graph.query("""
+        CREATE VECTOR INDEX `chunkVector`
+        IF NOT EXISTS
+        FOR (c: Chunk) ON (c.textEmbedding)
+        OPTIONS {indexConfig: {
+        `vector.dimensions`: 1536,
+        `vector.similarity_function`: 'cosine'
+        }};""")
+
+
+if __name__ == "__main__":
+    create_kg()
