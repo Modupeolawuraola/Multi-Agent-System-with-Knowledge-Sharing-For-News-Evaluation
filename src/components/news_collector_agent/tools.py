@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from typing import List, Dict
 import os
 from dotenv import load_dotenv
-from langchain_aws import BedrockChat
+from langchain_aws import ChatBedrock
 import boto3
 
 
@@ -24,8 +24,8 @@ class NewsAPI:
 
         #Initialize AWS Bedrock
         try:
-            client = boto3.client("bedrock-runtime")
-            self.llm= BedrockChat(
+            client = boto3.client("bedrock-runtime", region_name="us-east-1")
+            self.llm= ChatBedrock(
                 client= client,
                 model_id='anthropic.claude-3-sonnet-20240229-v1:0',
                 model_kwargs= {"temperature":0.2}

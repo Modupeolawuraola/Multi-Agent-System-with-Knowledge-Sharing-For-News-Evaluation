@@ -21,5 +21,8 @@ def test_complete_workflow():
 
     # Check workflow completion
     assert final_state['current_status'] in ['retrieval_complete', 'workflow_complete']
-    assert 'articles' in final_state
+
+    #check knowledge_graph instead of articles
+    assert 'knowledge_graph' in final_state
+    assert 'articles' in final_state['knowledge_graph']
 

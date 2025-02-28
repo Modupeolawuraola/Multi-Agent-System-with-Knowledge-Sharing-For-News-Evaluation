@@ -1,7 +1,7 @@
 
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_community.chat_models import BedrockChat
+from langchain_aws import ChatBedrock
 from .b_prompts import (
     Bias_detection_prompt,
     Deep_analysis_prompt,
@@ -37,7 +37,7 @@ def create_llm():
         client = create_bedrock_client()
         #initialize anthropic calude model through bedrock
 
-        llm= BedrockChat(
+        llm= ChatBedrock(
             client= client,
             model_id = "anthropic.claude-3-sonnet-20240229-v1:0",
             model_kwargs={

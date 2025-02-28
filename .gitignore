@@ -22,6 +22,7 @@ src/.env
 
 # Sphinx documentation
 docs/_build/
+docs/requirements_doc.txt
 
 # OS generated files
 .DS_Store

@@ -7,6 +7,10 @@ def bias_analyzer_agent(graph_state: GraphState) -> GraphState:
     """Main bias analysis node function"""
     new_state = graph_state.copy()
 
+    #making sure articles exist even if there is an error
+    if 'articles' not in new_state:
+        new_state['articles'] = []
+
     try:
         # Create analysis chain
         analysis_chain = create_bias_analysis_chain()
@@ -39,7 +43,9 @@ def bias_analyzer_agent(graph_state: GraphState) -> GraphState:
 
     except Exception as e:
         print(f"Error in bias analysis: {e}")
+        #preserve articles even on error
+        if 'articles' not in new_state:
+            new_state['articles'] = []
         new_state['current_status'] = 'error: analysis_failed'
         new_state['error'] = str(e)
-
     return new_state
