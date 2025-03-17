@@ -5,22 +5,22 @@ from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_neo4j import Neo4jGraph
+from langchain_aws import ChatBedrock
 from langchain_openai import ChatOpenAI
 from langchain_community.graphs.graph_document import Node, Relationship
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain_community.llms import HuggingFacePipeline
 
 load_dotenv()
+env_path = os.path.join('..', '.env')
+load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'political_news_20250217_164112.json'
+ARTICLE_FILENAME = 'political_news_20250314_174901.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # model_id = "microsoft/Phi-3.5-mini-instruct"
 # model = AutoModelForCausalLM.from_pretrained(model_id,
 #                                              force_download=True,
 #                                              resume_download=True).to(device)
-
-#bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
-#model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
 
 # def invoke_claude(prompt):
 #     payload = {
@@ -40,26 +40,59 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
     # result = json.loads(response["body"].read().decode("utf-8"))
     # return result.get("completion", "")
 
+def create_bedrock_client():
+    """Create bedrock authenticated Bedrock client"""
+    try:
+        session = boto3.Session(
+            aws_access_key_id=os.getenv("aws_access_key_id"),
+            aws_secret_access_key=os.getenv("aws_secret_access_key"),
+            aws_session_token=os.getenv('aws_session_token'),
+            region_name=os.getenv('AWS_REGION', 'us-east-1')
+        )
+        bedrock_client= session.client(service_name='bedrock-runtime',
+                                       region_name=os.getenv('AWS_REGION', 'us-east-1')
+                                       )
+        return bedrock_client
+    except Exception as e:
+        print(f"Error creating bedrock client: {e}")
+        raise
+
+def create_llm():
+    """Create Bedrock LLm Instance"""
+    try:
+        client = create_bedrock_client()
+        #initialize anthropic calude model through bedrock
+
+        llm= ChatBedrock(
+            client= client,
+            model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0",
+            model_kwargs={
+                "max_tokens":4096,
+                "temperature":0.2,
+                "top_p":0.9
+            }
+        )
+        return llm
+    except Exception as e:
+        print(f"Error initializing Bedrock LLM: {e}")
+        raise
+
+
+
 
 def create_kg():
     with open(ARTICLE_FILENAME, encoding="utf-8") as json_file:
         articles_data = json.load(json_file)
     articles = articles_data.get('articles', [])
-    #
-    # pipe = pipeline(
-    #     "text-generation",
-    #     model="microsoft/Phi-3.5-mini-instruct",
-    #     max_length=1024,
-    #     temperature=0.7,
-    # )
-    # llm = HuggingFacePipeline(pipeline=pipe)
 
-    llm = ChatOpenAI(
-        openai_api_key=os.getenv('OPENAI_API_KEY'),
-        # temperature=0,
-        # model_name="gpt-4-turbo"
-        model_name="gpt-4o-mini"
-    )
+    llm = create_llm()
+
+    # llm = ChatOpenAI(
+    #     openai_api_key=os.getenv('OPENAI_API_KEY'),
+    #     # temperature=0,
+    #     # model_name="gpt-4-turbo"
+    #     model_name="gpt-4o-mini"
+    # )
 
 
     graph = Neo4jGraph(
@@ -68,7 +101,14 @@ def create_kg():
         password=os.getenv("NEO4J_PASSWORD")
     )
 
-    article_transformer = LLMGraphTransformer(llm=llm)
+    article_transformer = LLMGraphTransformer(
+    llm=llm,
+    allowed_nodes=[
+        "Person", "Organization", "Event", "Policy", "Issue", "Location",
+        "Election", "Bill", "Vote", "Speech", "Scandal", "Movement",
+        "Alliance", "Media", "Article", "News Source", "Fact Check", "Bias"
+    ],
+)
 
     for article in articles:
         source = article.get("source")

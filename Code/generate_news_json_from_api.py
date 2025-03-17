@@ -4,31 +4,35 @@ from dotenv import load_dotenv
 import requests
 from newspaper import Article
 from datetime import datetime, timedelta
+from newsapi import NewsApiClient
 
 
-load_status = load_dotenv('.env')
+env_path = os.path.join('..', '.env')
+load_status = load_dotenv(env_path)
 if load_status is False:
     raise RuntimeError('Environment variables not loaded.')
 
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 NEWS_API_URL = os.getenv('NEWS_API_URL')
 
-def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max_results=10):
-    params = {
-        "apikey": api_key,
-        "category": "politics",
-        "country": country,
-        "count": max_results,
-        "sortBy": "publishedAt"  # Prioritizes latest news
-    }
+
+def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max_results=100):
+    newsapi = NewsApiClient(api_key=NEWS_API_KEY)
 
     try:
+        response = newsapi.get_everything(
+            q="politics OR government OR election OR policy",  # Ensure it's a string
+            from_param="2025-02-21",
+            to="2025-03-13",
+            page_size=max_results,
+            language="en",
+            sort_by="publishedAt"
+        )
         # Send request to News API
-        response = requests.get(api_url, params=params)
-        response.raise_for_status()  # Handle HTTP errors
-        news_data = response.json()
+        # response.raise_for_status()  # Handle HTTP errors
+        # news_data = response.json()
 
-        articles = news_data.get("articles", [])
+        articles = response.get("articles", [])
 
         full_articles = []
         for article in articles:
@@ -55,7 +59,7 @@ def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max
 
         # Save JSON data to a file
         with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(news_data, f, indent=4)
+            json.dump(response, f, indent=4)
 
         print(f"Political news articles saved to {output_file}")
 
