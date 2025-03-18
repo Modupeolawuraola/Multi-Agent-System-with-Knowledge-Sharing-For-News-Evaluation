@@ -17,32 +17,43 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 ![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76)
 
 
-## Agent Architecture Interaction Diagram:
+## System Architecture Workflow/Interaction Diagram:
 
-Anticipated Multi-Agent System Workflow:
+##  Agent Workflow Routes
 
-Route 1-  User provides  a topic or article query to the system→ **Agent5** Agent 5 checks for existing knowledge in the knowledge graph, fact-check it 
-Return the Fact to the User.
+# Route 1: Direct Query Processing
 
-Route 2- **Agent1-New Collector Agent** Collect polictical news from newsAPI then pass it to the **Agent 2** bias detector/analyzer to analyse
+User provides a specific claim or article query to Agent 5
+Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, Performs new fact-checking analysis if needed; Returns verified facts to the user
 
-**Agent2- Bias Analyzer/Detector Agent** analyze the bias in the news article , check verify the claims if its biased or unbiased  pass it to agent 4- Agent Updater
+# Route 2: News Collection and Bias Analysis
 
-**Agent3- Updater Agent ** integrates verified/analysed  news articles / data into knowledge graph.
+Agent 1: News Collector Agent: Collects political news(spefics) from NewsAPI ; Passes collected articles to Bias Analyzer
 
-**Agent4- Retriever Agent **collecte/ generates an unbiased news articles from the knowledgeGraph/ Memory.
+Agent 2: Bias Analyzer Agent : Analyzes bias in news articles; Verifies claims; Classifies articles as biased or unbiased; Passes analyzed articles to Updater Agent
 
- From **Agent 4- Retriever Agent ** returns a response and summary , bias trends and balanced perspectives to User.
+Agent 3: Updater Agent:  Integrates analyzed news articles into knowledge graph; Stores bias analysis results
+
+Agent 4: Retriever Agent: Retrieves balanced information from knowledge graph ; Generates summaries with bias trends and balanced perspectives: Returns comprehensive analysis to user
+
+
+System Capabilities
+1. Fact-checking of direct user queries
+2. Automated news collection and bias analysis
+3. Persistent storage of analyzed articles in knowledge graph
+4. Retrieval of balanced news perspectives
+
+
 
 
 ```bash
-Diagram
-```
+
 ## Knowledge Graph
 
 Structure:
 ![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
 
+```
 ## Tech Stack:
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
