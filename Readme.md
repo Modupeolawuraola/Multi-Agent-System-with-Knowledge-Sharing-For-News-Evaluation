@@ -126,7 +126,7 @@ Requirement Analysis: Collaborate with lead researchers to define key components
 2. Related Work
     - Existing Bias Detection Methods
     - Multi-Agent Systems in NLP
-    - News Summarization Techniques
+    
 
 3. Methodology
      - System Architecture
