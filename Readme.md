@@ -23,7 +23,7 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 
 # Route 1: Direct Query Processing
 
-User provides a specific claim or article query to Agent 5
+User: User provides a specific claim or article query to Agent 5
 Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, Performs new fact-checking analysis if needed; Returns verified facts to the user
 
 # Route 2: News Collection and Bias Analysis
@@ -47,13 +47,12 @@ System Capabilities
 
 
 ```bash
-
+```
 ## Knowledge Graph
 
 Structure:
 ![project_KG_schema](https://github.com/user-attachments/assets/3a0c1cde-cd08-42c9-bdff-58ccf2b44d90)
 
-```
 ## Tech Stack:
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
