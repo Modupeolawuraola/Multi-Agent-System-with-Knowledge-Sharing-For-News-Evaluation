@@ -149,21 +149,57 @@ Requirement Analysis: Collaborate with lead researchers to define key components
 
 ```
 
-├── src
-│   ├── component
-│   
-├── demo  |
-│   └── fig
-├── full_report
-│   ├── Latex_report
-│   │   └── fig
-│   ├── Markdown_Report
-│   └── Word_Report
-├── presentation
-└── research_paper
-    ├── Latex
-    │   └── Fig
-    └── Word
+project_root/
+├── src/
+│   ├── component/
+│   │   ├── bias_analyzer_agent/
+│   │   ├── fact_checker_agent/
+│   │   ├── news_collector_agent/
+│   │   ├── retrieverAgent/
+│   │   └── UpdaterAgent/
+│   ├── memory/
+│   │   ├── knowledge_graph/
+│   │   ├── schema/
+│   │   └── state/
+│   ├── util/
+│   │   └── aws_helperfunction/
+│   ├── workflow/
+│   │   ├── config.py
+│   │   ├── graph.py
+│   │   └── simplified_workflow/
+│   └── ui/                        
+│       └── streamlit/             
+│           ├── app.py            
+│           ├── pages/            
+│           └── components/       
+├── system_evaluation/
+│   ├── result/
+│   ├── test_dataset/
+│   ├── evaluate.py
+│   ├── metrics.py
+│   └── visualization.py
+├── unit_tests/                     
+│   ├── test_api_keys.py
+│   ├── test_bias_analyzer.py
+│   ├── test_fact_checking.py
+│   ├── test_integration.py
+│   ├── test_news_collector.py
+│   └── test_retriever_updater.py
+├── docs/
+├── project_proposal/
+├── research_paper/
+│   ├── latex/
+│   │   └── fig/
+│   └── word/
+├── assets/
+│   └── fig/
+├── reports/
+│   ├── latex_report/
+│   │   └── fig/
+│   ├── markdown_report/
+│   └── word_report/
+└── presentations/
+    └── preliminary_findings/
 ```
 
 ___
