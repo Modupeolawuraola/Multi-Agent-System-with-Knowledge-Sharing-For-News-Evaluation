@@ -32,7 +32,7 @@ Route 2- **Agent1-New Collector Agent** Collect polictical news from newsAPI the
 
 **Agent4- Retriever Agent **collecte/ generates an unbiased news articles from the knowledgeGraph/ Memory.
 
-**Agent7** returns a response with neutral summary, bias trends, fact-checks, and balanced perspectives.
+ From **Agent 4- Retriever Agent ** returns a response and summary , bias trends and balanced perspectives to User.
 
 
 ```bash
