@@ -21,17 +21,18 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 
 Anticipated Multi-Agent System Workflow:
 
-1-  User provides  a topic or article query to the system→ **Agent7** checks for existing knowledge.
+Route 1-  User provides  a topic or article query to the system→ **Agent5** Agent 5 checks for existing knowledge in the knowledge graph, fact-check it 
+Return the Fact to the User.
 
-2- If knowledge is outdated, it requests fresh updates from **Agent2**.
+Route 2- **Agent1-New Collector Agent** Collect polictical news from newsAPI then pass it to the **Agent 2** bias detector/analyzer to analyse
 
-3- **Agent3** & **Agent4** analyze the bias and fact check new data before storage.
+**Agent2- Bias Analyzer/Detector Agent** analyze the bias in the news article , check verify the claims if its biased or unbiased  pass it to agent 4- Agent Updater
 
-4- **Agent5** integrates verified data into knowledge graph.
+**Agent3- Updater Agent ** integrates verified/analysed  news articles / data into knowledge graph.
 
-5- **Agent6** generates an unbiased, multi-source summary.
+**Agent4- Retriever Agent **collecte/ generates an unbiased news articles from the knowledgeGraph/ Memory.
 
-6- **Agent7** returns a response with neutral summary, bias trends, fact-checks, and balanced perspectives.
+**Agent7** returns a response with neutral summary, bias trends, fact-checks, and balanced perspectives.
 
 
 ```bash
