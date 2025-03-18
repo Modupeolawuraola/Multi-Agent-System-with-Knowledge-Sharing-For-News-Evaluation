@@ -1,10 +1,12 @@
+
 import os
 import json
 from dotenv import load_dotenv
 import requests
 from newspaper import Article
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from newsapi import NewsApiClient
+
 
 
 env_path = os.path.join('..', '.env')
@@ -14,17 +16,18 @@ if load_status is False:
 
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 NEWS_API_URL = os.getenv('NEWS_API_URL')
+newsapi = NewsApiClient(api_key=NEWS_API_KEY)
 
-
-def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max_results=100):
+def get_news_json_from_api(api_url, api_key, date='2025-03-16', output_file=None, max_results=100):
     newsapi = NewsApiClient(api_key=NEWS_API_KEY)
 
     try:
         response = newsapi.get_everything(
-            q="politics OR government OR election OR policy",  # Ensure it's a string
-            from_param="2025-02-21",
-            to="2025-03-13",
+            q="US politics",  # Ensure it's a string
+            from_param=date,
+            to=date,
             page_size=max_results,
+            sources="abc-news,associated-press,axios,breitbart-news,cbs-news,cnn,fox-news,msnbc,national-review,nbc-news,newsweek,new-york-magazine,politico,reuters,the-american-conservative,the-hill,the-huffington-post,the-washington-post,the-washington-times,usa-today",
             language="en",
             sort_by="publishedAt"
         )
@@ -55,7 +58,7 @@ def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max
         # Generate a timestamped filename if not provided
         if not output_file:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_file = f"political_news_{timestamp}.json"
+            output_file = f"political_news_{date}.json"
 
         # Save JSON data to a file
         with open(output_file, "w", encoding="utf-8") as f:
@@ -66,5 +69,29 @@ def get_news_json_from_api(api_url, api_key, country="us", output_file=None, max
     except requests.exceptions.RequestException as e:
         print(f"Error fetching news: {e}")
 
+def get_dates_between(start_date_str, end_date_str):
+    """
+    Generates a list of dates (as strings in YYYY-MM-DD format) between two dates (inclusive).
 
-get_news_json_from_api(NEWS_API_URL, NEWS_API_KEY)
+    Args:
+        start_date_str (str): Start date in YYYY-MM-DD format.
+        end_date_str (str): End date in YYYY-MM-DD format.
+
+    Returns:
+        list: List of dates as strings.
+    """
+    start_date = date.fromisoformat(start_date_str)
+    end_date = date.fromisoformat(end_date_str)
+    dates = []
+    current_date = start_date
+    while current_date <= end_date:
+        dates.append(current_date.strftime("%Y-%m-%d"))
+        current_date += timedelta(days=1)
+    return dates
+
+start_date_str = "2025-03-10"
+end_date_str = "2025-03-16"
+date_list = get_dates_between(start_date_str, end_date_str)
+
+for date in date_list:
+    get_news_json_from_api(NEWS_API_URL, NEWS_API_KEY, date=date)

@@ -15,7 +15,7 @@ load_dotenv()
 env_path = os.path.join('..', '.env')
 load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'political_news_20250314_174901.json'
+ARTICLE_FILENAME = 'all_articles_with_bias_test.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # model_id = "microsoft/Phi-3.5-mini-instruct"
 # model = AutoModelForCausalLM.from_pretrained(model_id,
