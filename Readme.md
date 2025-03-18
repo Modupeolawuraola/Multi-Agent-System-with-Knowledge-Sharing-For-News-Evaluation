@@ -24,6 +24,7 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 # Route 1: Direct Query Processing
 
 User: User provides a specific claim or article query to Agent 5
+
 Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, Performs new fact-checking analysis if needed; Returns verified facts to the user
 
 # Route 2: News Collection and Bias Analysis
