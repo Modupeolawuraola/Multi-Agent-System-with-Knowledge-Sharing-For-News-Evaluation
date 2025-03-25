@@ -22,37 +22,29 @@ class NewsAPI:
 
         self.base_url = "https://newsapi.org/v2/everything"
 
-        #Initialize AWS Bedrock
-        try:
-            client = boto3.client("bedrock-runtime", region_name="us-east-1")
-            self.llm= ChatBedrock(
-                client= client,
-                model_id='anthropic.claude-3-sonnet-20240229-v1:0',
-                model_kwargs= {"temperature":0.2}
-            )
-
-        except Exception as e:
-            print(f" Error initializing Bedrock: {e}")
-            self.llm= None
-
-
+        # Initialize AWS Bedrock - no fallback to mock
+        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+        self.llm = ChatBedrock(
+            client=client,
+            model_id='anthropic.claude-3-sonnet-20240229-v1:0',
+            model_kwargs={"temperature":0.2}
+        )
 
     def get_news_article(self, query:str, from_date: datetime=None) -> List[Dict]:
         """Fetch articles from NEWSAPI"""
         if from_date is None:
             from_date=datetime.now()- timedelta(days=1)
 
-        #skip if LLM enhanced query not available
-        if self.llm:
-            try:
-                pass
-            except Exception as e:
-                print(f"Error generating query:{e}")
+        # Use LLM to enhance query if available
+        try:
+            # You could implement query enhancement using the LLM here
+            enhanced_query = query  # For now, just use the original query
+        except Exception as e:
+            print(f"Error enhancing query with LLM: {e}")
+            enhanced_query = query
 
-
-            #fall back to the original query if LLM fails
         params={
-            'q': query,
+            'q': enhanced_query,
             'from': from_date.strftime('%Y-%m-%d'),
             'sortBy': 'publishedAt',
             'apiKey': self.api_key,
@@ -65,7 +57,7 @@ class NewsAPI:
 
             articles = response.json()['articles']
 
-            #format article to match  schema
+            # Format article to match schema
             formatted_articles = []
             for article in articles:
                 formatted_article= {
@@ -77,12 +69,12 @@ class NewsAPI:
                     'bias_analysis': None
                 }
 
-
                 formatted_articles.append(formatted_article)
 
             return formatted_articles
 
         except Exception as e:
             print(f"Error fetching news query: {e}")
-            return []
-
+            # Instead of returning an empty list, consider raising the exception
+            # so the caller can handle it appropriately
+            raise

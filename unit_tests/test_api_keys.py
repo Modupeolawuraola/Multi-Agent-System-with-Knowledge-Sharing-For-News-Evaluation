@@ -15,4 +15,3 @@ def test_news_api_connection():
     news_tools = NewsAPI()
     articles = news_tools.get_news_article("test")
     assert isinstance(articles, list), "should return list of article"
-
