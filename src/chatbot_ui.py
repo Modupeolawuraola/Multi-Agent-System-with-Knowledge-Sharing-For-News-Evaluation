@@ -6,6 +6,10 @@ from neo4j import GraphDatabase
 import json
 from datetime import datetime
 import re
+from langchain_community.llms import Ollama
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema import StrOutputParser
+from langchain.schema.runnable import RunnablePassthrough
 
 # Add the project root to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -17,6 +21,97 @@ from src.components.retriever_Agent.retriever_agent import RetrieverAgent
 
 # Load environment variables
 load_dotenv()
+
+# Initialize LLM using Mistral through Ollama
+llm = Ollama(
+    model="mistral",
+    temperature=0.7,
+    base_url="http://localhost:11434"  # Default Ollama URL
+)
+
+# Define prompt templates
+SYSTEM_PROMPT = """You are an advanced news analysis and evaluation assistant. Your role is to:
+1. Evaluate the credibility of news articles
+2. Identify potential biases and misleading information
+3. Analyze sources and factual consistency
+4. Provide balanced perspectives on news topics
+5. Help users understand the reliability of news content
+
+Always maintain a professional and objective tone. When analyzing news:
+- Examine sources for credibility and reliability
+- Evaluate language tone for neutrality
+- Check factual consistency throughout the article
+- Identify any potential biases or partisan leanings
+- Look for exaggerations or sensationalized content"""
+
+CREDIBILITY_TEMPLATE = """Evaluate the credibility of this news article:
+
+Article Content: {context}
+User Query: {query}
+
+Consider and analyze:
+1. Sources: Are they credible and reliable?
+2. Tone: Is it neutral or emotionally charged?
+3. Factual consistency: Are claims accurate and consistent?
+4. Bias: Is there favoritism toward particular viewpoints?
+
+Provide a detailed analysis addressing each aspect."""
+
+BIAS_ANALYSIS_TEMPLATE = """Analyze this news article for potential biases and misleading information:
+
+Article Content: {context}
+User Query: {query}
+
+Examine and report on:
+1. Biases: Identify language choices or framing showing partiality
+2. Misleading information: Find claims taken out of context
+3. Exaggerations: Look for sensationalized statements
+4. Overall reliability: Rate and explain the article's reliability
+
+Provide specific examples and a comprehensive analysis."""
+
+# Create prompt templates
+credibility_prompt = ChatPromptTemplate.from_messages([
+    ("system", SYSTEM_PROMPT),
+    ("human", CREDIBILITY_TEMPLATE)
+])
+
+bias_prompt = ChatPromptTemplate.from_messages([
+    ("system", SYSTEM_PROMPT),
+    ("human", BIAS_ANALYSIS_TEMPLATE)
+])
+
+# Create chains
+credibility_chain = credibility_prompt | llm | StrOutputParser()
+bias_chain = bias_prompt | llm | StrOutputParser()
+
+def get_llm_response(query: str, context: str = "", analysis_type: str = "general") -> str:
+    """Get response from LLM using the provided query and context"""
+    try:
+        if "credibility" in query.lower() or "evaluate" in query.lower():
+            response = credibility_chain.invoke({
+                "query": query,
+                "context": context
+            })
+        elif "bias" in query.lower() or "misleading" in query.lower():
+            response = bias_chain.invoke({
+                "query": query,
+                "context": context
+            })
+        else:
+            # Use a general response template for other queries
+            general_prompt = ChatPromptTemplate.from_messages([
+                ("system", SYSTEM_PROMPT),
+                ("human", "Based on this context: {context}\nAnswer this query: {query}")
+            ])
+            general_chain = general_prompt | llm | StrOutputParser()
+            response = general_chain.invoke({
+                "query": query,
+                "context": context
+            })
+        return response
+    except Exception as e:
+        return f"I apologize, but I encountered an error while processing your request: {str(e)}"
 
 def test_neo4j_connection():
     """Test the connection to Neo4j database"""
@@ -57,6 +152,14 @@ def process_user_input(prompt: str):
     """Process user input to understand intent and extract key information"""
     prompt_lower = prompt.lower()
     
+    # Get articles from knowledge graph for context
+    articles = query_knowledge_graph(prompt)
+    
+    # Create context from articles
+    context = ""
+    if isinstance(articles, str) and not articles.startswith("Error"):
+        context = articles
+    
     # Check for greetings
     greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening']
     if any(greeting in prompt_lower for greeting in greetings):
@@ -64,44 +167,54 @@ def process_user_input(prompt: str):
             st.session_state.conversation_context['greeted'] = True
             return {
                 'type': 'greeting',
-                'response': f"{get_greeting()}! I'm your news assistant. I can help you find and understand news articles, analyze relationships between entities, and provide insights about current events. What would you like to know about?"
+                'response': get_llm_response(
+                    prompt,
+                    "This is the first interaction with the user. Provide a friendly greeting and explain your capabilities."
+                )
             }
         else:
             return {
                 'type': 'greeting',
-                'response': "Hello again! What else would you like to know about?"
+                'response': get_llm_response(
+                    prompt,
+                    "This is a follow-up greeting. Keep it brief and ask about their news interests."
+                )
             }
     
     # Check for personal questions about the bot
     if 'who are you' in prompt_lower or 'what can you do' in prompt_lower:
         return {
             'type': 'introduction',
-            'response': "I'm a news analysis chatbot powered by a knowledge graph. I can help you:\n" +
-                       "• Find and analyze news articles\n" +
-                       "• Identify relationships between people, organizations, and events\n" +
-                       "• Track developments in specific topics\n" +
-                       "• Provide context and connections between different news stories\n\n" +
-                       "What topic would you like to explore?"
+            'response': get_llm_response(
+                prompt,
+                "The user is asking about your capabilities. Explain your role as a news analysis assistant."
+            )
         }
     
     # Check for thank you messages
     if 'thank' in prompt_lower or 'thanks' in prompt_lower:
         return {
             'type': 'gratitude',
-            'response': "You're welcome! Let me know if you have any other questions."
+            'response': get_llm_response(
+                prompt,
+                "The user is expressing gratitude. Provide a polite response and encourage further questions."
+            )
         }
     
     # Check for goodbyes
     if 'bye' in prompt_lower or 'goodbye' in prompt_lower:
         return {
             'type': 'farewell',
-            'response': "Goodbye! Feel free to come back when you need more news insights!"
+            'response': get_llm_response(
+                prompt,
+                "The user is saying goodbye. Provide a friendly farewell and invite them to return."
+            )
         }
     
-    # Process news-related queries
+    # Process news-related queries with LLM
     return {
         'type': 'query',
-        'query': prompt
+        'response': get_llm_response(prompt, context)
     }
 
 def extract_keywords(text):
@@ -293,7 +406,7 @@ if user_input := st.chat_input("Ask me about the news:"):
         
         if processed['type'] == 'query':
             with st.spinner("Searching news articles..."):
-                response = query_knowledge_graph(processed['query'])
+                response = processed['response']
         else:
             response = processed['response']
         
