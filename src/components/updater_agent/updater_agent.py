@@ -1,36 +1,32 @@
+import os
 from ...memory.schema import GraphState
 
+from src.memory.knowledge_graph import KnowledgeGraph
 
-def UpdaterAgent(state: GraphState) -> GraphState:  # Define the function
-    """Agent specifically for updating knowledge graph with new data"""
+
+def UpdaterAgent(state: GraphState) -> GraphState:
+    """Agent for updating knowledge graph with new data"""
     new_state = state.copy()
 
-    #making sure articles exists even if there is an error
-    if 'articles' not in new_state:
-        new_state['articles'] = []
-
     try:
-        current_knowledge = state['knowledge_graph']
-        new_data = state.get('retrieved_articles', [])
+        # Connect to real Neo4j
+        kg = KnowledgeGraph(
+            url=os.getenv("NEO4J_URI"),
+            username=os.getenv("NEO4J_USERNAME"),
+            password=os.getenv("NEO4J_PASSWORD")
+        )
 
-        updated_knowledge = current_knowledge.copy()
+        # Get articles to add
+        articles_to_add = state.articles if hasattr(state, "articles") else []
 
-        #initialize articles in knowledge graph if its doesnt exist
-        if 'articles' not in updated_knowledge:
-            updated_knowledge['articles'] = []
+        # Add articles to KG
+        for article in articles_to_add:
+            kg.add_article(article)
 
-        updated_knowledge['articles'].extend(new_data)
-
-        new_state['knowledge_graph'] = updated_knowledge
-        new_state['current_status'] = 'update_complete'
-        new_state['updated_data'] = new_data
-
+        new_state.current_status = 'update_complete'
     except Exception as e:
-        print(f"Error in update: {e}")
-        #preserve articles even on error
-        if 'articles' not in new_state:
-            new_state['articles'] = []
-        new_state['current_status'] = 'update_failed'
-        new_state['error'] = str(e)
+        print(f"Error updating KG: {e}")
+        new_state.current_status = 'update_failed'
+        new_state.error = str(e)
 
     return new_state

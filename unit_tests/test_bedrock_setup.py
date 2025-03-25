@@ -13,16 +13,16 @@ def test_aws_credentials():
         # Check if credentials exist
         aws_access_key = os.getenv('AWS_ACCESS_KEY_ID')
         aws_secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-        aws_region = os.getenv('AWS_REGION')
         aws_session_token = os.getenv('AWS_SESSION_TOKEN')
+        aws_region = os.getenv('AWS_REGION')
 
         if not all([aws_access_key, aws_secret_key, aws_region, aws_session_token]):
             print("❌ Missing AWS credentials in .env file")
             missing = []
             if not aws_access_key: missing.append("AWS_ACCESS_KEY_ID")
             if not aws_secret_key: missing.append("AWS_SECRET_ACCESS_KEY")
-            if not aws_region: missing.append("AWS_REGION")
             if not aws_session_token: missing.append("AWS_SESSION_TOKEN")
+            if not aws_region: missing.append("AWS_REGION")
             print(f"Missing credentials: {', '.join(missing)}")
             return False
 
