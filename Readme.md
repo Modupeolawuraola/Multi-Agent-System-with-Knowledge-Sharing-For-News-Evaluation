@@ -1,5 +1,6 @@
 ## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
 ## Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
+
 A multi-agent system that uses dynamic knowledge graph to detect and analyze media bias in news articles , fact-check the new topics/articles.
 
 Proposed by Group6 Students - Initiative and Idea 
@@ -10,14 +11,14 @@ The goal of this project is to design, develop, and validate a multi-agent chatb
 Developing several agents based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection, and chat functionality.
 Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on comparing compute resources, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
 
-This project implements a sophisticated multi-agent system that collaborates to collect, analyze, and fact-check news articles while maintaining a knowledge graph of verified information.
 
+This project implements a sophisticated multi-agent system that collaborates to collect, analyze, and fact-check news articles while maintaining a knowledge graph of verified information.
 
 ## System Architecture
  
 ![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76
 
-
+![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76)
 
 The system consists of five specialized agents that work together:
 
@@ -35,6 +36,12 @@ The system consists of five specialized agents that work together:
 # Route 1: Direct Query Processing
 
 User: User provides a specific claim or article query to Agent 5
+
+## System Architecture Workflow/Interaction Diagram:
+
+##  Agent Workflow Routes
+
+# Route 1: Direct Query Processing
 
 Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, if needed, Performs new fact-checking analysis,  Returns verified facts to the user
 
@@ -166,7 +173,6 @@ When AWS credentials expire, the system will fallback to minimal operation mode 
 This is an expected limitation of AWS used for educational purposes and this does not reflect any issues with the underlying code. 
 
 ## Project  Folder Structure
-
 
 ```
 
