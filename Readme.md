@@ -28,7 +28,6 @@ The system consists of five specialized agents that work together:
 4. **Retriever Agent**: Retrieves balanced information from the knowledge graph
 5. **Fact Checker Agent**: Verifies factual claims in news articles
 
-
 ## System Architecture Workflow/Interaction Diagram:
 
 ##  Agent Workflow Routes
@@ -36,12 +35,6 @@ The system consists of five specialized agents that work together:
 # Route 1: Direct Query Processing
 
 User: User provides a specific claim or article query to Agent 5
-
-## System Architecture Workflow/Interaction Diagram:
-
-##  Agent Workflow Routes
-
-# Route 1: Direct Query Processing
 
 Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, if needed, Performs new fact-checking analysis,  Returns verified facts to the user
 
