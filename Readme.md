@@ -155,7 +155,7 @@ python sys_evaluation/evaluate.py
 
 
 ### AWS Credentials in Educational Environment 
-This system uses AWS Bedrock for lLM functionality, which requires valid AWS credentials
+This system uses AWS Bedrock for LLM functionality, which requires valid AWS credentials
 This AWS credentials have limited lifespans: 
 
 1. AWS session tokens expire after several hours and need to be refreshed 
