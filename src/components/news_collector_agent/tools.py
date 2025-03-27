@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from typing import List, Dict
 import os
 from dotenv import load_dotenv
-from langchain_community.chat_models import ChatOpenAI
+from langchain_aws import ChatBedrock
+import boto3
 
 
 load_dotenv()
@@ -16,25 +17,34 @@ source_validation_prompt
 class NewsAPI:
     def __init__(self):
         self.api_key = os.environ.get('NEWS_API_KEY')
+        if not self.api_key:
+            raise ValueError("NEWS_API_KEY environment variable is not set")
+
         self.base_url = "https://newsapi.org/v2/everything"
-        self.llm= ChatOpenAI(temperature=0)
+
+        # Initialize AWS Bedrock - no fallback to mock
+        client = boto3.client("bedrock-runtime", region_name="us-east-1")
+        self.llm = ChatBedrock(
+            client=client,
+            model_id='anthropic.claude-3-sonnet-20240229-v1:0',
+            model_kwargs={"temperature":0.2}
+        )
 
     def get_news_article(self, query:str, from_date: datetime=None) -> List[Dict]:
         """Fetch articles from NEWSAPI"""
         if from_date is None:
-            from_date=datetime.now()-timedelta(days=1)
+            from_date=datetime.now()- timedelta(days=1)
 
-        #generate optimized search queries using llm
+        # Use LLM to enhance query if available
         try:
-            chain=query_generation_prompt | self.llm
-            enhanced_queries = chain.invoke({"topic": query}).content.split('\n')
-            query =" OR ".join(enhanced_queries) #comibing queries for the api
+            # You could implement query enhancement using the LLM here
+            enhanced_query = query  # For now, just use the original query
         except Exception as e:
-            print(f"Error generating query: {e}")
+            print(f"Error enhancing query with LLM: {e}")
+            enhanced_query = query
 
-            #fall back to the original query if LLM fails
         params={
-            'q': query,
+            'q': enhanced_query,
             'from': from_date.strftime('%Y-%m-%d'),
             'sortBy': 'publishedAt',
             'apiKey': self.api_key,
@@ -47,10 +57,10 @@ class NewsAPI:
 
             articles = response.json()['articles']
 
-            #format article to match  schema
+            # Format article to match schema
             formatted_articles = []
             for article in articles:
-                formatted_articles= {
+                formatted_article= {
                     'title': article.get('title'),
                     'content': article.get('content'),
                     'source': article.get('source', {}).get('name'),
@@ -59,39 +69,12 @@ class NewsAPI:
                     'bias_analysis': None
                 }
 
-                #validate article relevance using llm
-                try:
-                    chain= article_filter_prompt | self.llm
-                    validation_result = chain.invoke({"topic": query,
-                                                      "title": formatted_articles['title'],
-                                                      "summary": formatted_articles['content'][:200], #for the first 200 characters
-                                                      "source": formatted_articles['source']
-                                                      })
+                formatted_articles.append(formatted_article)
 
-                    if validation_result.content.get('is_relevant', True):
-                        formatted_articles.append(formatted_articles)
-                except Exception as e:
-                    print(f"Error generating query: {e}")
-                    formatted_articles.append(formatted_articles) #include if articles fails
-                return formatted_articles
+            return formatted_articles
 
         except Exception as e:
             print(f"Error fetching news query: {e}")
-            return []
-
-    def validation_source(self, source_name: str) -> Dict:
-        """Validate credibility of news source"""
-        try:
-            chain= source_validation_prompt | self.llm
-            result = chain.invoke({'source_name' : source_name})
-            return result.content
-        except Exception as e:
-            print(f"Error validating source: {e}")
-            return {"credibility_score": 0.5, "recommendation": "verify"}
-
-    @staticmethod
-    def format_date(date_str:str) -> datetime:
-        """convert date string to datetime object"""
-        return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
-
-
+            # Instead of returning an empty list, consider raising the exception
+            # so the caller can handle it appropriately
+            raise

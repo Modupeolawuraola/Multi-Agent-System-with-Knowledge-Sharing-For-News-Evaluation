@@ -15,9 +15,3 @@ def test_news_api_connection():
     news_tools = NewsAPI()
     articles = news_tools.get_news_article("test")
     assert isinstance(articles, list), "should return list of article"
-
-def test_openai_api_keys_loaded():
-    """Test if Openai key is properly loaded"""
-    api_key=os.getenv("OPENAI_API_KEY")
-    assert api_key is not None, "Openai API key not loaded"
-    assert len(api_key) > 0, "Openai API key is empty"
