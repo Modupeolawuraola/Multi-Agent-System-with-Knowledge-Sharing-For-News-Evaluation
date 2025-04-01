@@ -15,7 +15,7 @@ load_dotenv()
 env_path = os.path.join('..', '.env')
 load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'all_articles_2-25_3-24_with_bias.json'
+ARTICLE_FILENAME = 'news_jsons/all_articles_2-25_3-24_with_bias.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def create_bedrock_client():

@@ -2,7 +2,7 @@ import json
 import glob
 
 
-json_files = glob.glob("./news_jsons/*.json")
+json_files = glob.glob("news_jsons/*.json")
 
 merged_data = {
     "status": "ok",
@@ -26,7 +26,7 @@ merged_data["articles"] = list(unique_articles)
 merged_data["totalResults"] = len(merged_data["articles"])
 
 # Save the merged JSON data
-with open("merged_news2_25-3_24.json", "w", encoding="utf-8") as outfile:
+with open("news_jsons/archive-2_25_3-24/merged_news2_25-3_24.json", "w", encoding="utf-8") as outfile:
     json.dump(merged_data, outfile, indent=4)
 
 print("Merged JSON file created: merged_news2_25-3_24.json.json")

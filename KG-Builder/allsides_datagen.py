@@ -93,9 +93,9 @@ if __name__ == '__main__':
     #     max_articles=100
     # )
     add_bias_to_json(
-        news_json_path='merged_news2_25-3_24.json',
+        news_json_path='news_jsons/archive-2_25_3-24/merged_news2_25-3_24.json',
         allsides_csv_file='https://raw.githubusercontent.com/Modupeolawuraola/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation/refs/heads/main/AllSides%20Media%20Bias%20Ratings%203.11.25.csv?token=GHSAT0AAAAAAC5K326KXYF3P5SPYBZT7EJCZ7L4YLA',
-        output_json_path='../KG-Builder/all_articles_2-25_3-24_with_bias.json'
+        output_json_path='news_jsons/all_articles_2-25_3-24_with_bias.json'
     )
     print('Merged AllSides bias info into JSON. Saved as articles_with_bias.json')
 

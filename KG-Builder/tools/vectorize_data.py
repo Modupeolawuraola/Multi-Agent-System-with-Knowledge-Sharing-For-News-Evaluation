@@ -11,7 +11,7 @@ embedding_provider = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
-load_status = load_dotenv('../.env')
+load_status = load_dotenv('../../.env')
 if load_status is False:
     raise RuntimeError('Environment variables not loaded.')
 
