@@ -15,30 +15,8 @@ load_dotenv()
 env_path = os.path.join('..', '.env')
 load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'all_articles_with_bias_test.json'
+ARTICLE_FILENAME = 'all_articles_2-25_3-24_with_bias.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
-# model_id = "microsoft/Phi-3.5-mini-instruct"
-# model = AutoModelForCausalLM.from_pretrained(model_id,
-#                                              force_download=True,
-#                                              resume_download=True).to(device)
-
-# def invoke_claude(prompt):
-#     payload = {
-#         "prompt": f"\n\nHuman: {prompt}\n\nAssistant:",
-#         "max_tokens_to_sample": 1024,
-#         "temperature": 0.7,
-#         "top_p": 0.9
-#     }
-
-    # response = bedrock.invoke_model(
-    #     modelId=model_id,
-    #     contentType="application/json",
-    #     accept="application/json",
-    #     body=json.dumps(payload)
-    # )
-    #
-    # result = json.loads(response["body"].read().decode("utf-8"))
-    # return result.get("completion", "")
 
 def create_bedrock_client():
     """Create bedrock authenticated Bedrock client"""
@@ -87,14 +65,6 @@ def create_kg():
 
     llm = create_llm()
 
-    # llm = ChatOpenAI(
-    #     openai_api_key=os.getenv('OPENAI_API_KEY'),
-    #     # temperature=0,
-    #     # model_name="gpt-4-turbo"
-    #     model_name="gpt-4o-mini"
-    # )
-
-
     graph = Neo4jGraph(
         url=os.getenv("NEO4J_URI"),
         username=os.getenv("NEO4J_USERNAME"),
@@ -102,13 +72,37 @@ def create_kg():
     )
 
     article_transformer = LLMGraphTransformer(
-    llm=llm,
-    allowed_nodes=[
-        "Person", "Organization", "Event", "Policy", "Issue", "Location",
-        "Election", "Bill", "Vote", "Speech", "Scandal", "Movement",
-        "Alliance", "Media", "Article", "News Source", "Fact Check", "Bias"
-    ],
-)
+        llm=llm,
+        allowed_nodes=[
+            "Article", "News Source","Bias", "Fact Check",
+            "Person", "Organization", "Event", "Policy", "Issue",
+            "Location", "Election", "Bill", "Vote", "Speech","Alliance"
+        ],
+        allowed_relationships=[
+            "published_by",  # Article -> News Source
+            "has_bias",  # Article -> Bias
+            "fact_checked_by",  # Article -> Fact Check
+            "mentions",  # Article -> Any other entity (Person, Policy, etc.)
+
+            # Minimal essential relationships among non-Article nodes:
+            "affiliated_with",  # Person <-> Organization
+            "participated_in",  # Person -> Event
+            "endorsed",  # Person -> Policy (or proposed)
+            "sponsored",  # Person -> Bill
+            "gave_speech",  # Person -> Speech
+            "involved_in",  # Person -> Scandal
+            "organized",  # Organization -> Event
+            "supports",  # Organization -> Policy (or opposes)
+            "lobbied_for",  # Organization -> Bill (or lobbied_against)
+            "takes_place_in",  # Event -> Location
+            "addresses",  # Policy -> Issue (also Speech -> Issue)
+            "focuses_on",  # Movement -> Issue
+            "decided_by",  # Bill -> Vote
+            "includes",  # Alliance -> Organization
+            "subject_of"  # Generic: X -> Fact Check
+        ]
+    )
+
 
     for article in articles:
         source = article.get("source")
@@ -118,18 +112,22 @@ def create_kg():
         published_at = article.get("publishedAt")
         url = article.get("url")
         title = article.get("title")
-        full_content = article.get("full_content")  # your main text
+        full_content = article.get("full_content")
+        content = article.get("content")
+        bias = article.get("bias")
 
         # 5. Create a LangChain Document with minimal necessary metadata
         article_doc = [
             Document(
-                page_content=full_content or "",
+                page_content=full_content or content,
                 metadata={
                     "source_name": source_name,
                     "author": author,
                     "publishedAt": published_at,
                     "url": url,
-                    "title": title
+                    "title": title,
+                    "bias": bias
+
                 }
             )
         ]
@@ -145,7 +143,7 @@ def create_kg():
                 a.author = $author,
                 a.publishedAt = $publishedAt,
                 a.title = $title,
-                a.full_content = $full_content
+                a.bias = $bias
             """,
             {
                 "url": url,
@@ -153,7 +151,7 @@ def create_kg():
                 "author": author,
                 "publishedAt": published_at,
                 "title": title,
-                "full_content": full_content
+                "bias": bias
             }
         )
 
@@ -169,7 +167,7 @@ def create_kg():
                     Relationship(
                         source=article_node,
                         target=node,
-                        type="HAS_ENTITY"
+                        type="mentions"
                     )
                 )
 

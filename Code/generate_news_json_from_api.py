@@ -89,8 +89,8 @@ def get_dates_between(start_date_str, end_date_str):
         current_date += timedelta(days=1)
     return dates
 
-start_date_str = "2025-03-10"
-end_date_str = "2025-03-16"
+start_date_str = "2025-03-18"
+end_date_str = "2025-03-24"
 date_list = get_dates_between(start_date_str, end_date_str)
 
 for date in date_list:

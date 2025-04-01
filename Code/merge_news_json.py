@@ -26,7 +26,7 @@ merged_data["articles"] = list(unique_articles)
 merged_data["totalResults"] = len(merged_data["articles"])
 
 # Save the merged JSON data
-with open("merged_news3-10_3-17.json", "w", encoding="utf-8") as outfile:
+with open("merged_news2_25-3_24.json", "w", encoding="utf-8") as outfile:
     json.dump(merged_data, outfile, indent=4)
 
-print("Merged JSON file created: merged_news.json")
+print("Merged JSON file created: merged_news2_25-3_24.json.json")
