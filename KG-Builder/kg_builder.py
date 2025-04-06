@@ -11,11 +11,11 @@ from langchain_community.graphs.graph_document import Node, Relationship
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain_community.llms import HuggingFacePipeline
 
-load_dotenv()
+
 env_path = os.path.join('..', '.env')
 load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'news_jsons/all_articles_2-25_3-24_with_bias.json'
+ARTICLE_FILENAME = 'news_jsons/archive-3-25_3-31/all_articles_3_25-3_31_with_bias.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def create_bedrock_client():
@@ -84,7 +84,6 @@ def create_kg():
             "fact_checked_by",  # Article -> Fact Check
             "mentions",  # Article -> Any other entity (Person, Policy, etc.)
 
-            # Minimal essential relationships among non-Article nodes:
             "affiliated_with",  # Person <-> Organization
             "participated_in",  # Person -> Event
             "endorsed",  # Person -> Policy (or proposed)

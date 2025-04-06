@@ -1,5 +1,4 @@
 import os, json
-import torch
 import boto3
 import pandas as pd
 from dotenv import load_dotenv

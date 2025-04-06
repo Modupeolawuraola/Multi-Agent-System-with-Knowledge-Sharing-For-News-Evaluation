@@ -186,7 +186,7 @@ def plot_metrics(y_true, y_pred_full, y_pred_content_only):
     plt.show()
 
 def main():
-    input_json = "../Code/all_articles_with_bias_test.json"
+    input_json = "./test_dataset/all_articles_3_25-3_31_with_bias_for_test.json"
     filtered_json = "filtered_articles.json"
 
     # Step 1: Remove articles with "Unknown" bias
