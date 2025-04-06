@@ -2,7 +2,6 @@ import time
 import json
 import sys
 import os
-import random
 import logging
 from src.utils.aws_helpers import diagnostic_check
 
@@ -11,10 +10,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import components
 from src.memory.schema import GraphState
-from src.memory.mock_KG import MockKnowledgeGraph
-from .metrics import calculate_accuracy, calculate_bias_precision_recall
+# Import real KG instead of mock
+from src.memory.knowledge_graph import KnowledgeGraph  # Assuming this is the correct import
+from sys_evaluation.metrics import calculate_accuracy, calculate_bias_precision_recall
 from sys_evaluation.visualization_evaluate import generate_evaluation_chart
 from src.workflow.simplified_workflow import process_articles
+# Import for direct query route
+from src.components.fact_checker_agent.fact_checker_Agent import FactCheckerAgent
 
 # Configure logging
 logging.basicConfig(
@@ -51,14 +53,34 @@ def load_test_dataset():
     return test_articles
 
 
-def evaluate_with_simplified_workflow():
+def load_politifact_dataset():
+    """Load PolitiFact dataset for fact checking evaluation"""
+    import pandas as pd
+
+    # Load from CSV file
+    df = pd.read_csv('sys_evaluation/test_dataset/politifact_data.csv')
+
+    test_claims = []
+    for _, row in df.iterrows():
+        claim = {
+            "statement": row['statement'],
+            "author": row['author'],
+            "source": row['source'],
+            "date": row['date'],
+            "ground_truth_verdict": row['target']  # true, false, pants-fire, etc.
+        }
+        test_claims.append(claim)
+    return test_claims
+
+
+def evaluate_news_analysis_workflow():
     """Evaluation using the simplified workflow with actual components"""
     # Run diagnostic check
     print("Running AWS credential diagnostic test")
     diagnostic_check()
 
-    # Create mock knowledge graph
-    mock_kg = MockKnowledgeGraph()
+    # Create real knowledge graph
+    real_kg = KnowledgeGraph()
 
     # Load test data
     test_dataset = load_test_dataset()
@@ -78,7 +100,7 @@ def evaluate_with_simplified_workflow():
 
     # Add processed articles to KG
     for article in results:
-        mock_kg.add_article(article)
+        real_kg.add_article(article)
 
     processing_time = time.time() - start_time
 
@@ -90,12 +112,9 @@ def evaluate_with_simplified_workflow():
     f1_score = 2 * (bias_precision * bias_recall) / (bias_precision + bias_recall) if (
                                                                                               bias_precision + bias_recall) > 0 else 0
 
-    # Get KG stats
-    kg_stats = mock_kg.get_stats()
-
     # Save results to file
     os.makedirs('sys_evaluation/results', exist_ok=True)
-    with open('sys_evaluation/results/evaluation_results.json', 'w') as outfile:
+    with open('sys_evaluation/results/news_workflow_results.json', 'w') as outfile:
         json.dump({
             'fact_accuracy': fact_accuracy,
             'bias_precision': bias_precision,
@@ -103,180 +122,132 @@ def evaluate_with_simplified_workflow():
             'bias_f1_score': f1_score,
             'avg_processing_time': processing_time / len(test_dataset),
             'total_articles': len(test_dataset),
-            'knowledge_graph_stats': kg_stats,
-            'evaluation_method': 'simplified_workflow'
+            'evaluation_method': 'news_analysis_workflow'
         }, outfile, indent=2)
 
     # Print results
-    print(f"\nEvaluation Results (with simplified workflow):")
+    print(f"\nNews Analysis Workflow Evaluation Results:")
     print(f"Fact-checking accuracy: {fact_accuracy:.2f}")
     print(f"Bias Detection Precision: {bias_precision:.2f}")
     print(f"Bias Detection Recall: {bias_recall:.2f}")
     print(f"Bias Detection F1 Score: {f1_score:.2f}")
     print(f"Average processing time per article: {processing_time / len(test_dataset):.2f} seconds")
     print(f"Total processing time: {processing_time:.2f} seconds")
-    print(f"\nKnowledge Graph Stats:")
-    print(f"Articles added: {kg_stats['article_count']}")
-    print(f"Entities extracted: {kg_stats['entity_count']}")
-
-    # Generate visualization charts
-    chart_path = generate_evaluation_chart()
-    print(f"Chart saved to {chart_path}")
 
     return results
 
 
-def minimal_evaluation():
-    """Simplified evaluation with synthetic results for fallback"""
+def evaluate_direct_fact_checking():
+    """Evaluation of direct fact checking route"""
     # Run diagnostic check
-    print("Running AWS credential diagnostic test")
+    print("Running AWS credential diagnostic test for fact checking route")
     diagnostic_check()
 
-    # Create mock knowledge graph
-    mock_kg = MockKnowledgeGraph()
+    # Create real knowledge graph and fact checker agent
+    real_kg = KnowledgeGraph()
+    fact_checker = FactCheckerAgent(kg=real_kg)
 
-    # Load test data
-    test_dataset = load_test_dataset()
-    print(f"Loaded {len(test_dataset)} articles for evaluation")
+    # Load PolitiFact test data
+    test_claims = load_politifact_dataset()
+    print(f"Loaded {len(test_claims)} claims for fact checking evaluation")
 
     # Track processing time
     start_time = time.time()
 
-    # Create synthetic results without running the workflow
+    # Process each claim
     results = []
-    for article in test_dataset:
-        # Get the ground truth bias label for more realistic simulation
-        ground_truth_bias = article.get('ground_truth_bias', 'neutral')
+    for claim in test_claims:
+        print(f"Processing claim: {claim['statement'][:50]}...")
+        # Add graph_state for the agent
+        graph_state = GraphState(news_query=claim['statement'])
 
-        # Simulate different bias levels based on ground truth
-        if ground_truth_bias == 'left':
-            left_bias = random.uniform(0.5, 0.8)
-            right_bias = random.uniform(0.1, 0.3)
-        elif ground_truth_bias == 'right':
-            left_bias = random.uniform(0.1, 0.3)
-            right_bias = random.uniform(0.5, 0.8)
-        else:  # neutral
-            left_bias = random.uniform(0.2, 0.4)
-            right_bias = random.uniform(0.2, 0.4)
+        # Run fact checking
+        result_state = fact_checker.run(graph_state)
 
-        neutral = 1.0 - (left_bias + right_bias)
-
-        # Create a clean copy without ground truth labels
-        clean_article = {k: v for k, v in article.items() if not k.startswith('ground_truth')}
-
-        # Add synthetic bias analysis
-        clean_article['bias_analysis'] = {
-            "confidence_score": random.randint(60, 90),
-            "detected_bias": {
-                "left_bias": left_bias,
-                "right_bias": right_bias,
-                "neutral": neutral
-            },
-            "findings": [
-                "The article uses balanced language" if neutral > 0.5 else "The article shows some bias in its framing",
-                "Multiple perspectives are presented" if neutral > 0.4 else "Limited perspectives are presented"
-            ],
-            "overall_assessment": "The article appears to be balanced and neutral" if neutral > 0.5 else
-            "The article shows some bias toward the left" if left_bias > right_bias else
-            "The article shows some bias toward the right",
-            "tone": "informative" if neutral > 0.5 else "persuasive"
-        }
-
-        # Get ground truth facts
-        ground_truth_facts = article.get('ground_truth_facts', [])
-
-        # Add synthetic fact check
-        verified_claims = []
-        for i, fact in enumerate(ground_truth_facts[:3]):  # Use up to 3 claims
-            is_verified = bool(fact.get('is_true', random.choice([True, False])))
-            verified_claims.append({
-                "claim": fact.get('claim', f"Claim #{i + 1} from article"),
-                "verification": {
-                    "is_verified": is_verified,
-                    "confidence": random.uniform(0.6, 0.9),
-                    "verdict": "confirmed" if is_verified else "refuted"
-                }
-            })
-
-        # If no ground truth, create some dummy claims
-        if not verified_claims:
-            verified_claims = [{
-                "claim": f"Claim from {clean_article['title'][:20]}...",
-                "verification": {
-                    "is_verified": random.choice([True, False]),
-                    "confidence": random.uniform(0.6, 0.9)
-                }
-            }]
-
-        clean_article['fact_check'] = {
-            "verified_claims": verified_claims,
-            "report": {
-                "overall_accuracy": random.uniform(0.5, 0.9),
-                "overall_verdict": random.choice(["accurate", "mostly accurate", "mixed", "mostly inaccurate"])
-            }
-        }
-
-        # Add to results
-        results.append(clean_article)
-
-        # Add to mock knowledge graph
-        mock_kg.add_article(clean_article)
+        # Store result
+        results.append({
+            "statement": claim['statement'],
+            "ground_truth_verdict": claim['ground_truth_verdict'],
+            "system_verdict": result_state.fact_check_result
+        })
 
     processing_time = time.time() - start_time
 
     # Calculate metrics
-    fact_accuracy = calculate_accuracy(results, test_dataset, aspect="fact_check")
-    bias_precision, bias_recall = calculate_bias_precision_recall(results, test_dataset)
+    correct = 0
+    total = len(results)
 
-    # Calculate F1 score for bias detection
-    f1_score = 2 * (bias_precision * bias_recall) / (bias_precision + bias_recall) if (
-                                                                                              bias_precision + bias_recall) > 0 else 0
+    for result in results:
+        system_verdict = result['system_verdict']['overall_verdict'].lower() if result['system_verdict'] else "unknown"
+        ground_truth = result['ground_truth_verdict'].lower()
 
-    # Get KG stats
-    kg_stats = mock_kg.get_stats()
+        # Map verdicts to boolean (true/false) for simpler comparison
+        system_is_true = system_verdict in ['true', 'mostly-true', 'half-true']
+        ground_truth_is_true = ground_truth in ['true', 'mostly-true', 'half-true']
 
-    # Save results to file
+        if system_is_true == ground_truth_is_true:
+            correct += 1
+
+    accuracy = correct / total if total > 0 else 0
+
+    # Save results
     os.makedirs('sys_evaluation/results', exist_ok=True)
-    with open('sys_evaluation/results/evaluation_results.json', 'w') as outfile:
+    with open('sys_evaluation/results/fact_checking_results.json', 'w') as outfile:
         json.dump({
-            'fact_accuracy': fact_accuracy,
-            'bias_precision': bias_precision,
-            'bias_recall': bias_recall,
-            'bias_f1_score': f1_score,
-            'avg_processing_time': processing_time / len(test_dataset),
-            'total_articles': len(test_dataset),
-            'knowledge_graph_stats': kg_stats,
-            'evaluation_method': 'minimal_synthetic'
+            'accuracy': accuracy,
+            'avg_processing_time': processing_time / total,
+            'total_claims': total,
+            'evaluation_method': 'direct_fact_checking'
         }, outfile, indent=2)
 
     # Print results
-    print(f"\nEvaluation Results (minimal synthetic):")
-    print(f"Fact-checking accuracy: {fact_accuracy:.2f}")
-    print(f"Bias Detection Precision: {bias_precision:.2f}")
-    print(f"Bias Detection Recall: {bias_recall:.2f}")
-    print(f"Bias Detection F1 Score: {f1_score:.2f}")
-    print(f"Average processing time per article: {processing_time / len(test_dataset):.2f} seconds")
+    print(f"\nDirect Fact Checking Evaluation Results:")
+    print(f"Accuracy: {accuracy:.2f}")
+    print(f"Average processing time per claim: {processing_time / total:.2f} seconds")
     print(f"Total processing time: {processing_time:.2f} seconds")
-    print(f"\nKnowledge Graph Stats:")
-    print(f"Articles added: {kg_stats['article_count']}")
-    print(f"Entities extracted: {kg_stats['entity_count']}")
-
-    # Generate visualization charts
-    chart_path = generate_evaluation_chart()
-    print(f"Chart saved to {chart_path}")
 
     return results
 
 
-if __name__ == "__main__":
+def combined_evaluation():
+    """Run both evaluation paths and combine results"""
     # Set evaluation mode for the entire process
     os.environ["EVALUATION_MODE"] = "true"
 
-    # Try the simplified workflow evaluation first
     try:
-        print("Starting evaluation with simplified workflow...")
-        evaluate_with_simplified_workflow()
+        # Evaluate news analysis workflow
+        print("=== Starting News Analysis Workflow Evaluation ===")
+        news_results = evaluate_news_analysis_workflow()
+
+        # Evaluate direct fact checking
+        print("\n=== Starting Direct Fact Checking Evaluation ===")
+        fact_check_results = evaluate_direct_fact_checking()
+
+        # Combine results
+        with open('sys_evaluation/results/news_workflow_results.json', 'r') as f1:
+            news_metrics = json.load(f1)
+
+        with open('sys_evaluation/results/fact_checking_results.json', 'r') as f2:
+            fact_check_metrics = json.load(f2)
+
+        combined_metrics = {
+            'news_workflow': news_metrics,
+            'fact_checking': fact_check_metrics,
+            'overall_fact_accuracy': (news_metrics['fact_accuracy'] + fact_check_metrics['accuracy']) / 2
+        }
+
+        with open('sys_evaluation/results/combined_results.json', 'w') as outfile:
+            json.dump(combined_metrics, outfile, indent=2)
+
+        # Generate visualization chart
+        generate_evaluation_chart('sys_evaluation/results/combined_results.json')
+
+        print("\n=== Evaluation Complete ===")
+        print(f"Overall fact checking accuracy: {combined_metrics['overall_fact_accuracy']:.2f}")
+
     except Exception as e:
-        print(f"Simplified workflow evaluation failed: {str(e)}")
-        print("Falling back to minimal evaluation with synthetic data...")
-        minimal_evaluation()
+        print(f"Combined evaluation failed: {str(e)}")
+
+
+if __name__ == "__main__":
+    combined_evaluation()
