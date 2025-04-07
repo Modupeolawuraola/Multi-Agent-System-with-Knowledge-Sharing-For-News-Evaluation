@@ -5,6 +5,8 @@ Agent Structure
 -------------
 The system consists of seven specialized agents working together:
 
+![Multiagent-system](../assets/fig/system_image.png)
+
 1. **Agent 7 (User Interface Agent)**
     * Handles user queries
     * Manages existing knowledge checks
@@ -32,6 +34,8 @@ The system consists of seven specialized agents working together:
 
 Workflow
 --------
+![project_KG_schema]()
+
 1. User query → Agent 7
 2. Knowledge check
 3. Fresh data collection (if needed)
