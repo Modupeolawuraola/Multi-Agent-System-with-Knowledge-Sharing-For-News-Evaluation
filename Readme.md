@@ -20,6 +20,10 @@ This project implements a sophisticated multi-agent system that collaborates to 
 
 ![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76)
 
+<img width="899" alt="Screenshot 2025-04-03 at 6 38 09 PM" src="https://github.com/user-attachments/assets/fab3da32-aca5-4d46-8c1a-08ca35243e16" />
+
+
+
 The system consists of five specialized agents that work together:
 
 1. **News Collector Agent**: Collects news articles from NewsAPI and other sources
