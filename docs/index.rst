@@ -30,6 +30,8 @@ System Architecture
 -----------------
 The system consists of seven specialized agents:
 
+![multiagent-diagram_v3](https://github.com/user-attachments/assets/bb406a4a-0e7c-464a-8c91-30fd90d342ea)
+
 * Agent 1: User Interface Agent
 * Agent 2: Data Collection Agent
 * Agent 3 & 4: Bias Analysis and Fact-checking Agents

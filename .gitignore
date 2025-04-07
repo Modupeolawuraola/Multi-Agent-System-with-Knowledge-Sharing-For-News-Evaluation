@@ -10,12 +10,9 @@ build/
 *.egg-info/
 
 # Virtual Environment
-.venv/
-pyvenv.cfg
+venv/
 ENV/
-.env
-bin/
-lib/
+src/.env
 
 # IDE
 .idea/
@@ -25,6 +22,7 @@ lib/
 
 # Sphinx documentation
 docs/_build/
+docs/requirements_doc.txt
 
 # OS generated files
 .DS_Store
@@ -34,5 +32,8 @@ docs/_build/
 .Trashes
 ehthumbs.db
 Thumbs.db
-KG-Builder/Neo4j-61e9103a-Created-2025-02-17.txt
-.env
+
+# Database Credentials
+Code/Neo4j-61e9103a-Created-2025-02-17.txt
+Code/.env
+Code/.env
