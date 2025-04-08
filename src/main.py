@@ -1,6 +1,6 @@
 from typing import Dict, Any
-from .workflow.graph import create_workflow
-from .memory.schema import GraphState
+from src.workflow.graph import create_workflow
+from src.memory.schema import GraphState
 
 
 def initialize_state() -> GraphState:

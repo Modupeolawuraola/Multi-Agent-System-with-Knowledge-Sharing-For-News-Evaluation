@@ -150,7 +150,7 @@ def evaluate_bias_analyzer_full_vs_content(articles: list[dict]):
         analyzed_full = bias_analyzer_agent(full_context_state)
 
         # There's exactly one article in the returned state
-        full_analysis = analyzed_full["articles"][0].get("bias_analysis", {})
+        full_analysis = analyzed_full.articles[0].get("bias_analysis", {})
         full_label = parse_predicted_bias(full_analysis)
         y_pred_full.append(full_label)
 
@@ -166,7 +166,7 @@ def evaluate_bias_analyzer_full_vs_content(articles: list[dict]):
         content_only_state = GraphState(articles=[content_only_article])
         analyzed_content_only = bias_analyzer_agent(content_only_state)
 
-        content_only_analysis = analyzed_content_only["articles"][0].get("bias_analysis", {})
+        content_only_analysis = analyzed_content_only.articles[0].get("bias_analysis", {})
         content_only_label = parse_predicted_bias(content_only_analysis)
         y_pred_content_only.append(content_only_label)
 
@@ -220,6 +220,6 @@ def save_results_to_csv(file_path, method_name, accuracy, precision, f1):
 
 if __name__ == "__main__":
 
-    path_to_json = "test_dataset/all_articles_3_25-3_31_with_bias_for_test.json"
+    path_to_json = ("test_dataset/final_news_4_01_to_4_05_with_bias.json")
     # filter_articles = filter_json(path_to_json)
     evaluate_bias_analyzer_on_json(path_to_json)
