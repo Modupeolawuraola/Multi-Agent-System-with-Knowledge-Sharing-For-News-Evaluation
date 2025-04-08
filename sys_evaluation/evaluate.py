@@ -3,7 +3,7 @@ import json
 import sys
 import os
 import logging
-from src.utils.aws_helpers import diagnostic_check
+from src_v2.utils.aws_helpers import diagnostic_check
 
 # Adding the root directory to the path to fix imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
