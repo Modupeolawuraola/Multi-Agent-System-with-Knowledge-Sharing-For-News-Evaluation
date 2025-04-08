@@ -12,7 +12,10 @@ WORKFLOW_CONFIG = {
         "fact_check_path": ["fact_checker"],
 
         # Direct bias analysis path
-        "bias_path": ["bias_analyzer"]
+        "bias_path": ["bias_analyzer"],
+
+        #full processing path (default)
+        "full_processing_path":["kg_builder", "bias_analyzer", "fact_checker"]
     },
 
     # Define routing conditions
@@ -21,7 +24,7 @@ WORKFLOW_CONFIG = {
         "start": {
             "has_news_query": "fact_check_path",
             "has_bias_query": "bias_path",
-            "default": "kg_builder_path"
+            "default": "full_processing_path"
         }
     }
 }
