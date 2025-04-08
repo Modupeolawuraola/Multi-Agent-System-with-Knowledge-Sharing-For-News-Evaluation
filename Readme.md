@@ -15,11 +15,6 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 This project implements a sophisticated multi-agent system that collaborates to collect, analyze, and fact-check news articles while maintaining a knowledge graph of verified information.
 
 ## System Architecture
- 
-![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76
-
-![image](https://github.com/user-attachments/assets/019606a0-2dae-4edc-a896-ae76a23aec76)
-
 
 <img width="899" alt="Screenshot 2025-04-08 at 1 49 26 PM" src="https://github.com/user-attachments/assets/4b4fba84-c3fa-4b8c-a29e-d3a855b6c5c6" />
 
