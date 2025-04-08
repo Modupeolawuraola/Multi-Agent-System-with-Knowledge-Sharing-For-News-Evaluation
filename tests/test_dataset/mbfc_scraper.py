@@ -80,11 +80,14 @@ def scrape_mbfc_daily_fact_checks(days=30, output_csv='mbfc_fact_checks.csv'):
                 else:
                     claim = claim_cell
 
-                all_fact_checks.append({
-                    "date": date_to_scrape.strftime("%Y-%m-%d"),
-                    "claim": claim,
-                    "rating": rating
-                })
+                if '(International:' in claim:
+                    pass
+                else:
+                    all_fact_checks.append({
+                        "date": date_to_scrape.strftime("%Y-%m-%d"),
+                        "claim": claim,
+                        "rating": rating
+                    })
 
         except requests.exceptions.RequestException as e:
             print(f"  -> Error retrieving {url}: {e}")
@@ -102,4 +105,4 @@ def scrape_mbfc_daily_fact_checks(days=30, output_csv='mbfc_fact_checks.csv'):
 
 
 if __name__ == "__main__":
-    scrape_mbfc_daily_fact_checks(days=30, output_csv='mbfc_fact_checks.csv')
+    scrape_mbfc_daily_fact_checks(days=60, output_csv='mbfc_fact_checks.csv')

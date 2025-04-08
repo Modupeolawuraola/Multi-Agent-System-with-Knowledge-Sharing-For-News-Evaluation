@@ -4,6 +4,7 @@ import boto3
 from dotenv import load_dotenv
 
 # Make sure to load environment variables
+# env_path = os.path.join('..', '.env')
 load_dotenv()
 
 

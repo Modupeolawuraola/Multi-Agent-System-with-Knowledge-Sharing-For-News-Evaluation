@@ -9,14 +9,14 @@ from src.utils.aws_helpers import diagnostic_check
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import components
-from src.memory.schema import GraphState
+from src_v2.memory.schema import GraphState
 # Import real KG instead of mock
-from src.memory.knowledge_graph import KnowledgeGraph  # Assuming this is the correct import
+from src_v2.memory.knowledge_graph import KnowledgeGraph  # Assuming this is the correct import
 from sys_evaluation.metrics import calculate_accuracy, calculate_bias_precision_recall
 from sys_evaluation.visualization_evaluate import generate_evaluation_chart
-from src.workflow.simplified_workflow import process_articles
+from src_v2.workflow.simplified_workflow import process_articles
 # Import for direct query route
-from src.components.fact_checker_agent.fact_checker_Agent import FactCheckerAgent
+from src_v2.components.fact_checker.fact_checker_Agent import FactCheckerAgent
 
 # Configure logging
 logging.basicConfig(
@@ -34,20 +34,20 @@ def load_test_dataset():
     import pandas as pd
 
     # Load from CSV file
-    df = pd.read_csv('sys_evaluation/test_dataset/news_evaluation_data.csv')
+    df = pd.read_csv('./test_dataset/test_bias_4_01_to_4_05.csv')
 
     # Convert DataFrame rows to article dictionaries
     test_articles = []
     for _, row in df.iterrows():
         article = {
             "title": row['title'],
-            "content": row['content'],
-            "source": row['source'],
-            "date": row['date'],
+            "content": row['full_content'],
+            "source": row['source_name'],
+            "date": row['publishedAt'],
             "url": row['url'],
             # Ground truth labels for evaluation
-            'ground_truth_bias': row['bias_label'],
-            'ground_truth_facts': json.loads(row['fact_claims'])  # List of true/false claims
+            'ground_truth_bias': row['bias']
+            # 'ground_truth_facts': json.loads(row['fact_claims'])  # List of true/false claims
         }
         test_articles.append(article)
     return test_articles
@@ -58,16 +58,14 @@ def load_politifact_dataset():
     import pandas as pd
 
     # Load from CSV file
-    df = pd.read_csv('sys_evaluation/test_dataset/politifact_data.csv')
+    df = pd.read_csv('./test_dataset/mbfc_fact_checks.csv')
 
     test_claims = []
     for _, row in df.iterrows():
         claim = {
-            "statement": row['statement'],
-            "author": row['author'],
-            "source": row['source'],
+            "claim": row['claim'],
             "date": row['date'],
-            "ground_truth_verdict": row['target']  # true, false, pants-fire, etc.
+            "ground_truth_verdict": row['rating']  # true, false, pants-fire, etc.
         }
         test_claims.append(claim)
     return test_claims
