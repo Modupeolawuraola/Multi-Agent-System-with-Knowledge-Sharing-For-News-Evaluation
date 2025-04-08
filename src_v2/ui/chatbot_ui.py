@@ -17,7 +17,7 @@ if project_root not in sys.path:
 # Import from new architecture
 from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
 from src_v2.components.bias_analyzer.bias_agent import bias_analyzer_agent
-from src_v2.components.fact_checker.fact_checker import fact_checker_agent
+from src_v2.components.fact_checker.fact_checker_Agent import fact_checker_agent
 from src_v2.memory.schema import GraphState
 from src_v2.utils.aws_helpers import get_bedrock_llm, test_neo4j_connection
 

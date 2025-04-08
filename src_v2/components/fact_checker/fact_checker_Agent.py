@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from datetime import datetime
 import json
-from src.memory.schema import GraphState, NewsArticle
+from src_v2.memory.schema import GraphState, NewsArticle
 from .tools import FactCheckTools
 from src.utils.aws_helpers import get_bedrock_llm
 import logging

@@ -1,4 +1,4 @@
-# src_v2/components/bias_analyzer/bias_agent.py
+
 import logging
 from src.memory.schema import GraphState
 from .tools import create_bias_analysis_chain, format_article
