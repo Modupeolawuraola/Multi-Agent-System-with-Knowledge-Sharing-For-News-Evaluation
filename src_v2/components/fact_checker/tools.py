@@ -493,3 +493,4 @@ class FactCheckTools:
         except Exception as e:
             print(f"Error storing fact check in knowledge graph: {e}")
             return False
+

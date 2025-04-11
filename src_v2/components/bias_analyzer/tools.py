@@ -107,3 +107,4 @@ def format_article(article: dict) -> dict:
         "article_text": formatted_text,
         "original_text": article
     }
+

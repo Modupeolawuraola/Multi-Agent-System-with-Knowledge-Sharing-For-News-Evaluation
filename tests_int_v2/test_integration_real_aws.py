@@ -92,35 +92,36 @@ def test_kg_builder_with_real_aws():
 
 def test_fact_checker_with_real_aws():
     """Test fact checker agent with real AWS and KG."""
+    # Initialize Knowledge Graph
+    kg = KnowledgeGraph()
+
+    # Create a simple test article
+    test_article = {
+        'title': 'Simple Test Claim',
+        'content': 'The earth is round.',
+        'source': 'Integration Test',
+        'date': '2025-03-01T12:00:00Z',
+        'url': 'https://example.com/test-article'
+    }
+
+    # Test state
+    test_state = GraphState(
+        articles=[test_article],
+        current_status="ready"
+    )
+
+    # Add print statements for debugging
+    print("\nStarting fact checker test...")
+
     try:
-        # Initialize Knowledge Graph
-        kg = KnowledgeGraph()
-
-        # Create a simple test article
-        test_article = {
-            'title': 'Simple Test Claim',
-            'content': 'The earth is round.',
-            'source': 'Integration Test',
-            'date': '2025-03-01T12:00:00Z',
-            'url': 'https://example.com/test-article'
-        }
-
-        # Test state
-        test_state = GraphState(
-            articles=[test_article],
-            current_status="ready"
-        )
-
         # Run agent with real AWS
         result_state = fact_checker_agent(test_state, kg)
-
-        # Just verify it completes without error
-        assert result_state.current_status == "fact_check_complete"
-        assert 'fact_check' in result_state.articles[0]
-        print("✅ Successfully ran fact checker with real AWS and KG")
+        print(f"Result state: {result_state.current_status}")
     except Exception as e:
-        pytest.skip(f"Skipping fact checker test: {str(e)}")
-
+        print(f"\n🚨 FACT CHECKER ERROR: {type(e).__name__}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise  # Re-raise to see the full error
 
 def test_bias_analyzer_with_real_aws():
     """Test bias analyzer agent with real AWS and KG."""

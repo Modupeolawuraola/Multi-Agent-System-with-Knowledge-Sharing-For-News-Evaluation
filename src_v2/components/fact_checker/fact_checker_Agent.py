@@ -370,3 +370,4 @@ def fact_checker_agent(state: GraphState, knowledge_graph) -> GraphState:
         new_state.error = str(e)
 
     return new_state
+
