@@ -4,6 +4,7 @@ import boto3
 import pandas as pd
 from dotenv import load_dotenv
 from sklearn.metrics import accuracy_score, precision_score, f1_score
+from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 from langchain_aws import ChatBedrock
 
@@ -77,11 +78,13 @@ def filter_json(input_json_path: str, output_json_path: str):
     for article in data["articles"]:
         bias = article["bias"]
 
+        if bias not in ["Left", "Lean Left", "Right", "Lean Right", "Center"]:
+            bias = "Unknown"
         # Standardize bias labels
-        if bias == "Lean Left":
-            bias = "Left"
-        elif bias == "Lean Right":
-            bias = "Right"
+        # if bias == "Lean Left":
+        #     bias = "Left"
+        # elif bias == "Lean Right":
+        #     bias = "Right"
 
         # Only keep articles that are not "Unknown"
         if bias != "Unknown":
@@ -101,9 +104,9 @@ def evaluate_llm(articles: list[dict], llm):
     1. Full context (source, author, content)
     2. Content-only
     """
-    y_true = []  # Ground truth bias labels
-    y_pred_full = []  # Claude predictions using full context
-    y_pred_content_only = []  # Claude predictions using only content
+    y_true = []
+    y_pred_full = []
+    y_pred_content_only = []
 
     for article in articles:
         true_bias = article["bias"]
@@ -119,14 +122,14 @@ def evaluate_llm(articles: list[dict], llm):
         Source: {article['source']['name']}
         Author: {article['author']}
         Content: {article_text}
-        Categories: Left, Right, Center.
+        Categories: Left, Lean Left, Right, Lean Right, Center.
         Answer with only the category name.
         """
 
         content_only_prompt = f"""
         Classify the political bias of the following news article.
         Content: {article_text}
-        Categories: Left, Right, Center.
+        Categories: Left, Lean Left, Right, Lean Right, Center.
         Answer with only the category name.
         """
 
@@ -156,6 +159,8 @@ def compute_metrics(y_true, y_pred, method_name):
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Precision: {precision:.4f}")
     print(f"F1 Score: {f1:.4f}")
+    print("\nClassification Report:")
+    print(classification_report(y_true, y_pred, zero_division=0))
 
     return accuracy, precision, f1
 
