@@ -36,9 +36,12 @@ logging.basicConfig(
 def load_bias_dataset():
     """Loading pre-labeled test articles"""
     import pandas as pd
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root
+    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'test_bias_4_01_to_4_05.csv')
 
     # Load from CSV file
-    df = pd.read_csv('./test_dataset/test_bias.csv')
+    df = pd.read_csv(DATASET_PATH)
+    # df = pd.read_csv('/sys_evaluation/test_dataset/test_bias_4_01_to_4_05.csv')
 
     # Convert DataFrame rows to article dictionaries
     test_articles = []
@@ -242,4 +245,5 @@ def combined_evaluation():
 
 
 if __name__ == "__main__":
-    combined_evaluation()
+    evaluate_bias_workflow()
+    # combined_evaluation()
