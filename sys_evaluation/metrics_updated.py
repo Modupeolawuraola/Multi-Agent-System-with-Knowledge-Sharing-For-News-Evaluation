@@ -1,4 +1,5 @@
 import math
+from sklearn.metrics import classification_report
 
 def calculate_confusion_matrix(y_pred, y_true, positive_label):
     """
@@ -41,22 +42,22 @@ def calculate_metrics_from_confusion_matrix(TP, FP, TN, FN):
     }
 
 
-def calculate_bias_metrics(results, ground_truth):
-    """
-    Example of how to compute bias metrics, assuming your pipeline sets
-    results[i]['predicted_bias'] for each article.
-    :param results: The system output for each article (must contain "predicted_bias").
-    :param ground_truth: The ground truth data (must contain "ground_truth_bias").
-    """
+def calculate_bias_metrics(results, ground_truth, label_order=None):
+
     y_pred = [res.get('predicted_bias', 'unknown') for res in results]
     y_true = [gt['ground_truth_bias'] for gt in ground_truth]
 
-    # If you consider 'biased' vs. 'unbiased' as binary classification,
-    # pick which label is "positive_label" to measure precision/recall.
-    positive_label = "biased"  # or "left", "right", etc. as your use-case demands
+    if label_order is None:
+        label_order = ['left', 'lean left', 'center', 'lean right', 'right']
 
-    TP, FP, TN, FN = calculate_confusion_matrix(y_pred, y_true, positive_label)
-    return calculate_metrics_from_confusion_matrix(TP, FP, TN, FN)
+    report = classification_report(
+        y_true,
+        y_pred,
+        labels=label_order,
+        output_dict=True,
+        zero_division=0  # Avoid division-by-zero if any class is missing
+    )
+    return report
 
 
 def calculate_fact_check_metrics(results):
@@ -77,7 +78,7 @@ def calculate_fact_check_metrics(results):
     # Convert ground truth to 'true'/'false' or something binary
     def ground_label(gt_verdict_str):
         gt_verdict_str = gt_verdict_str.lower()
-        if gt_verdict_str in ['true', 'mostly-true', 'half-true']:
+        if gt_verdict_str in ['true', 'mostly-true']:
             return "true"
         return "false"
 

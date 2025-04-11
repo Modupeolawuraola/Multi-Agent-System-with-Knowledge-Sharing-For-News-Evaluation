@@ -63,9 +63,11 @@ def load_bias_dataset():
 def load_politifact_dataset():
     """Load PolitiFact dataset for fact checking evaluation"""
     import pandas as pd
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root
+    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'mbfc_fact_checks.csv')
 
     # Load from CSV file
-    df = pd.read_csv('./test_dataset/mbfc_fact_checks.csv')
+    df = pd.read_csv(DATASET_PATH)
 
     test_claims = []
     for _, row in df.iterrows():
@@ -125,7 +127,7 @@ def evaluate_bias_workflow():
             'bias_f1_score': bias_stats['f1_score'],
             'avg_processing_time': processing_time / len(test_dataset),
             'total_articles': len(test_dataset),
-            'evaluation_method': 'news_analysis_workflow'
+            'evaluation_method': 'news_bias_workflow'
         }, outfile, indent=2)
 
     # Print results
@@ -245,5 +247,5 @@ def combined_evaluation():
 
 
 if __name__ == "__main__":
-    evaluate_bias_workflow()
-    # combined_evaluation()
+    # evaluate_bias_workflow()
+    combined_evaluation()
