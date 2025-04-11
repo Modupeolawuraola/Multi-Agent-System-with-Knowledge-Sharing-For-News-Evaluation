@@ -278,4 +278,8 @@ def test_add_articles_from_json(mock_neo4j, mock_llm, tmp_path):
 
         # Verify correct number of articles were added
         assert num_added == 2
+<<<<<<< HEAD
         assert kg.add_article.call_count == 2
+=======
+        assert kg.add_article.call_count == 2
+>>>>>>> b705809e9803e65b97c72503b675fd9bd2498825

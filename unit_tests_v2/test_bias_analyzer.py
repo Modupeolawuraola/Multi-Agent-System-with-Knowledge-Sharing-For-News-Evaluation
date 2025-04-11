@@ -160,4 +160,8 @@ def test_bias_analyzer_with_bias_query(mock_kg):
     # Check that we have bias analysis results directly in the state
     assert hasattr(result_state, "bias_analysis_result")
     assert result_state.bias_analysis_result is not None
+<<<<<<< HEAD
     assert result_state.bias_analysis_result["analysis"] == mock_analysis_result
+=======
+    assert result_state.bias_analysis_result["analysis"] == mock_analysis_result
+>>>>>>> b705809e9803e65b97c72503b675fd9bd2498825
