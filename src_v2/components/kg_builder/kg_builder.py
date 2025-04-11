@@ -1,4 +1,3 @@
-
 import os, json
 import boto3
 from dotenv import load_dotenv
@@ -11,6 +10,7 @@ import requests
 from newspaper import Article
 from datetime import datetime, timedelta, date
 import glob
+import logging
 
 # Load environment variables
 load_dotenv()
@@ -112,14 +112,26 @@ class KnowledgeGraph:
             `vector.similarity_function`: 'cosine'
             }};""")
 
-    def fetch_news_articles(self, query="politics", days=1, limit=10):
+    def fetch_news_articles(self, query="politics", days=1, limit=10, store_in_kg=True):
         """
         Fetch articles directly from NewsAPI.
         Replaces the news collector agent functionality
+
+        Args:
+            query (str): Search query
+            days (int): How many days back to search
+            limit (int): Maximum number of articles to return
+            store_in_kg (bool): Whether to store articles in the knowledge graph
+
+        Returns:
+            list: Processed articles
         """
         NEWS_API_KEY = os.getenv('NEWS_API_KEY')
         if not NEWS_API_KEY:
             raise ValueError("NEWS_API_KEY environment variable is not set")
+
+        # Check if we're in evaluation mode
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
 
         # Calculate date range
         end_date = datetime.now()
@@ -167,8 +179,12 @@ class KnowledgeGraph:
                     formatted_articles.append(formatted_article)
                     print(f"Processed article: {article.get('title')}")
 
-                    # Add article to knowledge graph
-                    self.add_article(formatted_article)
+                    # Add article to knowledge graph ONLY if not in evaluation mode and store_in_kg is True
+                    if store_in_kg and not evaluation_mode:
+                        self.add_article(formatted_article)
+                        print(f"Added article to KG: {article.get('title')}")
+                    else:
+                        print(f"Skipped adding to KG (evaluation mode or store_in_kg=False): {article.get('title')}")
 
                 except Exception as e:
                     print(f"Error processing article {article.get('title', 'Unknown')}: {e}")
@@ -180,6 +196,12 @@ class KnowledgeGraph:
 
     def add_article(self, article):
         """Add a single article to the knowledge graph"""
+        # Check if we're in evaluation mode - return early if so
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
+        if evaluation_mode:
+            print(f"Skipping add_article in evaluation mode: {article.get('title', 'Untitled')}")
+            return True
+
         source = article.get("source")
         source_name = source["name"] if isinstance(source, dict) else source
 
@@ -259,6 +281,12 @@ class KnowledgeGraph:
 
     def add_bias_analysis(self, article):
         """Add bias analysis data to the knowledge graph"""
+        # Check if we're in evaluation mode - return early if so
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
+        if evaluation_mode:
+            print(f"Skipping add_bias_analysis in evaluation mode: {article.get('title', 'Untitled')}")
+            return True
+
         url = article.get("url")
         bias_analysis = article.get("bias_analysis", article.get("bias", {}))
 
@@ -281,6 +309,12 @@ class KnowledgeGraph:
 
     def add_fact_check(self, article):
         """Add fact check data to the knowledge graph"""
+        # Check if we're in evaluation mode - return early if so
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
+        if evaluation_mode:
+            print(f"Skipping add_fact_check in evaluation mode: {article.get('title', 'Untitled')}")
+            return True
+
         url = article.get("url")
         fact_check = article.get("fact_check", {})
 
@@ -301,6 +335,15 @@ class KnowledgeGraph:
 
     def add_articles_from_json(self, filename):
         """Add articles from a JSON file to the knowledge graph"""
+        # Check if we're in evaluation mode - return early if so
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
+        if evaluation_mode:
+            print(f"Skipping add_articles_from_json in evaluation mode: {filename}")
+            with open(filename, encoding="utf-8") as json_file:
+                articles_data = json.load(json_file)
+            articles = articles_data.get('articles', [])
+            return len(articles)
+
         with open(filename, encoding="utf-8") as json_file:
             articles_data = json.load(json_file)
         articles = articles_data.get('articles', [])
@@ -309,26 +352,6 @@ class KnowledgeGraph:
             self.add_article(article)
 
         return len(articles)
-
-    def retrieve_related_articles(self, query, limit=5):
-        """Retrieve articles related to a query"""
-        results = self.graph.query(
-            """
-            MATCH (a:Article)
-            WHERE a.title CONTAINS $query OR a.full_content CONTAINS $query
-            RETURN a.title as title, a.source_name as source_name, a.url as url, 
-                  a.publishedAt as published_at, a.full_content as content
-            LIMIT $limit
-            """,
-            {
-                "query": query,
-                "limit": limit
-            }
-        )
-
-        # Convert the results to a list of dictionaries
-        articles = [dict(record) for record in results]
-        return articles
 
     def merge_json_files(self, input_dir, output_path):
         """Merge multiple JSON files into one"""
@@ -367,6 +390,9 @@ class KnowledgeGraph:
 
     def fetch_news_for_daterange(self, start_date, end_date, query="politics", output_dir="news_jsons"):
         """Fetch news for a date range and build KG"""
+        # Check if we're in evaluation mode
+        evaluation_mode = os.environ.get("EVALUATION_MODE", "false").lower() == "true"
+
         # Ensure output directory exists
         os.makedirs(output_dir, exist_ok=True)
 
@@ -378,7 +404,7 @@ class KnowledgeGraph:
         # For each date, fetch articles
         for date_str in date_list:
             print(f"Fetching news for {date_str}...")
-            articles = self.fetch_news_articles(query=query, days=1)
+            articles = self.fetch_news_articles(query=query, days=1, store_in_kg=not evaluation_mode)
             all_articles.extend(articles)
 
             # Save to JSON for this date
@@ -391,4 +417,6 @@ class KnowledgeGraph:
         self.merge_json_files(output_dir, merged_file)
 
         print(f"Processed {len(all_articles)} articles across {len(date_list)} days")
+        if evaluation_mode:
+            print("⚠️ Running in EVALUATION MODE - articles were NOT stored in the KG")
         return all_articles

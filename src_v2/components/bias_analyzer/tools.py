@@ -1,7 +1,7 @@
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_aws import ChatBedrock
-from src.utils.aws_helpers import get_aws_credentials, diagnostic_check
+from src_v2.utils.aws_helpers import get_aws_credentials, diagnostic_check
 from .b_prompts import (
     Bias_detection_prompt,
     Deep_analysis_prompt,
@@ -107,3 +107,4 @@ def format_article(article: dict) -> dict:
         "article_text": formatted_text,
         "original_text": article
     }
+

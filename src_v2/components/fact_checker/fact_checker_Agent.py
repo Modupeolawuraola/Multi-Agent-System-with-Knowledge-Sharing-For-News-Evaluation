@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from src_v2.memory.schema import GraphState, NewsArticle
 from .tools import FactCheckTools
-from src.utils.aws_helpers import get_bedrock_llm
+from src_v2.utils.aws_helpers import get_bedrock_llm
 import logging
 
 class FactCheckerAgent:
@@ -370,3 +370,4 @@ def fact_checker_agent(state: GraphState, knowledge_graph) -> GraphState:
         new_state.error = str(e)
 
     return new_state
+
