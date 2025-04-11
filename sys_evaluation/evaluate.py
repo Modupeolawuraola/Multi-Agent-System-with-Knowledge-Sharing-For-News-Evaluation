@@ -34,7 +34,7 @@ def load_test_dataset():
     import pandas as pd
 
     # Load from CSV file
-    df = pd.read_csv('./test_dataset/test_bias_4_01_to_4_05.csv')
+    df = pd.read_csv('./test_dataset/test_bias.csv')
 
     # Convert DataFrame rows to article dictionaries
     test_articles = []
@@ -107,8 +107,7 @@ def evaluate_news_analysis_workflow():
     bias_precision, bias_recall = calculate_bias_precision_recall(results, test_dataset)
 
     # Calculate F1 score for bias detection
-    f1_score = 2 * (bias_precision * bias_recall) / (bias_precision + bias_recall) if (
-                                                                                              bias_precision + bias_recall) > 0 else 0
+    f1_score = 2 * (bias_precision * bias_recall) / (bias_precision + bias_recall) if (bias_precision + bias_recall) > 0 else 0
 
     # Save results to file
     os.makedirs('sys_evaluation/results', exist_ok=True)

@@ -1,8 +1,8 @@
 
 import logging
-from src.memory.schema import GraphState
+from src_v2.memory.schema import GraphState
 from .tools import create_bias_analysis_chain, format_article
-from src.utils.aws_helpers import diagnostic_check
+from src_v2.utils.aws_helpers import diagnostic_check
 import os
 
 # Configure logging
