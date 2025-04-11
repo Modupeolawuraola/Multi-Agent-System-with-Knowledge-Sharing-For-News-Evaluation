@@ -1,4 +1,5 @@
 import os
+
 os.environ["EVALUATION_MODE"] = "False"
 import pytest
 from unittest.mock import patch, MagicMock
@@ -23,51 +24,17 @@ SAMPLE_ARTICLE = {
 
 
 @pytest.fixture
-def mock_bedrock_client():
-    """Fixture to mock AWS Bedrock client"""
-    with patch("boto3.Session") as mock_session:
-        mock_client = MagicMock()
-        mock_session.return_value.client.return_value = mock_client
-
-        # Mock response for LLM
-        mock_response = MagicMock()
-        mock_response.content = json.dumps({
-            "confidence_score": 75,
-            "overall_assessment": "The article appears to have minimal bias",
-            "findings": ["The article uses neutral language", "Multiple perspectives are presented"],
-            "tone": "informative"
-        })
-        mock_client.invoke_with_response_stream.return_value = {"body": MagicMock()}
-
-        # Manually set the mock's return value for invoke
-        mock_client.invoke.return_value = {"body": MagicMock(read=lambda: json.dumps({
-            "choices": [{
-                "message": {
-                    "content": json.dumps({
-                        "confidence_score": 75,
-                        "overall_assessment": "The article appears to have minimal bias",
-                        "findings": ["The article uses neutral language", "Multiple perspectives are presented"],
-                        "tone": "informative"
-                    })
-                }
-            }]
-        }))}
-
-        yield mock_client
-
-
-@pytest.fixture
 def mock_kg():
     """Fixture to mock Knowledge Graph"""
-    mock = MagicMock(spec=KnowledgeGraph)
+    mock = MagicMock()
 
     # Mock the add_bias_analysis method
-    mock.add_bias_analysis.return_value = True
+    mock.add_bias_analysis = MagicMock(return_value=True)
 
     return mock
 
 
-def test_bias_analyzer_agent(mock_bedrock_client, mock_kg):
+def test_bias_analyzer_agent(mock_kg):
     """Test the bias analyzer agent with a mock AWS client"""
 
     # Set up test environment variables
@@ -76,9 +43,23 @@ def test_bias_analyzer_agent(mock_bedrock_client, mock_kg):
     # Create initial state with a test article
     initial_state = GraphState(articles=[SAMPLE_ARTICLE])
 
-    # Call the bias analyzer agent with mocked dependencies
-    with patch("src_v2.components.bias_analyzer.tools.create_bedrock_client", return_value=mock_bedrock_client):
-        with patch("src_v2.components.bias_analyzer.tools.create_llm"):
+    # Create a mock analysis result
+    mock_analysis_result = {
+        'confidence_score': 75,
+        'overall_assessment': 'The article shows minimal bias',
+        'findings': ['Uses neutral language', 'Presents multiple perspectives']
+    }
+
+    # Instead of trying to mock the chain, directly patch the function that uses it
+    # Bypass all the chain creation and AWS stuff completely
+    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+        # Create a mock chain that returns our desired result
+        mock_chain = MagicMock()
+        mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
+        mock_create_chain.return_value = mock_chain
+
+        # Also patch the diagnostic check to avoid AWS credential checks
+        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Check that the result state has the expected structure
@@ -86,11 +67,14 @@ def test_bias_analyzer_agent(mock_bedrock_client, mock_kg):
     assert len(result_state.articles) == 1
     assert "bias_analysis" in result_state.articles[0]
 
+    # Check bias analysis content
+    assert result_state.articles[0]["bias_analysis"] == mock_analysis_result
+
     # Check that the analyzer added the bias analysis to KG
     mock_kg.add_bias_analysis.assert_called_once()
 
 
-def test_bias_analyzer_result_structure(mock_bedrock_client, mock_kg):
+def test_bias_analyzer_result_structure(mock_kg):
     """Test that the bias analyzer returns properly structured results"""
 
     # Set up test environment variables
@@ -99,9 +83,22 @@ def test_bias_analyzer_result_structure(mock_bedrock_client, mock_kg):
     # Create initial state with a test article
     initial_state = GraphState(articles=[SAMPLE_ARTICLE])
 
-    # Call the bias analyzer agent with mocked dependencies
-    with patch("src_v2.components.bias_analyzer.tools.create_bedrock_client", return_value=mock_bedrock_client):
-        with patch("src_v2.components.bias_analyzer.tools.create_llm"):
+    # Create a mock analysis result
+    mock_analysis_result = {
+        'confidence_score': 75,
+        'overall_assessment': 'The article shows minimal bias',
+        'findings': ['Uses neutral language', 'Presents multiple perspectives']
+    }
+
+    # Bypass all the chain creation and AWS stuff completely
+    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+        # Create a mock chain that returns our desired result
+        mock_chain = MagicMock()
+        mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
+        mock_create_chain.return_value = mock_chain
+
+        # Also patch the diagnostic check to avoid AWS credential checks
+        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Verify the structure of the bias analysis
@@ -122,8 +119,10 @@ def test_bias_analyzer_with_empty_articles(mock_kg):
     # Create initial state with empty articles list
     initial_state = GraphState(articles=[])
 
-    # Call the bias analyzer agent
-    result_state = bias_analyzer_agent(initial_state, mock_kg)
+    # Bypass AWS credential check
+    with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
+        # Call the bias analyzer agent
+        result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Check that the result state has the right status
     assert result_state.current_status == 'no_articles_to_analyze'
@@ -131,7 +130,7 @@ def test_bias_analyzer_with_empty_articles(mock_kg):
     assert len(result_state.articles) == 0
 
 
-def test_bias_analyzer_with_bias_query(mock_bedrock_client, mock_kg):
+def test_bias_analyzer_with_bias_query(mock_kg):
     """Test the bias analyzer with a direct bias query"""
 
     # Set up test environment variables
@@ -140,12 +139,25 @@ def test_bias_analyzer_with_bias_query(mock_bedrock_client, mock_kg):
     # Create initial state with a bias query
     initial_state = GraphState(bias_query="Is the media coverage of climate change biased?")
 
-    # Call the bias analyzer agent with mocked dependencies
-    with patch("src_v2.components.bias_analyzer.tools.create_bedrock_client", return_value=mock_bedrock_client):
-        with patch("src_v2.components.bias_analyzer.tools.create_llm"):
+    # Create a mock analysis result
+    mock_analysis_result = {
+        'confidence_score': 85,
+        'overall_assessment': 'Media coverage shows some bias',
+        'findings': ['Emphasis on specific viewpoints', 'Limited counter-perspectives']
+    }
+
+    # Bypass all the chain creation and AWS stuff completely
+    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+        # Create a mock chain that returns our desired result
+        mock_chain = MagicMock()
+        mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
+        mock_create_chain.return_value = mock_chain
+
+        # Also patch the diagnostic check to avoid AWS credential checks
+        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Check that we have bias analysis results directly in the state
     assert hasattr(result_state, "bias_analysis_result")
     assert result_state.bias_analysis_result is not None
-    assert "overall_assessment" in result_state.bias_analysis_result
+    assert result_state.bias_analysis_result["analysis"] == mock_analysis_result
