@@ -12,9 +12,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src_v2.memory.schema import GraphState
 # Import real KG instead of mock
 from src_v2.memory.knowledge_graph import KnowledgeGraph  # Assuming this is the correct import
-from sys_evaluation.metrics import calculate_accuracy, calculate_bias_precision_recall
+from sys_evaluation.metrics_updated import (
+    calculate_bias_metrics,
+    calculate_fact_check_metrics
+)
 from sys_evaluation.visualization_evaluate import generate_evaluation_chart
 from src_v2.workflow.simplified_workflow import process_articles
+from src_v2.utils.aws_helpers import get_bedrock_llm
 # Import for direct query route
 from src_v2.components.fact_checker.fact_checker_Agent import FactCheckerAgent
 
@@ -29,7 +33,7 @@ logging.basicConfig(
 )
 
 
-def load_test_dataset():
+def load_bias_dataset():
     """Loading pre-labeled test articles"""
     import pandas as pd
 
@@ -71,7 +75,7 @@ def load_politifact_dataset():
     return test_claims
 
 
-def evaluate_news_analysis_workflow():
+def evaluate_bias_workflow():
     """Evaluation using the simplified workflow with actual components"""
     # Run diagnostic check
     print("Running AWS credential diagnostic test")
@@ -80,8 +84,13 @@ def evaluate_news_analysis_workflow():
     # Create real knowledge graph
     real_kg = KnowledgeGraph()
 
+    # ==========================================================================================
+    # need to load bias agent
+    # Does bias agent add labels to data set?
+    # ==========================================================================================
+
     # Load test data
-    test_dataset = load_test_dataset()
+    test_dataset = load_bias_dataset()
     print(f"Loaded {len(test_dataset)} articles for evaluation")
 
     # Track processing time
@@ -89,7 +98,7 @@ def evaluate_news_analysis_workflow():
 
     # Remove ground truth labels from articles for processing
     clean_articles = [{k: v for k, v in article.items()
-                       if not k.startswith('ground_truth')}
+                       if not k.startswith('ground_truth_bias')}
                       for article in test_dataset]
 
     # Process articles through simplified workflow
@@ -101,33 +110,27 @@ def evaluate_news_analysis_workflow():
         real_kg.add_article(article)
 
     processing_time = time.time() - start_time
+    bias_stats = calculate_bias_metrics(results, test_dataset)
 
-    # Calculate metrics
-    fact_accuracy = calculate_accuracy(results, test_dataset, aspect="fact_check")
-    bias_precision, bias_recall = calculate_bias_precision_recall(results, test_dataset)
-
-    # Calculate F1 score for bias detection
-    f1_score = 2 * (bias_precision * bias_recall) / (bias_precision + bias_recall) if (bias_precision + bias_recall) > 0 else 0
-
-    # Save results to file
+    # Save results
     os.makedirs('sys_evaluation/results', exist_ok=True)
-    with open('sys_evaluation/results/news_workflow_results.json', 'w') as outfile:
+    with open('sys_evaluation/results/bias_results.json', 'w') as outfile:
         json.dump({
-            'fact_accuracy': fact_accuracy,
-            'bias_precision': bias_precision,
-            'bias_recall': bias_recall,
-            'bias_f1_score': f1_score,
+            'bias_accuracy': bias_stats['accuracy'],
+            'bias_precision': bias_stats['precision'],
+            'bias_recall': bias_stats['recall'],
+            'bias_f1_score': bias_stats['f1_score'],
             'avg_processing_time': processing_time / len(test_dataset),
             'total_articles': len(test_dataset),
             'evaluation_method': 'news_analysis_workflow'
         }, outfile, indent=2)
 
     # Print results
-    print(f"\nNews Analysis Workflow Evaluation Results:")
-    print(f"Fact-checking accuracy: {fact_accuracy:.2f}")
-    print(f"Bias Detection Precision: {bias_precision:.2f}")
-    print(f"Bias Detection Recall: {bias_recall:.2f}")
-    print(f"Bias Detection F1 Score: {f1_score:.2f}")
+    print("\nNews Analysis Workflow Evaluation Results:")
+    print(f"Bias Accuracy: {bias_stats['accuracy']:.2f}")
+    print(f"Bias Precision: {bias_stats['precision']:.2f}")
+    print(f"Bias Recall: {bias_stats['recall']:.2f}")
+    print(f"Bias F1 Score: {bias_stats['f1_score']:.2f}")
     print(f"Average processing time per article: {processing_time / len(test_dataset):.2f} seconds")
     print(f"Total processing time: {processing_time:.2f} seconds")
 
@@ -142,7 +145,7 @@ def evaluate_direct_fact_checking():
 
     # Create real knowledge graph and fact checker agent
     real_kg = KnowledgeGraph()
-    fact_checker = FactCheckerAgent(kg=real_kg)
+    fact_checker = FactCheckerAgent(llm=get_bedrock_llm(),kg=real_kg)
 
     # Load PolitiFact test data
     test_claims = load_politifact_dataset()
@@ -154,9 +157,9 @@ def evaluate_direct_fact_checking():
     # Process each claim
     results = []
     for claim in test_claims:
-        print(f"Processing claim: {claim['statement'][:50]}...")
+        print(f"Processing claim: {claim['claim'][:50]}...")
         # Add graph_state for the agent
-        graph_state = GraphState(news_query=claim['statement'])
+        graph_state = GraphState(news_query=claim['claim'])
 
         # Run fact checking
         result_state = fact_checker.run(graph_state)
@@ -171,40 +174,32 @@ def evaluate_direct_fact_checking():
     processing_time = time.time() - start_time
 
     # Calculate metrics
-    correct = 0
-    total = len(results)
+    fact_stats = calculate_fact_check_metrics(results)
 
-    for result in results:
-        system_verdict = result['system_verdict']['overall_verdict'].lower() if result['system_verdict'] else "unknown"
-        ground_truth = result['ground_truth_verdict'].lower()
-
-        # Map verdicts to boolean (true/false) for simpler comparison
-        system_is_true = system_verdict in ['true', 'mostly-true', 'half-true']
-        ground_truth_is_true = ground_truth in ['true', 'mostly-true', 'half-true']
-
-        if system_is_true == ground_truth_is_true:
-            correct += 1
-
-    accuracy = correct / total if total > 0 else 0
 
     # Save results
     os.makedirs('sys_evaluation/results', exist_ok=True)
     with open('sys_evaluation/results/fact_checking_results.json', 'w') as outfile:
         json.dump({
-            'accuracy': accuracy,
-            'avg_processing_time': processing_time / total,
-            'total_claims': total,
+            'fact_accuracy': fact_stats['accuracy'],
+            'fact_precision': fact_stats['precision'],
+            'fact_recall': fact_stats['recall'],
+            'fact_f1_score': fact_stats['f1_score'],
+            'avg_processing_time': processing_time / len(test_claims),
+            'total_claims': len(test_claims),
             'evaluation_method': 'direct_fact_checking'
         }, outfile, indent=2)
 
     # Print results
-    print(f"\nDirect Fact Checking Evaluation Results:")
-    print(f"Accuracy: {accuracy:.2f}")
-    print(f"Average processing time per claim: {processing_time / total:.2f} seconds")
+    print("\nDirect Fact Checking Evaluation Results:")
+    print(f"Fact Accuracy: {fact_stats['accuracy']:.2f}")
+    print(f"Fact Precision: {fact_stats['precision']:.2f}")
+    print(f"Fact Recall: {fact_stats['recall']:.2f}")
+    print(f"Fact F1 Score: {fact_stats['f1_score']:.2f}")
+    print(f"Average processing time per claim: {processing_time / len(test_claims):.2f} seconds")
     print(f"Total processing time: {processing_time:.2f} seconds")
 
     return results
-
 
 def combined_evaluation():
     """Run both evaluation paths and combine results"""
@@ -214,14 +209,14 @@ def combined_evaluation():
     try:
         # Evaluate news analysis workflow
         print("=== Starting News Analysis Workflow Evaluation ===")
-        news_results = evaluate_news_analysis_workflow()
+        evaluate_bias_workflow()
 
         # Evaluate direct fact checking
         print("\n=== Starting Direct Fact Checking Evaluation ===")
-        fact_check_results = evaluate_direct_fact_checking()
+        evaluate_direct_fact_checking()
 
         # Combine results
-        with open('sys_evaluation/results/news_workflow_results.json', 'r') as f1:
+        with open('sys_evaluation/results/bias_results.json', 'r') as f1:
             news_metrics = json.load(f1)
 
         with open('sys_evaluation/results/fact_checking_results.json', 'r') as f2:
@@ -230,7 +225,7 @@ def combined_evaluation():
         combined_metrics = {
             'news_workflow': news_metrics,
             'fact_checking': fact_check_metrics,
-            'overall_fact_accuracy': (news_metrics['fact_accuracy'] + fact_check_metrics['accuracy']) / 2
+            # 'overall_fact_accuracy': (news_metrics['fact_accuracy'] + fact_check_metrics['accuracy']) / 2
         }
 
         with open('sys_evaluation/results/combined_results.json', 'w') as outfile:
