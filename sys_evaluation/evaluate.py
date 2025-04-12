@@ -20,7 +20,8 @@ from sys_evaluation.visualization_updated import generate_evaluation_chart, plot
 from src_v2.workflow.simplified_workflow import process_articles
 from src_v2.utils.aws_helpers import get_bedrock_llm
 # Import for direct query route
-from src_v2.components.fact_checker.fact_checker_Agent import FactCheckerAgent
+# from src_v2.components.fact_checker.fact_checker_Agent import FactCheckerAgent
+from src_v2.components.fact_checker.fact_checker_updated import FactCheckerAgent, fact_checker_agent
 
 # Configure logging
 logging.basicConfig(
@@ -37,7 +38,7 @@ def load_bias_dataset():
     """Loading pre-labeled test articles"""
     import pandas as pd
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root
-    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'test_bias_4_01_to_4_05.csv')
+    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'bias_mini_test.csv')
 
     # Load from CSV file
     df = pd.read_csv(DATASET_PATH)
@@ -69,7 +70,7 @@ def load_politifact_dataset():
     """Load PolitiFact dataset for fact checking evaluation"""
     import pandas as pd
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root
-    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'mbfc_fact_checks.csv')
+    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'mini_fact_check_test.csv')
 
     # Load from CSV file
     df = pd.read_csv(DATASET_PATH)
@@ -138,6 +139,7 @@ def evaluate_bias_workflow():
 
     y_true = [a['ground_truth_bias'] for a in test_dataset]
     y_pred = [a.get('predicted_bias') for a in results]
+    y_pred = [p if p in {'left', 'center', 'right'} else 'unknown' for p in y_pred]
     plot_confusion_matrix(y_true, y_pred, labels=sorted(set(y_true)),
                           title="Bias Detection Confusion Matrix",
                           filename="sys_evaluation/results/bias_confusion_matrix.png")
@@ -179,7 +181,7 @@ def evaluate_direct_fact_checking():
         graph_state = GraphState(news_query=claim['claim'])
 
         # Run fact checking
-        result_state = fact_checker.run(graph_state)
+        result_state = fact_checker_agent(graph_state, real_kg)
 
         # Store result
         results.append({
@@ -208,7 +210,8 @@ def evaluate_direct_fact_checking():
         }, outfile, indent=2)
 
     y_true = [c['ground_truth_verdict'] for c in results]
-    y_pred = [c['system_verdict'] for c in results]
+    y_pred = [c['system_verdict']['final_verdict'] for c in results]
+
     plot_confusion_matrix(y_true, y_pred, labels=sorted(set(y_true)),
                           title="Fact Checking Confusion Matrix",
                           filename="sys_evaluation/results/fact_checking_confusion_matrix.png")

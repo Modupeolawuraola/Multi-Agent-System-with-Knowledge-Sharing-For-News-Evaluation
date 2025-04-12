@@ -115,6 +115,7 @@ def bias_analyzer_agent(graph_state: GraphState, knowledge_graph) -> GraphState:
                     f"Analyzing article {i + 1}/{len(articles_to_analyze)}: {article.get('title', 'Untitled')}")
 
                 # Format and analyze
+
                 result = analysis_chain.invoke(article)
 
                 # Update article with analysis

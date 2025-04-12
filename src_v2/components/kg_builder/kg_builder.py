@@ -89,7 +89,7 @@ class KnowledgeGraph:
             # initialize anthropic claude model through bedrock
             llm = ChatBedrock(
                 client=client,
-                model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
+                model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",#anthropic.claude-3-5-sonnet-20240620-v1:0
                 model_kwargs={
                     "max_tokens": 4096,
                     "temperature": 0.2,

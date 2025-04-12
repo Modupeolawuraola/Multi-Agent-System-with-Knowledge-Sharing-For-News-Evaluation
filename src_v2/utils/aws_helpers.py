@@ -85,7 +85,7 @@ def get_bedrock_llm():
         # Create and return LLM
         return ChatBedrock(
             client=client,
-            model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+            model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
             model_kwargs={
                 "max_tokens": 4096,
                 "temperature": 0.2,

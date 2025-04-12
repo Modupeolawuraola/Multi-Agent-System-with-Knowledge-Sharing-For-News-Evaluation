@@ -2,8 +2,10 @@ import logging
 import os
 from typing import List, Dict, Any
 from src_v2.memory.schema import GraphState
-from src_v2.components.bias_analyzer.bias_agent import bias_analyzer_agent
-from src_v2.components.fact_checker.fact_checker_Agent import fact_checker_agent
+# from src_v2.components.bias_analyzer.bias_agent import bias_analyzer_agent
+from src_v2.components.bias_analyzer.bias_agent_update import bias_analyzer_agent
+# from src_v2.components.fact_checker.fact_checker_Agent import fact_checker_agent
+from src_v2.components.fact_checker.fact_checker_updated import fact_checker_agent
 from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
 
 # Configure logging
@@ -16,6 +18,12 @@ logging.basicConfig(
     ]
 )
 
+def normalize_article_fields(article: Dict[str, Any]) -> Dict[str, Any]:
+    """Ensure all necessary fields exist before agent processing."""
+    article['full_content'] = article.get('full_content') or article.get('content') or ''
+    article['source'] = article.get('source') or article.get('source_name') or 'Unknown Source'
+    article['date'] = article.get('date') or article.get('publishedAt') or 'Unknown Date'
+    return article
 
 def process_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Process articles through the simplified workflow with direct KG interaction"""
@@ -42,6 +50,8 @@ def process_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     # Process each article individually
     for article in articles:
         try:
+            article = normalize_article_fields(article)
+
             # Step 1: Create initial state
             initial_state = GraphState(articles=[article])
 

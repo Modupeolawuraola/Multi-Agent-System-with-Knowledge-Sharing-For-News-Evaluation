@@ -18,7 +18,7 @@ def get_bedrock_llm():
     client = boto3.client("bedrock-runtime", region_name="us-east-1")
     llm = ChatBedrock(
         client=client,
-        model_id='anthropic.claude-3-sonnet-20240229-v1:0',
+        model_id='anthropic.claude-3-5-sonnet-20240620-v1:0',
         model_kwargs={"temperature": 0.2}
     )
     return llm

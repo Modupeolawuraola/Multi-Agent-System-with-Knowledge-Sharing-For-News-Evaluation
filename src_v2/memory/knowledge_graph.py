@@ -8,6 +8,8 @@ from langchain_aws import ChatBedrock
 from langchain_community.graphs.graph_document import Node, Relationship
 import requests
 from datetime import datetime, timedelta
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 load_dotenv()
 
@@ -318,3 +320,39 @@ class KnowledgeGraph:
         )
 
         return [dict(record) for record in results]
+
+    def get_similar_articles_by_embedding(self, article_url: str, top_k: int = 5) -> list:
+        """Find top-k articles most similar to the given article using Node2Vec embeddings."""
+        # Get target embedding
+        query = """
+        MATCH (a:Article {url: $url}) 
+        RETURN id(a) AS id, a.node2vecEmbedding AS embedding
+        """
+        result = self.graph.query(query, {"url": article_url})
+        if not result or not result[0].get("embedding"):
+            return []
+
+        target_embedding = np.array(result[0]["embedding"]).reshape(1, -1)
+
+        # Get all candidate articles with embeddings
+        query = """
+        MATCH (b:Article)
+        WHERE exists(b.node2vecEmbedding) AND b.url <> $url AND exists((b)-[:HAS_BIAS]->(:Bias))
+        RETURN b.title AS title, b.url AS url, b.node2vecEmbedding AS embedding,
+               [(b)-[:HAS_BIAS]->(bias:Bias) | bias.label][0] AS bias
+        """
+        candidates = self.graph.query(query, {"url": article_url})
+
+        # Compute similarity scores
+        scored = []
+        for c in candidates:
+            embedding = np.array(c["embedding"]).reshape(1, -1)
+            sim_score = cosine_similarity(target_embedding, embedding)[0][0]
+            scored.append({
+                "title": c["title"],
+                "url": c["url"],
+                "bias": c["bias"],
+                "similarity": sim_score
+            })
+
+        return sorted(scored, key=lambda x: x["similarity"], reverse=True)[:top_k]
