@@ -419,8 +419,5 @@ class KnowledgeGraph:
         print(f"Processed {len(all_articles)} articles across {len(date_list)} days")
         if evaluation_mode:
             print("⚠️ Running in EVALUATION MODE - articles were NOT stored in the KG")
-<<<<<<< HEAD
+
         return all_articles
-=======
-        return all_articles
->>>>>>> b705809e9803e65b97c72503b675fd9bd2498825

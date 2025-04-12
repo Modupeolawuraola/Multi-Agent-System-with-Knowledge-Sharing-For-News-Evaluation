@@ -16,7 +16,7 @@ from sys_evaluation.metrics_updated import (
     calculate_bias_metrics,
     calculate_fact_check_metrics
 )
-from sys_evaluation.visualization_evaluate import generate_evaluation_chart
+from sys_evaluation.visualization_updated import generate_evaluation_chart, plot_confusion_matrix
 from src_v2.workflow.simplified_workflow import process_articles
 from src_v2.utils.aws_helpers import get_bedrock_llm
 # Import for direct query route
@@ -41,7 +41,12 @@ def load_bias_dataset():
 
     # Load from CSV file
     df = pd.read_csv(DATASET_PATH)
-    # df = pd.read_csv('/sys_evaluation/test_dataset/test_bias_4_01_to_4_05.csv')
+    df['bias'] = df['bias'].str.lower().str.strip()
+    df['bias'] = df['bias'].replace({
+        'lean left': 'left',
+        'lean right': 'right'
+    })
+
 
     # Convert DataFrame rows to article dictionaries
     test_articles = []
@@ -68,6 +73,7 @@ def load_politifact_dataset():
 
     # Load from CSV file
     df = pd.read_csv(DATASET_PATH)
+
 
     test_claims = []
     for _, row in df.iterrows():
@@ -111,8 +117,8 @@ def evaluate_bias_workflow():
     results = process_articles(clean_articles)
 
     # Add processed articles to KG
-    for article in results:
-        real_kg.add_article(article)
+    # for article in results:
+    #     real_kg.add_article(article)
 
     processing_time = time.time() - start_time
     bias_stats = calculate_bias_metrics(results, test_dataset)
@@ -130,8 +136,14 @@ def evaluate_bias_workflow():
             'evaluation_method': 'news_bias_workflow'
         }, outfile, indent=2)
 
+    y_true = [a['ground_truth_bias'] for a in test_dataset]
+    y_pred = [a.get('predicted_bias') for a in results]
+    plot_confusion_matrix(y_true, y_pred, labels=sorted(set(y_true)),
+                          title="Bias Detection Confusion Matrix",
+                          filename="sys_evaluation/results/bias_confusion_matrix.png")
+
     # Print results
-    print("\nNews Analysis Workflow Evaluation Results:")
+    print("\nBias Analysis Workflow Evaluation Results:")
     print(f"Bias Accuracy: {bias_stats['accuracy']:.2f}")
     print(f"Bias Precision: {bias_stats['precision']:.2f}")
     print(f"Bias Recall: {bias_stats['recall']:.2f}")
@@ -171,7 +183,7 @@ def evaluate_direct_fact_checking():
 
         # Store result
         results.append({
-            "statement": claim['statement'],
+            "statement": claim['claim'],
             "ground_truth_verdict": claim['ground_truth_verdict'],
             "system_verdict": result_state.fact_check_result
         })
@@ -194,6 +206,12 @@ def evaluate_direct_fact_checking():
             'total_claims': len(test_claims),
             'evaluation_method': 'direct_fact_checking'
         }, outfile, indent=2)
+
+    y_true = [c['ground_truth_verdict'] for c in results]
+    y_pred = [c['system_verdict'] for c in results]
+    plot_confusion_matrix(y_true, y_pred, labels=sorted(set(y_true)),
+                          title="Fact Checking Confusion Matrix",
+                          filename="sys_evaluation/results/fact_checking_confusion_matrix.png")
 
     # Print results
     print("\nDirect Fact Checking Evaluation Results:")
@@ -222,13 +240,13 @@ def combined_evaluation():
 
         # Combine results
         with open('sys_evaluation/results/bias_results.json', 'r') as f1:
-            news_metrics = json.load(f1)
+            bias_metrics = json.load(f1)
 
         with open('sys_evaluation/results/fact_checking_results.json', 'r') as f2:
             fact_check_metrics = json.load(f2)
 
         combined_metrics = {
-            'news_workflow': news_metrics,
+            'bias_workflow': bias_metrics,
             'fact_checking': fact_check_metrics,
             # 'overall_fact_accuracy': (news_metrics['fact_accuracy'] + fact_check_metrics['accuracy']) / 2
         }
@@ -239,8 +257,8 @@ def combined_evaluation():
         # Generate visualization chart
         generate_evaluation_chart('sys_evaluation/results/combined_results.json')
 
-        print("\n=== Evaluation Complete ===")
-        print(f"Overall fact checking accuracy: {combined_metrics['overall_fact_accuracy']:.2f}")
+        # print("\n=== Evaluation Complete ===")
+        # print(f"Overall fact checking accuracy: {combined_metrics['overall_fact_accuracy']:.2f}")
 
     except Exception as e:
         print(f"Combined evaluation failed: {str(e)}")
