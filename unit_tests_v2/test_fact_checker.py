@@ -5,14 +5,14 @@ from unittest.mock import MagicMock, patch
 import json
 from datetime import datetime
 
-import src_v2.components.fact_checker.fact_checker_Agent
+import src_v3.components.fact_checker.fact_checker_Agent
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import modules to test
-from src_v2.components.fact_checker.fact_checker_Agent import FactCheckerAgent, fact_checker_agent
-from src_v2.components.fact_checker.tools import FactCheckTools
-from src_v2.memory.schema import GraphState
-from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.components.fact_checker.fact_checker_Agent import FactCheckerAgent, fact_checker_agent
+from src_v3.components.fact_checker.tools import FactCheckTools
+from src_v3.memory.schema import GraphState
+from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
 
 
 @pytest.fixture
@@ -174,7 +174,7 @@ def test_verify_claim_with_evidence(fact_checker, mock_llm):
 def test_verify_claims(fact_checker, mock_llm, test_article):
     """Test claim verification with evidence."""
     # Mock evidence search result
-    with patch('src_v2.components.fact_checker.tools.FactCheckTools.search_for_evidence') as mock_search:
+    with patch('src_v3.components.fact_checker.tools.FactCheckTools.search_for_evidence') as mock_search:
         mock_search.return_value = [
             {
                 "source": "web_search",
@@ -235,7 +235,7 @@ def test_generate_fact_check_report(fact_checker, mock_llm, test_article):
 
 def test_fact_checker_agent_function_with_articles(mock_llm, mock_bedrock, test_article, mock_kg):
     """Test the main agent function with GraphState containing articles."""
-    with patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent') as mock_agent_class:
+    with patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent') as mock_agent_class:
         # Setup mock agent instance
         mock_agent = MagicMock()
         mock_agent_class.return_value = mock_agent
@@ -264,11 +264,11 @@ def test_fact_checker_agent_function_with_articles(mock_llm, mock_bedrock, test_
 
 def test_fact_checker_agent_function_with_query(mock_llm, mock_kg):
     """Test the main agent function with a direct news query."""
-    with patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent') as mock_agent_class, \
-            patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.extract_claims') as mock_extract, \
-            patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.verify_claims') as mock_verify, \
+    with patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent') as mock_agent_class, \
+            patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.extract_claims') as mock_extract, \
+            patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.verify_claims') as mock_verify, \
             patch(
-                'src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.generate_fact_check_report') as mock_report:
+                'src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.generate_fact_check_report') as mock_report:
         # Setup mock agent instance and methods
         mock_agent = MagicMock()
         mock_agent_class.return_value = mock_agent
@@ -312,12 +312,12 @@ def test_fact_checker_agent_knowledge_graph_match(mock_kg, mock_llm):
     )
 
     # Set up mocks
-    with patch('src_v2.utils.aws_helpers.get_bedrock_llm', return_value=mock_llm), \
-            patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.extract_claims',
+    with patch('src_v3.utils.aws_helpers.get_bedrock_llm', return_value=mock_llm), \
+            patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.extract_claims',
                   return_value=[{"claim": "Test claim"}]), \
-            patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.verify_claims',
+            patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.verify_claims',
                   return_value=[{"claim": "Test claim", "verification": {"is_verified": True}}]), \
-            patch('src_v2.components.fact_checker.fact_checker_Agent.FactCheckerAgent.generate_fact_check_report',
+            patch('src_v3.components.fact_checker.fact_checker_Agent.FactCheckerAgent.generate_fact_check_report',
                   return_value={"overall_accuracy": 0.9}):
         new_state = fact_checker_agent(test_state, mock_kg)
 

@@ -153,7 +153,7 @@ system evaluation is done on several metrics
 Run the evaluation 
 
 ```bash 
-python sys_evaluation/evaluate.py
+python sys_evaluation/evaluate_bias.py
 ```
 
 

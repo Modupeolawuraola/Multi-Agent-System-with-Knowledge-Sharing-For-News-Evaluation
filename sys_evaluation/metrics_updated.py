@@ -50,10 +50,7 @@ def calculate_metrics_from_confusion_matrix(y_true, y_pred, positive_label):
     }
 
 
-def calculate_bias_metrics(results, ground_truth, label_order=None):
-
-    y_pred = [res.get('predicted_bias', 'unknown') for res in results]
-    y_true = [gt['ground_truth_bias'] for gt in ground_truth]
+def calculate_bias_metrics(y_true, y_pred, label_order=None):
 
     if label_order is None:
         label_order = ['left', 'center','right']

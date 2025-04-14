@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import json
 from datetime import datetime
 
-from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
 from langchain_neo4j import Neo4jGraph
 
 
@@ -87,7 +87,7 @@ def test_kg_initialization(mock_neo4j, mock_bedrock):
     # Set environment variables for testing
     os.environ["TESTING"] = "true"
 
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
         mock_bedrock_instance = MagicMock()
         mock_bedrock_class.return_value = mock_bedrock_instance
 
@@ -102,7 +102,7 @@ def test_kg_initialization(mock_neo4j, mock_bedrock):
 
 def test_fetch_news_articles(mock_requests, mock_neo4j, mock_llm):
     """Test fetching articles from NewsAPI"""
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class, \
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class, \
             patch('newspaper.Article', autospec=True) as mock_article_class, \
             patch.object(KnowledgeGraph, 'add_article', return_value=True):
         mock_bedrock_class.return_value = mock_llm
@@ -149,8 +149,8 @@ def test_fetch_news_articles(mock_requests, mock_neo4j, mock_llm):
 
 def test_add_article(mock_neo4j, mock_llm):
     """Test adding an article to the knowledge graph"""
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class, \
-            patch('src_v2.components.kg_builder.kg_builder.LLMGraphTransformer') as mock_transformer_class, \
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class, \
+            patch('src_v3.components.kg_builder.kg_builder.LLMGraphTransformer') as mock_transformer_class, \
             patch.object(KnowledgeGraph, 'add_article', return_value=True):
         # Mock LLM
         mock_bedrock_class.return_value = mock_llm
@@ -174,7 +174,7 @@ def test_add_article(mock_neo4j, mock_llm):
 
 def test_add_bias_analysis(mock_neo4j, mock_llm):
     """Test adding bias analysis to an article in the knowledge graph"""
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
         mock_bedrock_class.return_value = mock_llm
 
         # Create KG instance
@@ -206,7 +206,7 @@ def test_add_bias_analysis(mock_neo4j, mock_llm):
 
 def test_add_fact_check(mock_neo4j, mock_llm):
     """Test adding fact check to an article in the knowledge graph"""
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
         mock_bedrock_class.return_value = mock_llm
 
         # Create KG instance
@@ -242,7 +242,7 @@ def test_add_fact_check(mock_neo4j, mock_llm):
 
 def test_add_articles_from_json(mock_neo4j, mock_llm, tmp_path):
     """Test adding articles from a JSON file"""
-    with patch('src_v2.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
+    with patch('src_v3.components.kg_builder.kg_builder.ChatBedrock') as mock_bedrock_class:
         mock_bedrock_class.return_value = mock_llm
 
         # Create a temporary JSON file with test articles

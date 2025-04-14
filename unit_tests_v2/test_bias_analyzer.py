@@ -9,9 +9,9 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src_v2.components.bias_analyzer.bias_agent import bias_analyzer_agent
-from src_v2.memory.schema import GraphState
-from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.components.bias_analyzer.bias_agent import bias_analyzer_agent
+from src_v3.memory.schema import GraphState
+from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
 
 # Sample test article
 SAMPLE_ARTICLE = {
@@ -52,14 +52,14 @@ def test_bias_analyzer_agent(mock_kg):
 
     # Instead of trying to mock the chain, directly patch the function that uses it
     # Bypass all the chain creation and AWS stuff completely
-    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
         # Create a mock chain that returns our desired result
         mock_chain = MagicMock()
         mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
         mock_create_chain.return_value = mock_chain
 
         # Also patch the diagnostic check to avoid AWS credential checks
-        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
+        with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Check that the result state has the expected structure
@@ -91,14 +91,14 @@ def test_bias_analyzer_result_structure(mock_kg):
     }
 
     # Bypass all the chain creation and AWS stuff completely
-    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
         # Create a mock chain that returns our desired result
         mock_chain = MagicMock()
         mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
         mock_create_chain.return_value = mock_chain
 
         # Also patch the diagnostic check to avoid AWS credential checks
-        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
+        with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Verify the structure of the bias analysis
@@ -120,7 +120,7 @@ def test_bias_analyzer_with_empty_articles(mock_kg):
     initial_state = GraphState(articles=[])
 
     # Bypass AWS credential check
-    with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
+    with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
         # Call the bias analyzer agent
         result_state = bias_analyzer_agent(initial_state, mock_kg)
 
@@ -147,14 +147,14 @@ def test_bias_analyzer_with_bias_query(mock_kg):
     }
 
     # Bypass all the chain creation and AWS stuff completely
-    with patch("src_v2.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
+    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain") as mock_create_chain:
         # Create a mock chain that returns our desired result
         mock_chain = MagicMock()
         mock_chain.invoke = MagicMock(return_value=mock_analysis_result)
         mock_create_chain.return_value = mock_chain
 
         # Also patch the diagnostic check to avoid AWS credential checks
-        with patch("src_v2.components.bias_analyzer.bias_agent.diagnostic_check"):
+        with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
             result_state = bias_analyzer_agent(initial_state, mock_kg)
 
     # Check that we have bias analysis results directly in the state

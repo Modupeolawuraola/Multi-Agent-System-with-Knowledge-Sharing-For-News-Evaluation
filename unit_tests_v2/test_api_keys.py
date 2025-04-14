@@ -1,7 +1,7 @@
 import os
 import pytest
 import requests
-from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
 
 
 def test_news_api_keys():

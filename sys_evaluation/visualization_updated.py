@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import json
 import os
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import seaborn as sns
 
 
 def plot_metrics(metrics: dict, title: str, filename: str):
@@ -73,11 +74,16 @@ def generate_evaluation_chart(result_file='sys_evaluation/results/combined_resul
     return 'sys_evaluation/results/charts/'
 
 
-def plot_confusion_matrix(y_true, y_pred, labels, title, filename):
+def plot_confusion_matrix(y_true, y_pred, labels, title="Confusion Matrix", filename=None):
     cm = confusion_matrix(y_true, y_pred, labels=labels)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
-    disp.plot(cmap=plt.cm.Blues)
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt='d', xticklabels=labels, yticklabels=labels, cmap="Blues")
     plt.title(title)
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
     plt.tight_layout()
-    plt.savefig(filename)
-    plt.close()
+    if filename:
+        plt.savefig(filename)
+        plt.close()
+    else:
+        plt.show()

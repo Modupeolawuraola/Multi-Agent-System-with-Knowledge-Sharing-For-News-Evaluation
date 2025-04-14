@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import boto3
 import os
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v2', '.env')
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v3', '.env')
 
 def test_aws_credentials():
     """Test AWS credentials are properly loaded and can access Bedrock"""

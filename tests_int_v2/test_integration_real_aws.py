@@ -11,15 +11,15 @@ os.environ["EVALUATION_MODE"] = "True"
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Load environmental variables from .env file
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v2', '.env')
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v3', '.env')
 load_dotenv(dotenv_path)
 
-from src_v2.utils.aws_helpers import get_bedrock_llm
-# from src_v2.components.fact_checker.fact_checker_Agent import fact_checker_agent
-from src_v2.components.fact_checker.fact_checker_updated import fact_checker_agent
-from src_v2.components.bias_analyzer.bias_agent import bias_analyzer_agent
-from src_v2.components.kg_builder.kg_builder import KnowledgeGraph
-from src_v2.memory.schema import GraphState
+from src_v3.utils.aws_helpers import get_bedrock_llm
+# from src_v3.components.fact_checker.fact_checker_Agent import fact_checker_agent
+from src_v3.components.fact_checker.fact_checker_updated import fact_checker_agent
+from src_v3.components.bias_analyzer.bias_agent import bias_analyzer_agent
+from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.memory.schema import GraphState
 
 
 def test_real_aws_connection():

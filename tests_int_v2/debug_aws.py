@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Load environment variables from .env file
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v2', '.env')
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src_v3', '.env')
 load_dotenv(dotenv_path)
 
 
