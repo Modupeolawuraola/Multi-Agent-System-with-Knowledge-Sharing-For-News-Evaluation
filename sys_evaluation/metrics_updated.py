@@ -80,42 +80,37 @@ def calculate_bias_metrics(y_true, y_pred, label_order=None):
 
 def calculate_fact_check_metrics(results):
     """
-    compute fact-check metrics, assuming your pipeline sets
-    results[i]['system_verdict']['overall_verdict'] or similar.
-
+    Compute fact-check evaluation metrics from system results.
+    Each result must contain:
+    - system_verdict['overall_verdict'] -> prediction (string)
+    - ground_truth_verdict -> actual label (string)
     """
-
-    # # Convert system verdict to 'true'/'false' or something binary
-    # def system_label(verdict_str):
-    #     verdict_str = verdict_str.lower()
-    #     if verdict_str in ['true', 'mostly-true', 'half-true']:
-    #         return "true"
-    #     return "false"
-    #
-    # # Convert ground truth to 'true'/'false' or something binary
-    # def ground_label(gt_verdict_str):
-    #     gt_verdict_str = gt_verdict_str.lower()
-    #     if gt_verdict_str in ['true', 'mostly-true']:
-    #         return "true"
-    #     return "false"
-
-    y_pred = []
     y_true = []
+    y_pred = []
 
     for r in results:
-        system_verdict_dict = r['system_verdict'] or {}
-        verdict_str = system_verdict_dict.get('overall_verdict', 'unknown').lower()
-        gt_str = r['ground_truth_verdict'].lower()
+        pred_raw = (r.get("system_verdict") or {}).get("overall_verdict", "unknown")
+        true_raw = r.get("ground_truth_verdict", "unknown")
+        y_pred.append(pred_raw.strip().lower())
+        y_true.append(true_raw.strip().lower())
 
-        y_pred.append(verdict_str)
-        y_true.append(gt_str)
+    # Main report
+    report = classification_report(
+        y_true, y_pred,
+        labels=["true", "false"],
+        output_dict=True,
+        zero_division=0
+    )
 
-    TP, FP, TN, FN = calculate_confusion_matrix(y_pred, y_true, positive_label="true")
-    metrics = calculate_metrics_from_confusion_matrix(y_true, y_pred, positive_label="true")
+    metrics = {
+        "classification_report": report,
+        "accuracy": report.get("accuracy", 0.0),
+        "macro_f1": report.get("macro avg", {}).get("f1-score", 0.0),
+        "weighted_f1": report.get("weighted avg", {}).get("f1-score", 0.0),
+        "cohen_kappa": cohen_kappa_score(y_true, y_pred),
+        "mcc": matthews_corrcoef(y_true, y_pred),
+        "balanced_accuracy": balanced_accuracy_score(y_true, y_pred),
+        "confusion_matrix": confusion_matrix(y_true, y_pred, labels=["true", "false"]).tolist()
+    }
 
-    report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
-    metrics["macro_f1"] = report["macro avg"]["f1-score"]
-    metrics["weighted_f1"] = report["weighted avg"]["f1-score"]
-    metrics["confusion_matrix"] = confusion_matrix(y_true, y_pred, labels=["true", "false"]).tolist()
-
-    return calculate_metrics_from_confusion_matrix(TP, FP, TN, FN)
+    return metrics

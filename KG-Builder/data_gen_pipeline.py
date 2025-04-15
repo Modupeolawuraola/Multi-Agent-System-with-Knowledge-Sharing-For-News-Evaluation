@@ -39,8 +39,8 @@ def run_news_pipeline(start_date, end_date, allsides_csv_path, output_dir="news_
 
 if __name__ == "__main__":
     run_news_pipeline(
-        start_date="2025-04-01",
-        end_date="2025-04-05",
+        start_date="2025-04-06",
+        end_date="2025-04-14",
         allsides_csv_path="./tools/AllSides Media Bias Ratings 3.11.25.csv",
-        bias_output_file="news_jsons/main_corpus/final_news_4_01_to_4_05_with_bias.json"
+        bias_output_file="news_jsons/main_corpus/final_news_4_06_to_4_14_with_bias.json"
     )

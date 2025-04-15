@@ -8,14 +8,14 @@ from langchain_neo4j import Neo4jGraph
 from langchain_aws import ChatBedrock
 from langchain_openai import ChatOpenAI
 from langchain_community.graphs.graph_document import Node, Relationship
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from langchain_community.llms import HuggingFacePipeline
+# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+# from langchain_community.llms import HuggingFacePipeline
 
 
 env_path = os.path.join('..', '.env')
 load_dotenv(env_path)
 
-ARTICLE_FILENAME = 'news_jsons/archive-3-25_3-31/all_articles_3_25-3_31_with_bias.json'
+ARTICLE_FILENAME = 'news_jsons/archive-3_10-3_17/all_articles_3-10_3-16_with_bias.json'
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def create_bedrock_client():
@@ -74,7 +74,7 @@ def create_kg():
     article_transformer = LLMGraphTransformer(
         llm=llm,
         allowed_nodes=[
-            "Article", "News Source","Bias", "Fact Check",
+            "News Source","Bias", "Fact Check",
             "Person", "Organization", "Event", "Policy", "Issue",
             "Location", "Election", "Bill", "Vote", "Speech","Alliance"
         ],
@@ -103,7 +103,7 @@ def create_kg():
     )
 
 
-    for article in articles:
+    for i, article in enumerate(articles):
         source = article.get("source")
         source_name = source["name"] if isinstance(source, dict) else source
 
@@ -115,24 +115,12 @@ def create_kg():
         content = article.get("content")
         bias = article.get("bias")
 
-        # 5. Create a LangChain Document with minimal necessary metadata
-        article_doc = [
-            Document(
-                page_content=full_content or content,
-                metadata={
-                    "source_name": source_name,
-                    "author": author,
-                    "publishedAt": published_at,
-                    "url": url,
-                    "title": title,
-                    "bias": bias
+        text = full_content or content
+        if not text:
+            print(f"Skipping empty article: {title or url}")
+            continue
 
-                }
-            )
-        ]
-
-        # convert the article to a graph
-        graph_docs = article_transformer.convert_to_graph_documents(article_doc)
+        print(f"[{i + 1}/{len(articles)}] Processing: {title or url}")
 
         # create the article node
         graph.query(
@@ -154,21 +142,46 @@ def create_kg():
             }
         )
 
-        article_node = Node(
-            id=url,
-            type="Article"
-        )
+        # Create a LangChain Document with minimal necessary metadata
+        article_doc = [
+            Document(
+                page_content=text,
+                metadata={
+                    "source_name": source_name,
+                    "author": author,
+                    "publishedAt": published_at,
+                    "url": url,
+                    "title": title,
+                    "bias": bias
 
-        # create relationships between the article node and the generated graph
+                }
+            )
+        ]
+
+        # convert the article to a graph
+        graph_docs = article_transformer.convert_to_graph_documents(article_doc)
         for graph_doc in graph_docs:
+            graph_doc.nodes = [n for n in graph_doc.nodes if n.type != "Article"]
+
             for node in graph_doc.nodes:
-                graph_doc.relationships.append(
-                    Relationship(
-                        source=article_node,
-                        target=node,
-                        type="mentions"
+                base_type = node.type
+                node.type = f"Entity {base_type}"  # Adds dual labels
+                node.properties["id"] = node.id
+                node.properties["type"] = base_type
+
+
+        # create mentions relationships between the article node and extracted entities
+        article_node = Node(id=url, type="Article")
+        for graph_doc in graph_docs:
+            if not any(r.source.id == article_node.id for r in graph_doc.relationships):
+                for node in graph_doc.nodes:
+                    graph_doc.relationships.append(
+                        Relationship(
+                            source=article_node,
+                            target=node,
+                            type="mentions"
+                        )
                     )
-                )
 
         # add the generated nodes and relationships to the graph
         graph.add_graph_documents(graph_docs)

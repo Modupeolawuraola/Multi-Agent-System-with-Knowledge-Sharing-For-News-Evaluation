@@ -1,4 +1,5 @@
 import os, json
+from typing import List, Dict, Any
 import logging
 import boto3
 from dotenv import load_dotenv
@@ -363,7 +364,7 @@ class KnowledgeGraph:
         Finds the single most structurally similar article based on shared entities and returns its bias.
         """
         if not entities:
-            return "Unknown"
+            return ""
 
         escaped = [f'"{e.replace("\"", "")}"' for e in entities]
         entity_list = f"[{', '.join(escaped)}]"
@@ -390,3 +391,134 @@ class KnowledgeGraph:
             logging.error(f"[KG query error] {e}")
 
         return "Unknown"
+
+    def retrieve_related_facts_text(self, entities: List[str], limit: int = 10) -> str:
+        """
+        Retrieve relationship-level context from the KG for the given entities.
+        Returns a human-readable string summary.
+        """
+        if not self.graph:
+            logging.warning("[KG] Knowledge graph is not available.")
+            return ""
+
+        if not entities:
+            logging.warning("[KG] No entities provided for context retrieval.")
+            return ""
+
+        logging.info(f"[KG] Retrieving context for entities: {entities}")
+        query = """
+        MATCH (e)
+        WHERE e.id IN $entities
+
+        MATCH (e)-[r]-(n)
+        RETURN DISTINCT
+          e.id AS source_node,
+          labels(e) AS source_labels,
+          type(r) AS relationship,
+          n.id AS target_node,
+          labels(n) AS target_labels
+        LIMIT $limit
+        """
+
+        try:
+            records = self.graph.query(query, params={"entities": entities, "limit": limit})
+
+            facts = []
+            for record in records:
+                facts.append({
+                    "source": {
+                        "id": record["source_node"],
+                        "labels": record["source_labels"]
+                    },
+                    "relationship": record["relationship"],
+                    "target": {
+                        "id": record["target_node"],
+                        "labels": record["target_labels"]
+                    }
+                })
+
+            return facts
+        except Exception as e:
+            logging.error(f"[KG] Failed to retrieve structured KG facts: {e}")
+            return []
+
+        # query = """
+        # MATCH (e)
+        # WHERE e.id IN $entities
+        # OPTIONAL MATCH (e)-[r]-(n)
+        # RETURN e.id AS entity,
+        #        collect({
+        #          related_node: n.id,
+        #          relationship_type: type(r),
+        #          direction: CASE
+        #            WHEN (e)-[r]->(n) THEN "out"
+        #            ELSE "in"
+        #          END,
+        #          related_type: labels(n)
+        #        }) AS connections
+        # """
+        #
+        # try:
+        #     results = self.graph.query(query, params={"entities": entities})
+        #
+        #     context_lines = []
+        #     for record in results:
+        #         entity = record["entity"]
+        #         connections = record.get("connections", [])
+        #         for conn in connections:
+        #             line = f'{entity} {conn["direction"]}--[{conn["relationship_type"]}]--> {conn["related_node"]} ({", ".join(conn["related_type"])})'
+        #             context_lines.append(line)
+        #
+        #     return "\n".join(context_lines[:limit])
+        #
+        # except Exception as e:
+        #     logging.error(f"[KG] Failed to retrieve expanded facts: {e}")
+        #     return ""
+
+    def add_fact_check_result(self, claim: str, result: Dict[str, Any], related_entities: List[str]) -> bool:
+        """
+        Store a fact-check result in the knowledge graph.
+
+        Args:
+            claim: The evaluated claim text.
+            result: The structured result from the fact-checking agent.
+            related_entities: List of entity IDs mentioned in the claim.
+
+        Returns:
+            True if added successfully, False otherwise.
+        """
+        try:
+            # Create FactCheck node with timestamped ID
+            factcheck_id = f"factcheck://{datetime.now().strftime('%Y%m%d%H%M%S')}/{abs(hash(claim))}"
+
+            self.graph.query("""
+            MERGE (f:FactCheck {id: $id})
+            SET f.claim = $claim,
+                f.verdict = $verdict,
+                f.confidence_score = $confidence_score,
+                f.reasoning = $reasoning,
+                f.timestamp = $timestamp
+            """, {
+                "id": factcheck_id,
+                "claim": claim,
+                "verdict": result.get("verdict"),
+                "confidence_score": result.get("confidence_score", 0),
+                "reasoning": result.get("reasoning", ""),
+                "timestamp": datetime.now().isoformat()
+            })
+
+            # Connect FactCheck to related entities
+            for entity_id in related_entities:
+                self.graph.query("""
+                MATCH (e) WHERE e.id = $entity_id
+                MATCH (f:FactCheck {id: $factcheck_id})
+                MERGE (f)-[:MENTIONS]->(e)
+                """, {
+                    "entity_id": entity_id,
+                    "factcheck_id": factcheck_id
+                })
+
+            return True
+        except Exception as e:
+            print(f"Error adding fact check to KG: {e}")
+            return False

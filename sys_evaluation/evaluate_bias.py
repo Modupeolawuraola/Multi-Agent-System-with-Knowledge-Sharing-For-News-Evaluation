@@ -38,7 +38,7 @@ def load_bias_dataset():
     """Loading pre-labeled test articles"""
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root
-    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'bias_mini_test.csv')
+    DATASET_PATH = os.path.join(BASE_DIR, 'sys_evaluation', 'test_dataset', 'bias_cleaned_file.csv')
 
     # Load from CSV file
     df = pd.read_csv(DATASET_PATH)
@@ -141,7 +141,7 @@ def benchmark_bias_detection(articles):
 
     # --- Step 2: LLM-only baseline ---
     logging.info("[BASELINE] Evaluating with LLM only (no KG)...")
-    baseline_state = process_articles(GraphState(articles=articles_copy), knowledge_graph=None)
+    baseline_state = process_articles(GraphState(articles=articles_copy), knowledge_graph=None, use_kg=False)
 
     # --- Step 3: LLM+KG full system ---
     logging.info("[FULL SYSTEM] Evaluating with KG-enhanced context...")

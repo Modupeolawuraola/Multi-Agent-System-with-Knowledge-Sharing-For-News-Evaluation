@@ -25,13 +25,13 @@ def normalize_article_fields(article: Dict[str, Any]) -> Dict[str, Any]:
     article['date'] = article.get('date') or article.get('publishedAt') or 'Unknown Date'
     return article
 
-def process_articles(graph_state: GraphState, knowledge_graph: Optional[object] = None) -> GraphState:
+def process_articles(graph_state: GraphState, knowledge_graph: Optional[object] = None, use_kg: bool = True) -> GraphState:
     """Evaluate bias of articles using knowledge graph context, without modifying the KG."""
     results = []
 
     # Initialize Knowledge Graph for querying
     kg = knowledge_graph
-    if kg is None:
+    if use_kg and kg is None:
         try:
             from src_v3.memory.knowledge_graph import KnowledgeGraph
             kg = KnowledgeGraph()
@@ -39,7 +39,6 @@ def process_articles(graph_state: GraphState, knowledge_graph: Optional[object] 
         except Exception as e:
             logging.error(f"Knowledge Graph initialization failed: {e}")
             kg = None
-
     # Evaluate each article
     for article in graph_state.articles:
         try:

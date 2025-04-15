@@ -6,6 +6,7 @@ import requests
 from newspaper import Article
 from datetime import datetime, timedelta, date
 from newsapi import NewsApiClient
+from bs4 import BeautifulSoup
 
 
 
@@ -43,17 +44,26 @@ def get_news_json_from_api(api_url, api_key,date, output_file=None, max_results=
             if not url:
                 continue
 
-            try:
-                # Scrape full text
-                news_article = Article(url)
-                news_article.download()
-                news_article.parse()
+            print(f"Scraping: {url}")
+            content = scrape_with_fallback(url)
 
-                article["full_content"] = news_article.text
+            if content and len(content.strip()) > 100:
+                article["full_content"] = content
                 full_articles.append(article)
-                print(f"Scraped full article: {article.get('title')}")
-            except Exception as e:
-                print(f"Failed to scrape {url}: {e}")
+                print(f"✅ Scraped: {article.get('title')}")
+            else:
+                print(f"⚠️ Empty or short content from {url}")
+            # try:
+            #     # Scrape full text
+            #     news_article = Article(url)
+            #     news_article.download()
+            #     news_article.parse()
+            #
+            #     article["full_content"] = news_article.text
+            #     full_articles.append(article)
+            #     print(f"Scraped full article: {article.get('title')}")
+            # except Exception as e:
+            #     print(f"Failed to scrape {url}: {e}")
 
         # Generate a timestamped filename if not provided
         if not output_file:
@@ -89,9 +99,44 @@ def get_dates_between(start_date_str, end_date_str):
         current_date += timedelta(days=1)
     return dates
 
-start_date_str = "2025-03-25"
-end_date_str = "2025-03-31"
-date_list = get_dates_between(start_date_str, end_date_str)
+def scrape_with_fallback(url):
+    try:
+        # First try newspaper3k
+        article = Article(url)
+        article.download()
+        article.parse()
+        if len(article.text.strip()) > 100:
+            return article.text
+    except Exception as e:
+        print(f"[newspaper3k failed] {url}: {e}")
 
-for date_str in date_list:
-    get_news_json_from_api(NEWS_API_URL, NEWS_API_KEY, date=date_str)
+    try:
+        # Use custom scraper for known domains
+        response = requests.get(url, timeout=10, headers={
+            "User-Agent": "Mozilla/5.0"
+        })
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        if "foxnews.com" in url:
+            paragraphs = soup.select("div.article-body p, article p")
+            return "\n".join(p.get_text() for p in paragraphs)
+
+        elif "newsweek.com" in url:
+            paragraphs = soup.select("div.article-body p, div.article-content p")
+            return "\n".join(p.get_text() for p in paragraphs)
+
+        else:
+            # Generic fallback
+            paragraphs = soup.find_all("p")
+            return "\n".join(p.get_text() for p in paragraphs)
+
+    except Exception as e:
+        print(f"[fallback failed] {url}: {e}")
+        return None
+
+# start_date_str = "2025-03-25"
+# end_date_str = "2025-03-31"
+# date_list = get_dates_between(start_date_str, end_date_str)
+#
+# for date_str in date_list:
+#     get_news_json_from_api(NEWS_API_URL, NEWS_API_KEY, date=date_str)

@@ -87,23 +87,7 @@ def create_bias_analysis_chain():
         )
 
         return chain
-        # Create a chain that's designed for direct KG interaction
-        # chain = (
-        #         RunnablePassthrough()
-        #         | {"article_text": lambda x: format_article(x)["article_text"],
-        #            "similar_articles_context": lambda x: x.get("similar_articles_context", "")}
-        #         | Bias_detection_prompt
-        #         | llm
-        #         | (lambda ai_msg: {"detection_result": ai_msg.content})  # <-- Fix here
-        #         | Deep_analysis_prompt
-        #         | llm
-        #         | (lambda ai_msg: {"analysis_result": ai_msg.content})  # <-- Fix here
-        #         | Verify_prompt
-        #         | llm
-        #         | (lambda ai_msg: {"final_result": ai_msg.content})
-        # )
 
-        return chain
     except Exception as e:
         print(f"Error creating bias analysis chain: {e}")
         raise

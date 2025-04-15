@@ -66,6 +66,8 @@ def bias_analyzer_agent(graph_state: GraphState, knowledge_graph) -> GraphState:
                 logging.info("Most similar bias: %s", most_similar_bias)
             else:
                 similar_context = "No similar articles available. Use only the article text."
+                most_similar_bias = "Unknown"
+                entities_str = "N/A"
                 logging.info("No similar articles available. Use only the article text.")
 
 
