@@ -1,4 +1,7 @@
 import math
+import os
+import pandas as pd
+import logging
 from sklearn.metrics import (
     classification_report, balanced_accuracy_score,
     cohen_kappa_score, matthews_corrcoef, confusion_matrix
@@ -114,3 +117,28 @@ def calculate_fact_check_metrics(results):
     }
 
     return metrics
+
+def save_fact_check_results(filename, articles, y_true, y_pred):
+    result_rows = []
+    for article, truth, pred in zip(articles, y_true, y_pred):
+        reasoning = ""
+        result = article.get("fact_check_result", {})
+        if isinstance(result, dict):
+            reasoning = result.get("reasoning", "")
+        elif isinstance(result, str):
+            try:
+                parsed = json.loads(result)
+                reasoning = parsed.get("reasoning", "")
+            except:
+                reasoning = ""
+        result_rows.append({
+            "claim": article.get("claim", ""),
+            "true_verdict": truth,
+            "predicted_verdict": pred,
+            "reasoning": reasoning
+        })
+
+    df = pd.DataFrame(result_rows)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    df.to_csv(filename, index=False)
+    logging.info(f"Saved prediction results to {filename}")

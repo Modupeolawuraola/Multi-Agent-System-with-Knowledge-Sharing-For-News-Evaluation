@@ -392,7 +392,7 @@ class KnowledgeGraph:
 
         return "Unknown"
 
-    def retrieve_related_facts_text(self, entities: List[str], limit: int = 10) -> str:
+    def retrieve_related_facts_text(self, entities: List[str], limit: int = 25) -> str:
         """
         Retrieve relationship-level context from the KG for the given entities.
         Returns a human-readable string summary.
@@ -409,6 +409,7 @@ class KnowledgeGraph:
         query = """
         MATCH (e)
         WHERE e.id IN $entities
+        OPTIONAL MATCH (n1)-[r2]-(n2)
 
         MATCH (e)-[r]-(n)
         RETURN DISTINCT
@@ -427,17 +428,32 @@ class KnowledgeGraph:
             for record in records:
                 facts.append({
                     "source": {
-                        "id": record["source_node"],
-                        "labels": record["source_labels"]
+                        "id": record.get("source_node", ""),
+                        "labels": record.get("source_labels", [])
                     },
-                    "relationship": record["relationship"],
+                    "relationship1": record.get("relationship1", ""),
+                    "intermediate": {
+                        "id": record.get("intermediate_node", ""),
+                        "labels": record.get("intermediate_labels", [])
+                    },
+                    "relationship2": record.get("relationship2", ""),
                     "target": {
-                        "id": record["target_node"],
-                        "labels": record["target_labels"]
+                        "id": record.get("target_node", ""),
+                        "labels": record.get("target_labels", [])
                     }
                 })
 
-            return facts
+            summaries = []
+            for f in facts:
+                part1 = f"{f['source']['id']} -[{f['relationship1']}]-> {f['intermediate']['id']}"
+                if f["relationship2"] and f["target"]["id"]:
+                    part2 = f" -[{f['relationship2']}]-> {f['target']['id']}"
+                    summaries.append(part1 + part2)
+                else:
+                    summaries.append(part1)
+
+            return "\n".join(summaries)
+
         except Exception as e:
             logging.error(f"[KG] Failed to retrieve structured KG facts: {e}")
             return []

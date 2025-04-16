@@ -2,12 +2,13 @@ import os
 import logging
 import json
 import pandas as pd
+from sklearn.metrics import classification_report
 from src_v3.memory.schema import GraphState
 from src_v3.memory.knowledge_graph import KnowledgeGraph
 from src_v3.workflow.simplified_workflow import process_articles
 from src_v3.components.fact_checker.fact_checker_updated import fact_checker_agent
 from src_v3.components.fact_checker.tools import create_factcheck_chain, initialize_entity_extractor, get_bedrock_llm
-from sys_evaluation.metrics_updated import calculate_metrics_from_confusion_matrix
+from sys_evaluation.metrics_updated import save_fact_check_results
 from sys_evaluation.visualization_updated import plot_confusion_matrix
 
 
@@ -17,14 +18,21 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+def normalize_label(label: str) -> str:
+    """
+    Standardizes label strings for consistency in evaluation.
+    Capitalizes and strips whitespace.
+    """
+    if isinstance(label, str):
+        return label.strip().capitalize()
+    return "Unknown"
+
 def load_factcheck_dataset():
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(BASE_DIR, "sys_evaluation", "test_dataset", "fact_check_test.csv")
-    df = pd.read_csv(path)
+    path = os.path.join(BASE_DIR, "sys_evaluation", "test_dataset", "fact_check_test.tsv")
+    df = pd.read_csv(path, sep='\t', encoding='utf-8')
 
-    df['ground_truth'] = df['rating'].apply(
-        lambda x: str(x).strip().capitalize() if pd.notnull(x) else "Unknown"
-    )
+    df['ground_truth'] = df['rating'].apply(normalize_label)
 
     claims = []
     for _, row in df.iterrows():
@@ -48,7 +56,9 @@ def run_fact_check(articles, knowledge_graph=None, store_to_kg=False):
         clean_articles.append(a)
 
     graph_state.articles = clean_articles
-
+    for i, a in enumerate(clean_articles):
+        if "ground_truth" in a:
+            a["ground_truth_verdict"] = a["ground_truth"]
     try:
         return fact_checker_agent(graph_state, knowledge_graph, store_to_kg=store_to_kg)
     except Exception as e:
@@ -127,18 +137,18 @@ def extract_predictions(state):
     y_pred = []
 
     for art in state.articles:
-        ground_truth = art.get("ground_truth_verdict", "").capitalize()
+        ground_truth = normalize_label(art.get("ground_truth_verdict", ""))
 
         result_raw = art.get("fact_check_result", {})
         pred = "Unknown"
 
         if isinstance(result_raw, dict):
-            pred = result_raw.get("verdict", "Unknown").capitalize()
+            pred = normalize_label(result_raw.get("verdict", "Unknown"))
 
         elif isinstance(result_raw, str):
             try:
                 parsed = json.loads(result_raw)
-                pred = parsed.get("verdict", "Unknown").capitalize()
+                pred = normalize_label(parsed.get("verdict", "Unknown"))
             except Exception as e:
                 logging.warning(f"Failed to parse fact_check_result string: {e}")
 
@@ -147,6 +157,16 @@ def extract_predictions(state):
 
     return y_true, y_pred
 
+def safe_evaluate(y_true, y_pred, labels, title="Confusion Matrix"):
+    if not any(label in y_true for label in labels):
+        logging.warning(f"No valid labels in ground truth for evaluation: {labels}")
+        return
+
+    try:
+        print(classification_report(y_true, y_pred, labels=labels, zero_division=0))
+        plot_confusion_matrix(y_true, y_pred, labels=labels, title=title)
+    except Exception as e:
+        logging.error(f"Error during evaluation or plotting: {e}")
 
 def benchmark_fact_checking():
     logging.info("== FACT CHECKING BENCHMARK STARTED ==")
@@ -167,17 +187,19 @@ def benchmark_fact_checking():
     y_true_baseline, y_pred_baseline = extract_predictions(state_baseline)
     y_true_kg, y_pred_kg = extract_predictions(state_kg)
 
+    # store raw results
+    save_fact_check_results("sys_evaluation/raw_results_llm_only.csv", state_baseline.articles, y_true_baseline,
+                           y_pred_baseline)
+    save_fact_check_results("sys_evaluation/raw_results_llm_kg.csv", state_kg.articles, y_true_kg, y_pred_kg)
+
     # Calculate metrics
     logging.info("== METRICS ==")
-    from sklearn.metrics import classification_report
     print("[LLM ONLY]")
-    print(classification_report(y_true_baseline, y_pred_baseline, labels=["True", "False"]))
-    print("[LLM + KG]")
-    print(classification_report(y_true_kg, y_pred_kg, labels=["True", "False"]))
+    safe_evaluate(y_true_baseline, y_pred_baseline, labels=["True", "False"], title="LLM-only Fact Checking")
 
-    # Plot confusion matrix
-    plot_confusion_matrix(y_true_baseline, y_pred_baseline, labels=["True", "False"], title="LLM-only Fact Checking")
-    plot_confusion_matrix(y_true_kg, y_pred_kg, labels=["True", "False"], title="LLM+KG Fact Checking")
+    print("[LLM + KG]")
+    safe_evaluate(y_true_kg, y_pred_kg, labels=["True", "False"], title="LLM+KG Fact Checking")
+
 
 if __name__ == "__main__":
     mode = os.environ.get("EVALUATION_MODE", "benchmark")
