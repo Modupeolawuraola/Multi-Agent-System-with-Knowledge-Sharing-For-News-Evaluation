@@ -3,9 +3,7 @@ from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 from langgraph.graph import StateGraph, START, END
 from src_v3.memory.knowledge_graph import KnowledgeGraph
-# from src_v3.components.bias_analyzer.bias_agent import bias_analyzer_agent
 from src_v3.components.bias_analyzer.bias_agent_update import bias_analyzer_agent
-# from src_v3.components.fact_checker.fact_checker_Agent import fact_checker_agent
 from src_v3.components.fact_checker.fact_checker_updated import fact_checker_agent
 import os
 
