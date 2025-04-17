@@ -41,5 +41,5 @@ def json_to_csv(json_input_path, csv_output_path):
 
 
 if __name__ == '__main__':
-    json_to_csv('final_news_4_01_to_4_05_with_bias.json', 'test_bias_4_01_to_4_05.csv')
+    json_to_csv('../../tests/test_dataset/final_news_4_01_to_4_05_with_bias.json', 'test_bias_4_01_to_4_05.csv')
     print("Conversion complete! Check 'test_bias_4_01_to_4_05.csv'.")

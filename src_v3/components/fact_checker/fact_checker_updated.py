@@ -56,8 +56,6 @@ def fact_checker_agent(state: GraphState, knowledge_graph, store_to_kg: bool = T
                 "claim": claim_text,
                 "related_kg_context": kg_context
             }
-            # result = fact_check_chain.invoke(input_vars)
-            # article["fact_check_result"] = result
             response = fact_check_chain.invoke(input_vars)
             article["fact_check_result"] = parse_llm_response(response.content)
 
@@ -75,7 +73,7 @@ def fact_checker_agent(state: GraphState, knowledge_graph, store_to_kg: bool = T
             try:
                 knowledge_graph.add_fact_check_result(
                     claim=claim_text,
-                    result=result,
+                    result=response,
                     related_entities=entities
                 )
             except Exception as e:

@@ -1,9 +1,0 @@
-=== Evaluation Results: Full Context (Source + Author + Content) ===
-Accuracy: 0.7606
-Precision: 0.2644
-F1 Score: 0.2509
-
-=== Evaluation Results: Content-Only ===
-Accuracy: 0.4787
-Precision: 0.1300
-F1 Score: 0.0913

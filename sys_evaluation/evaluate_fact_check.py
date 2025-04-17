@@ -188,9 +188,9 @@ def benchmark_fact_checking():
     y_true_kg, y_pred_kg = extract_predictions(state_kg)
 
     # store raw results
-    save_fact_check_results("sys_evaluation/raw_results_llm_only.csv", state_baseline.articles, y_true_baseline,
+    save_fact_check_results("sys_evaluation/fact_check_raw_results_llm_only.csv", state_baseline.articles, y_true_baseline,
                            y_pred_baseline)
-    save_fact_check_results("sys_evaluation/raw_results_llm_kg.csv", state_kg.articles, y_true_kg, y_pred_kg)
+    save_fact_check_results("sys_evaluation/fact_check_raw_results_llm_kg.csv", state_kg.articles, y_true_kg, y_pred_kg)
 
     # Calculate metrics
     logging.info("== METRICS ==")

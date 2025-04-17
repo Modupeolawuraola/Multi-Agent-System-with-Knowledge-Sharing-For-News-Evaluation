@@ -25,7 +25,7 @@ BiasAnalysisSimplifiedPrompt = ChatPromptTemplate.from_messages([
         {{
             "bias": "Left" | "Right" | "Center",
             "confidence_score": 0-100,
-            "reasoning": "Explain your determination briefly",
+            "reasoning": "Explain your determination briefly. Always include sentence if and how you used the information from most similar article bias and shared entities.",
             "related_nodes": [list of article titles or node names used in comparison]
         }}
         """),

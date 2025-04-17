@@ -1,9 +1,0 @@
-{
-  "bias_accuracy": 1.0,
-  "bias_precision": 0.0,
-  "bias_recall": 0.0,
-  "bias_f1_score": 0.0,
-  "avg_processing_time": 31.78581256558818,
-  "total_articles": 155,
-  "evaluation_method": "news_analysis_workflow"
-}

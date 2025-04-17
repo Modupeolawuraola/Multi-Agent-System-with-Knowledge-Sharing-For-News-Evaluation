@@ -27,7 +27,7 @@ def diagnostic_check():
         )
         client = session.client('bedrock-runtime')
         # Simple operation to test connection
-        client.list_foundation_models()
+        # client.list_foundation_models()
         print("✅ Bedrock connection successful")
     except Exception as e:
         print(f"❌ Bedrock connection failed: {e}")

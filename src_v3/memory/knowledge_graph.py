@@ -458,39 +458,6 @@ class KnowledgeGraph:
             logging.error(f"[KG] Failed to retrieve structured KG facts: {e}")
             return []
 
-        # query = """
-        # MATCH (e)
-        # WHERE e.id IN $entities
-        # OPTIONAL MATCH (e)-[r]-(n)
-        # RETURN e.id AS entity,
-        #        collect({
-        #          related_node: n.id,
-        #          relationship_type: type(r),
-        #          direction: CASE
-        #            WHEN (e)-[r]->(n) THEN "out"
-        #            ELSE "in"
-        #          END,
-        #          related_type: labels(n)
-        #        }) AS connections
-        # """
-        #
-        # try:
-        #     results = self.graph.query(query, params={"entities": entities})
-        #
-        #     context_lines = []
-        #     for record in results:
-        #         entity = record["entity"]
-        #         connections = record.get("connections", [])
-        #         for conn in connections:
-        #             line = f'{entity} {conn["direction"]}--[{conn["relationship_type"]}]--> {conn["related_node"]} ({", ".join(conn["related_type"])})'
-        #             context_lines.append(line)
-        #
-        #     return "\n".join(context_lines[:limit])
-        #
-        # except Exception as e:
-        #     logging.error(f"[KG] Failed to retrieve expanded facts: {e}")
-        #     return ""
-
     def add_fact_check_result(self, claim: str, result: Dict[str, Any], related_entities: List[str]) -> bool:
         """
         Store a fact-check result in the knowledge graph.

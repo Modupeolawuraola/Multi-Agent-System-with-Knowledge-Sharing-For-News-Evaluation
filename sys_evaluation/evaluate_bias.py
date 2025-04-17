@@ -245,14 +245,14 @@ def benchmark_bias_detection(articles):
         y_true_baseline, y_pred_baseline,
         labels=["left", "center", "right"],
         title="LLM-only Confusion Matrix",
-        filename="llm_only_confusion_matrix.png"
+        filename="results/bias_classification/bias_detect_llm_only_confusion_matrix.png"
     )
 
     plot_confusion_matrix(
         y_true_kg, y_pred_kg,
         labels=["left", "center", "right"],
         title="LLM + KG Confusion Matrix",
-        filename="llm_kg_confusion_matrix.png"
+        filename="results/bias_classification/bias_detect_llm_kg_confusion_matrix.png"
     )
 
     return metrics_baseline, metrics_kg
