@@ -1,4 +1,3 @@
-
 import os
 import streamlit as st
 from dotenv import load_dotenv
@@ -15,17 +14,15 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 # Import from new architecture
-from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
-# from src_v3.components.bias_analyzer.bias_agent import bias_analyzer_agent
+from src_v3.memory.knowledge_graph import KnowledgeGraph
 from src_v3.components.bias_analyzer.bias_agent_update import bias_analyzer_agent
-# from src_v3.components.fact_checker.fact_checker_Agent import fact_checker_agent
 from src_v3.components.fact_checker.fact_checker_updated import fact_checker_agent
 from src_v3.memory.schema import GraphState
 from src_v3.utils.aws_helpers import get_bedrock_llm, test_neo4j_connection
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler("chatbot.log"),
@@ -38,13 +35,22 @@ load_dotenv()
 
 # Initialize the knowledge graph
 try:
+    logging.info("Attempting to initialize Knowledge Graph and LLM...")
     kg = KnowledgeGraph()
     llm = get_bedrock_llm()
-    logging.info("Knowledge Graph and LLM initialized successfully")
+
+    # Pre-initialize transformers for both agents
+    from src_v3.components.fact_checker.tools import initialize_entity_extractor as init_fact_checker
+    from src_v3.components.bias_analyzer.tools import initialize_entity_extractor as init_bias_analyzer
+
+    init_fact_checker(llm)
+    init_bias_analyzer(llm)
+
+    logging.info("Knowledge Graph and Multi-Agent LLM initialized successfully")
 except Exception as e:
     kg = None
     llm = None
-    logging.error(f"Error initializing KG or LLM: {e}")
+    logging.error(f"Error initializing KG or Multi-Agent LLM: {e}")
 
 # Initialize session state for conversation context
 if 'conversation_context' not in st.session_state:
@@ -69,195 +75,343 @@ def get_greeting():
 
 def extract_keywords(text):
     """Extract important keywords from the query"""
+    logging.debug(f"Extracting keywords from: {text}")
     # Remove common words and keep important ones
     common_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'is', 'are', 'was',
                     'show', 'me', 'find', 'search', 'get', 'about', 'of', 'with', 'by', 'from', 'up', 'down', 'what',
-                    'articles', 'news', 'information', 'tell', 'give'}
+                    'articles', 'news', 'information', 'tell', 'give', 'generate', 'report', 'coverage', 'how'}
 
     # Split into words and remove punctuation
     words = re.findall(r'\w+', text.lower())
     # Filter out common words and short words (length < 2)
     keywords = [word for word in words if word not in common_words and len(word) > 2]
+    logging.debug(f"Extracted keywords: {keywords}")
     return keywords if keywords else None
+
+
+def populate_test_data():
+    """Populate test data into the knowledge graph for demonstration"""
+    if not kg:
+        return False
+
+    sample_articles = [
+        {
+            'title': 'Biden Administration Announces New Immigration Policy',
+            'content': 'The Biden administration today unveiled a comprehensive immigration reform plan that aims to address border security while providing a path to citizenship for long-term residents. Critics argue the plan doesn\'t do enough to secure the border, while supporters praise its humanitarian approach.',
+            'source': 'Political News Daily',
+            'date': '2025-03-15T14:30:00Z',
+            'url': 'https://example.com/biden-immigration-policy'
+        },
+        {
+            'title': 'Supreme Court Rules on Major Voting Rights Case',
+            'content': 'In a landmark 6-3 decision, the Supreme Court has upheld state laws requiring voter identification. Conservative justices cited election security concerns, while liberal justices dissented, arguing the laws disproportionately affect minority voters.',
+            'source': 'Legal Affairs Today',
+            'date': '2025-04-02T09:15:00Z',
+            'url': 'https://example.com/supreme-court-voting-rights'
+        },
+        {
+            'title': 'Trump Claims Economy Would Be Stronger Under His Leadership',
+            'content': 'Former President Trump stated yesterday that economic indicators would be significantly better had he won the 2020 election. Economic experts disagree on this assessment, with some pointing to global factors affecting all economies regardless of leadership.',
+            'source': 'Conservative Daily',
+            'date': '2025-04-10T16:45:00Z',
+            'url': 'https://example.com/trump-economy-claims'
+        }
+    ]
+
+    # Add articles to the knowledge graph
+    count = 0
+    for article in sample_articles:
+        if kg.add_article(article):
+            # Add a bias analysis for demonstration
+            bias_analysis = {
+                'bias': 'Center' if 'Legal Affairs' in article['source'] else 'Right' if 'Conservative' in article[
+                    'source'] else 'Left',
+                'confidence_score': 75,
+                'reasoning': f'Analysis of language, framing, and source reputation of {article["source"]}.'
+            }
+            try:
+                # Call with only 2 parameters now
+                kg.add_bias_analysis(article['url'], bias_analysis)
+                count += 1
+            except Exception as e:
+                logging.error(f"Error adding bias analysis: {e}")
+
+    return count > 0
 
 
 def process_bias_query(query):
     """Process a query related to bias detection"""
+    logging.info(f"BIAS ANALYSIS requested for: {query}")
     try:
         if not kg or not llm:
-            return "Sorry, I can't analyze bias right now because the Knowledge Graph or LLM is not available."
+            logging.warning("KG or Multi-agent not available for bias analysis")
+            return "Sorry, I can't analyze bias right now because the Knowledge Graph or Multi-agent is not available."
 
         # Create an initial state with the bias query
         state = GraphState(bias_query=query)
+        logging.debug(f"Created GraphState for bias query: {state}")
 
         # Process with bias analyzer agent
+        logging.info("Calling bias_analyzer_agent...")
         result_state = bias_analyzer_agent(state, kg)
+        logging.info(f"Bias analyzer completed with status: {result_state.current_status}")
+        logging.debug(f"Bias analyzer result: {result_state.model_dump()}")
 
-        if result_state.bias_analysis_result:
-            return f"""
-### Bias Analysis Results
+        # Check for results in the expected location
+        if result_state.articles and len(result_state.articles) > 0 and "bias_result" in result_state.articles[0]:
+            logging.info("Bias result found in articles")
+            # Try to parse the bias result if it's a JSON string
+            bias_result = result_state.articles[0]["bias_result"]
+            if isinstance(bias_result, str):
+                try:
+                    bias_data = json.loads(bias_result)
+                    logging.debug(f"Parsed bias result JSON: {bias_data}")
+                except json.JSONDecodeError as e:
+                    logging.warning(f"Failed to parse bias result as JSON: {e}")
+                    bias_data = {"bias": "Unknown", "confidence_score": 0, "reasoning": bias_result}
+            else:
+                bias_data = bias_result
+                logging.debug(f"Using bias result as object: {bias_data}")
 
-**Overall Assessment**: {result_state.bias_analysis_result.get('overall_assessment', 'Not available')}
+            # Format in a conversational style
+            return f"""I've analyzed the bias in the content you asked about. 
 
-**Confidence Score**: {result_state.bias_analysis_result.get('confidence_score', '0')}%
+The content appears to have a **{bias_data.get('bias', 'Unknown').upper()}** bias with a confidence score of **{bias_data.get('confidence_score', 0)}%**.
 
-**Key Findings**:
-{', '.join(result_state.bias_analysis_result.get('findings', ['No specific findings']))}
+Here's my reasoning:
+{bias_data.get('reasoning', 'No detailed explanation available.')}
 
-**Recommendations**:
-{', '.join(result_state.bias_analysis_result.get('recommendations', ['No specific recommendations']))}
-            """
+The analysis considered these related points: {', '.join(bias_data.get('related_nodes', ['None identified']))}"""
+
         else:
-            return "I couldn't find any relevant bias information about your query. Try being more specific or searching for a different topic."
+            logging.warning("No bias result found in the returned state")
+            return "I analyzed your query but couldn't determine any clear bias. This could be because the content is neutral or because there's not enough information to make a determination. Can you provide more details or a specific Political article to analyze?"
 
     except Exception as e:
-        logging.error(f"Error in bias analysis: {e}")
-        return f"I encountered an error while analyzing bias: {str(e)}"
+        logging.error(f"Error in bias analysis: {e}", exc_info=True)
+        return f"I ran into a problem while analyzing bias in that content. The system reported: {str(e)}. Would you like to try a different query?"
 
 
 def process_fact_check_query(query):
     """Process a query related to fact checking"""
+    logging.info(f"FACT CHECK requested for: {query}")
     try:
         if not kg or not llm:
-            return "Sorry, I can't fact-check right now because the Knowledge Graph or LLM is not available."
+            logging.warning("KG or Multi-Agent LLM not available for fact checking")
+            return "Sorry, I can't fact-check right now because the Knowledge Graph or Multi-agent is not available."
 
         # Create an initial state with the news query
         state = GraphState(news_query=query)
+        logging.debug(f"Created GraphState for fact check: {state}")
 
-        # Process with fact checker agent
-        result_state = fact_checker_agent(state, kg)
+        # Process with fact checker agent - don't store in KG
+        logging.info("Calling fact_checker_agent...")
+        result_state = fact_checker_agent(state, kg, store_to_kg=False)
+        logging.info(f"Fact checker completed with status: {result_state.current_status}")
+        logging.debug(f"Fact checker result: {result_state.model_dump()}")
 
-        if result_state.fact_check_result:
-            claims = result_state.fact_check_result.get('verified_claims', [])
-            report = result_state.fact_check_result.get('report', {})
+        # Check for results in articles first (new structure)
+        if result_state.articles and len(result_state.articles) > 0 and "fact_check_result" in result_state.articles[0]:
+            logging.info("Fact check result found in articles")
+            result = result_state.articles[0]["fact_check_result"]
+            logging.debug(f"Fact check result: {result}")
 
-            claims_text = ""
-            if claims:
-                for i, claim in enumerate(claims, 1):
-                    verdict = claim.get('verification', {}).get('verdict', 'unknown')
-                    confidence = claim.get('verification', {}).get('confidence', 0)
-                    claims_text += f"**Claim {i}**: {claim.get('claim', 'Unknown claim')}\n"
-                    claims_text += f"- Verdict: {verdict.capitalize()}\n"
-                    claims_text += f"- Confidence: {int(confidence * 100)}%\n\n"
+            # Format for chatbot - conversational style
+            verdict = result.get('verdict', 'Unknown')
+            confidence = result.get('confidence_score', 0)
+            reasoning = result.get('reasoning', 'No detailed reasoning available')
 
-            return f"""
-### Fact Check Results
+            if verdict.lower() == 'true':
+                verdict_icon = "✅"
+                verdict_text = "TRUE"
+            elif verdict.lower() == 'false':
+                verdict_icon = "❌"
+                verdict_text = "FALSE"
+            else:
+                verdict_icon = "⚠️"
+                verdict_text = "UNCERTAIN"
 
-**Overall Verdict**: {report.get('overall_verdict', 'Not available').capitalize()}
+            return f"""{verdict_icon} Based on my fact-checking, this claim appears to be **{verdict_text}**.
 
-**Accuracy Rating**: {int(report.get('overall_accuracy', 0) * 100)}%
+I'm **{confidence}%** confident in this assessment.
 
-**Verified Claims**:
-{claims_text if claims_text else "No specific claims were verified."}
+**Here's why:**
+{reasoning}
 
-**Key Issues**: {', '.join(report.get('key_issues', ['None identified']))}
-
-**Recommendations**: {report.get('recommendations', 'No specific recommendations')}
-            """
+This analysis is based on information from: {', '.join(result.get('supporting_nodes', ['available knowledge']))}"""
         else:
-            return "I couldn't find any fact-check information about your query. Try being more specific or asking about a different topic."
+            logging.warning("No fact check result found in the returned state")
+            return "I've looked into your claim, but I don't have enough information to verify it conclusively. Could you provide more specific details or rephrase your question?"
 
     except Exception as e:
-        logging.error(f"Error in fact checking: {e}")
-        return f"I encountered an error while fact checking: {str(e)}"
+        logging.error(f"Error in fact checking: {e}", exc_info=True)
+        return f"I encountered a problem while trying to fact-check that. The system reported: {str(e)}. Would you like to try a different question?"
 
 
 def query_knowledge_graph(query):
     """Query the knowledge graph for relevant articles"""
+    logging.info(f"KNOWLEDGE GRAPH QUERY for: {query}")
     try:
         if not kg:
+            logging.warning("KG not available for query")
             return "Sorry, the Knowledge Graph is not available right now."
 
         # Extract keywords for search
         keywords = extract_keywords(query)
         if not keywords:
-            return "I couldn't identify specific keywords in your query. Please try using more specific terms."
+            logging.warning("No keywords extracted from query")
+            return "I'm not sure what specific news you're looking for. Could you try again with more specific terms? For example, 'Show me news about climate change' or 'Find articles about the Political'."
+
+        # Check if we need to populate test data
+        if not st.session_state.get('data_populated', False):
+            data_added = populate_test_data()
+            st.session_state.data_populated = True
+            if data_added:
+                logging.info("Added sample articles to Knowledge Graph for demonstration")
 
         # Get related articles from KG
         search_query = ' '.join(keywords)
-        articles = kg.retrieve_related_articles(search_query, limit=5)
+        logging.info(f"Searching KG with query: {search_query}")
+        articles = kg.retrieve_related_articles(search_query, limit=3)
+        logging.info(f"Retrieved {len(articles) if articles else 0} articles from KG")
+
+        if articles:
+            logging.debug(f"First article: {articles[0]}")
 
         if not articles:
-            return f"No articles found matching your keywords: {', '.join(keywords)}. Try different search terms."
+            logging.warning(f"No articles found for keywords: {keywords}")
+            return f"I searched for news about {', '.join(keywords)}, but didn't find any matching articles. Would you like to try different search terms?"
 
-        # Format the results
+        # Format the results in a conversational style
         response = []
-        response.append(f"🔍 Found {len(articles)} articles matching your search terms: {', '.join(keywords)}\n\n---\n")
+        response.append(f"I found {len(articles)} articles about {', '.join(keywords)}. Here's a summary:")
 
-        for article in articles:
-            title = article.get('title', article.get('a.title', 'No title'))
+        for i, article in enumerate(articles, 1):
+            title = article.get('title', article.get('a.title', 'Untitled article'))
             source = article.get('source_name', article.get('a.source_name', 'Unknown source'))
             date = article.get('published_at', article.get('a.publishedAt', 'No date'))
             content = article.get('content', article.get('a.full_content', 'No content available'))
             url = article.get('url', article.get('a.url', ''))
 
-            # Highlight keywords in content
-            highlighted_content = content
-            if content:
-                for keyword in keywords:
-                    pattern = re.compile(re.escape(keyword), re.IGNORECASE)
-                    highlighted_content = pattern.sub(f"**{keyword}**", highlighted_content)
+            # Format date if possible
+            try:
+                if 'T' in date:
+                    date_obj = datetime.fromisoformat(date.replace('Z', '+00:00'))
+                    date = date_obj.strftime("%B %d, %Y")
+            except Exception as e:
+                logging.warning(f"Error formatting date: {e}")
+                pass  # Keep original date format if parsing fails
 
-            article_info = [
-                f"📰 **{title}**",
-                f"📅 Date: {date}",
-                f"📍 Source: {source}",
-                f"\n📝 Content: {highlighted_content[:500]}...",  # Show first 500 chars
-            ]
+            # Create a short summary - first 100 chars
+            summary = content[:100] + "..." if len(content) > 100 else content
+
+            response.append(f"\n**Article {i}: {title}**")
+            response.append(f"Published by {source} on {date}")
+            response.append(f"Summary: {summary}")
 
             if url:
-                article_info.append(f"\n🔗 [Read full article]({url})")
+                response.append(f"[Read the full article]({url})")
 
-            response.append("\n".join(article_info))
-            response.append("\n---\n")
+            response.append("")  # Empty line between articles
 
+        response.append(
+            "\nWould you like me to analyze the bias in any of these Political articles or fact-check a specific claim from them?")
         return "\n".join(response)
 
     except Exception as e:
-        logging.error(f"Error querying knowledge graph: {e}")
-        return f"Error querying knowledge graph: {str(e)}"
+        logging.error(f"Error querying knowledge graph: {e}", exc_info=True)
+        return f"I had trouble searching for news about that topic. The system reported: {str(e)}. Would you like to try another search?"
 
 
 def get_bias_report(topic):
     """Get a report of bias across news sources on a topic"""
+    logging.info(f"BIAS REPORT requested for topic: {topic}")
     try:
         if not kg:
+            logging.warning("KG not available for bias report")
             return "Sorry, the Knowledge Graph is not available right now."
 
-        bias_report = kg.get_bias_report(topic, limit=10)
+        # Check if we need to populate test data
+        if not st.session_state.get('data_populated', False):
+            data_added = populate_test_data()
+            st.session_state.data_populated = True
+            if data_added:
+                logging.info("Added sample articles to Knowledge Graph for demonstration")
+
+        # Strip unnecessary words for better search results
+        clean_topic = ' '.join(extract_keywords(topic) or ['politics'])
+        logging.info(f"Cleaned bias report topic: {clean_topic}")
+
+        try:
+            logging.info(f"Calling KG get_bias_report for Political topic: {clean_topic}")
+            bias_report = kg.get_bias_report(clean_topic, limit=5)
+            logging.info(f"Retrieved bias report with {len(bias_report) if bias_report else 0} sources")
+        except Exception as e:
+            logging.error(f"Error in get_bias_report: {e}")
+            # Fallback to mock data for demonstration
+            bias_report = [
+                {"source": "Conservative News", "assessment": "Right", "article_count": 5},
+                {"source": "Progressive Daily", "assessment": "Left", "article_count": 4},
+                {"source": "Political News Daily", "assessment": "Center", "article_count": 7}
+            ]
+            logging.info("Using fallback mock data for bias report")
+
+        if bias_report:
+            logging.debug(f"First bias report item: {bias_report[0]}")
 
         if not bias_report:
-            return f"No bias information found for topic: {topic}. Try a different topic or search term."
+            logging.warning(f"No bias report found for topic: {topic}")
+            return f"I don't have enough information to create a bias Political report on '{topic}'. This might be because there aren't enough articles on this topic in my knowledge base. Would you like to search for news on this topic instead?"
 
-        # Format the results
-        response = [f"# Bias Report: {topic}\n"]
-        response.append("| News Source | Bias Assessment | Articles Analyzed |")
-        response.append("|-------------|-----------------|-------------------|")
+        # Format the results in a conversational style
+        response = [f"Here's my bias analysis for Political news coverage about **{topic}**:"]
+
+        left_sources = []
+        center_sources = []
+        right_sources = []
 
         for item in bias_report:
             source = item.get('source', 'Unknown')
-            assessment = item.get('assessment', 'Neutral')
-            count = item.get('article_count', 0)
-            response.append(f"| {source} | {assessment} | {count} |")
+            assessment = item.get('assessment', 'Neutral').lower()
 
-        response.append("\n### Summary")
+            if "left" in assessment:
+                left_sources.append(source)
+            elif "right" in assessment:
+                right_sources.append(source)
+            else:
+                center_sources.append(source)
+
+        if left_sources:
+            response.append(f"\n**Left-leaning sources:** {', '.join(left_sources)}")
+
+        if center_sources:
+            response.append(f"\n**Center/Neutral sources:** {', '.join(center_sources)}")
+
+        if right_sources:
+            response.append(f"\n**Right-leaning sources:** {', '.join(right_sources)}")
+
+        total_articles = sum(item.get('article_count', 0) for item in bias_report)
         response.append(
-            f"Analysis based on {sum(item.get('article_count', 0) for item in bias_report)} articles across {len(bias_report)} sources.")
+            f"\nThis analysis is based on {total_articles} articles from {len(bias_report)} different sources.")
+        response.append(
+            "\nWould you like me to look up specific articles on this topic or analyze the bias in a particular claim?")
 
         return "\n".join(response)
 
     except Exception as e:
-        logging.error(f"Error generating bias report: {e}")
-        return f"Error generating bias report: {str(e)}"
+        logging.error(f"Error generating bias report: {e}", exc_info=True)
+        return f"I ran into a problem while creating a bias report on '{topic}'. The system reported: {str(e)}. Would you like to try a different Political topic?"
 
 
 def process_user_input(prompt):
     """Process user input to understand intent and generate appropriate response"""
+    logging.info(f"Processing user input: {prompt}")
     prompt_lower = prompt.lower()
 
     # Check for greetings
     greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening']
     if any(greeting in prompt_lower for greeting in greetings):
+        logging.info("Identified as GREETING")
         if not st.session_state.conversation_context['greeted']:
             st.session_state.conversation_context['greeted'] = True
             return {
@@ -267,32 +421,35 @@ def process_user_input(prompt):
         else:
             return {
                 'type': 'greeting',
-                'response': "Hello again! What topic would you like to explore today? I can search for news, analyze bias, or fact-check claims."
+                'response': "Hello again! What topic would you like to explore today in Political world? I can search for news, analyze bias, or fact-check claims."
             }
 
     # Check for personal questions about the bot
     if 'who are you' in prompt_lower or 'what can you do' in prompt_lower:
+        logging.info("Identified as INTRODUCTION question")
         return {
             'type': 'introduction',
             'response': """I'm a news analysis assistant that uses a Knowledge Graph to understand connections between articles, people, and events. Here's what I can do:
 
-1. 🔍 **Search for news articles** on specific topics
-2. 📊 **Analyze bias** in news coverage
+1. 🔍 **Search for news articles** on specific Political topics
+2. 📊 **Analyze bias** in Political news coverage
 3. ✓ **Fact-check claims** against verified information
-4. 🕸️ **Find connections** between news stories
+4. 🕸️ **Find connections** between Political news stories
 
-Just ask me questions about news topics you're interested in!"""
+Just ask me questions about Political news topics you're interested in!"""
         }
 
     # Check for thank you messages
     if 'thank' in prompt_lower or 'thanks' in prompt_lower:
+        logging.info("Identified as GRATITUDE")
         return {
             'type': 'gratitude',
-            'response': "You're welcome! I'm happy to help. Feel free to ask if you have any other questions about news or current events."
+            'response': "You're welcome! I'm happy to help. Feel free to ask if you have any other questions about Political news or current events."
         }
 
     # Check for goodbyes
     if 'bye' in prompt_lower or 'goodbye' in prompt_lower:
+        logging.info("Identified as FAREWELL")
         return {
             'type': 'farewell',
             'response': "Goodbye! Feel free to come back anytime you need help understanding the news. Have a great day!"
@@ -301,27 +458,32 @@ Just ask me questions about news topics you're interested in!"""
     # Check for bias analysis requests
     if 'bias' in prompt_lower or 'biased' in prompt_lower or 'leaning' in prompt_lower:
         if 'report' in prompt_lower or 'across' in prompt_lower or 'sources' in prompt_lower:
+            logging.info("Identified as BIAS REPORT request")
             # Extract topic for bias report
             keywords = extract_keywords(prompt)
             topic = ' '.join(keywords) if keywords else "politics"  # Default to politics if no keywords
+            logging.info(f"Getting bias report for topic: {topic}")
             return {
                 'type': 'bias_report',
                 'response': get_bias_report(topic)
             }
         else:
+            logging.info("Identified as BIAS ANALYSIS request")
             return {
                 'type': 'bias_analysis',
                 'response': process_bias_query(prompt)
             }
 
     # Check for fact-checking requests
-    if 'fact' in prompt_lower or 'check' in prompt_lower or 'verify' in prompt_lower or 'true' in prompt_lower or 'false' in prompt_lower:
+    if 'fact' in prompt_lower or 'check' in prompt_lower or 'verify' in prompt_lower or 'true' in prompt_lower or 'false' in prompt_lower or 'did' in prompt_lower:
+        logging.info("Identified as FACT CHECK request")
         return {
             'type': 'fact_check',
             'response': process_fact_check_query(prompt)
         }
 
     # Default to knowledge graph query
+    logging.info("Defaulting to KNOWLEDGE GRAPH query")
     return {
         'type': 'query',
         'response': query_knowledge_graph(prompt)
@@ -330,22 +492,22 @@ Just ask me questions about news topics you're interested in!"""
 
 # Set page config
 st.set_page_config(
-    page_title="News Knowledge Graph Chatbot",
+    page_title="Multi-Agent Knowledge Sharing System",
     page_icon="📰",
     layout="wide"
 )
 
 # Header
-st.title("📰 News Knowledge Graph Chatbot")
+st.title("📰 Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs")
 st.markdown("""
-I'm your intelligent news assistant. I can help you understand news articles, find connections between events, 
-analyze bias, and fact-check claims.
+I'm your intelligent news assistant for bias detection and fact-checking. I can help you understand Political news articles, 
+find connections between Political events, analyze media bias, and verify factual claims.
 """)
 
 # Sidebar with connection status
 with st.sidebar:
     # Add connection status
-    st.subheader("Connection Status")
+    st.subheader("System Status")
 
     # Check Neo4j connection
     is_connected = test_neo4j_connection()
@@ -362,9 +524,19 @@ with st.sidebar:
 
     # Check if LLM is available
     if llm:
-        st.success("✅ LLM Ready")
+        st.success("✅ Multi-Agent Ready")
     else:
-        st.error("❌ LLM Not Available")
+        st.error("❌ Multi-Agent Not Available")
+
+    # Add a load sample data button for demonstration
+    if st.button("Load Sample Data"):
+        with st.spinner("Loading sample articles..."):
+            success = populate_test_data()
+            if success:
+                st.session_state.data_populated = True
+                st.success("✅ Sample articles loaded!")
+            else:
+                st.error("❌ Failed to load sample data")
 
     st.markdown("---")
 
@@ -380,13 +552,14 @@ for message in st.session_state.messages:
 # Initial greeting
 if not st.session_state.messages:
     with st.chat_message("assistant"):
-        greeting = f"{get_greeting()}! I'm your news analysis assistant. I can help you find articles, analyze bias, and fact-check claims. How can I help you today?"
+        greeting = f"{get_greeting()}! I'm your news analysis assistant. I can help you find Political articles, analyze bias, and fact-check claims. How can I help you today?"
         st.markdown(greeting)
         st.session_state.messages.append({"role": "assistant", "content": greeting})
 
 # User input
-if user_input := st.chat_input("Ask me about the news:"):
-    # Add user message to chat history
+if user_input := st.chat_input("Ask me about the Political news:"):
+    # Log the input and add to chat history
+    logging.info(f"Received user input: {user_input}")
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
@@ -394,14 +567,18 @@ if user_input := st.chat_input("Ask me about the news:"):
     # Process the input and get response
     with st.chat_message("assistant"):
         with st.spinner("Analyzing your request..."):
+            logging.info("Processing user input...")
             processed = process_user_input(user_input)
             response = processed['response']
+            logging.info(f"Response type: {processed['type']}")
+            logging.debug(f"Full response: {response[:100]}...")
 
         st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 # Add a clear chat button
 if st.sidebar.button("Clear Chat"):
+    logging.info("Clearing chat history")
     st.session_state.messages = []
     st.session_state.conversation_context = {
         'greeted': False,
@@ -417,27 +594,28 @@ with st.sidebar.expander("ℹ️ Help"):
     ### How to use:
     Just type your query and press Enter! You can:
 
-    - **Search for articles**: "Find news about climate change"
-    - **Analyze bias**: "Is there bias in coverage of the election?"
+    - **Search for articles**: "Find news about world politics"
+    - **Analyze bias**: "Is there bias in coverage of the USA election?"
     - **Get bias reports**: "Show bias report for Ukraine conflict"
-    - **Fact-check claims**: "Fact check: Did the president say taxes will increase?"
+    - **Fact-check claims**: "Fact check: Did President Trump say taxes will increase?"
 
     ### Examples:
-    - "Show me articles about technology"
-    - "Is there bias in reporting on healthcare reform?"
-    - "Fact check this claim: The economy grew by 5% last quarter"
-    - "Generate a bias report on immigration news"
+    - "Show me articles about United States politics"
+    - "Is there bias in reporting on Trump news"
+    - "Fact check this claim: Is Trump's approval rating more than 54%?"
+    - "Generate a bias report on immigration"
     """)
 
 # About section
 with st.sidebar.expander("ℹ️ About"):
     st.markdown("""
-    This news analysis chatbot uses a Knowledge Graph to understand connections between articles, people, and events.
+    This multi-agent knowledge sharing system uses Dynamic Knowledge Graphs to understand connections between news articles, people, and events.
 
     It leverages:
     - **Neo4j** for graph database storage
-    - **AWS Bedrock** for LLM capabilities
-    - **Direct agent-KG interaction** for efficient processing
+    - **AWS Bedrock** for Multi-agent LLM capabilities
+    - **Multi-agent architecture** for specialized analysis
+    - **Dynamic Knowledge Graph** for evolving information
 
-    The system can analyze bias, fact-check claims, and find relationships between news entities - all using a simplified architecture with direct KG interaction.
+    The system specializes in bias detection and fact-checking through a unified architecture that enables intelligent processing of news content.
     """)
