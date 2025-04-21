@@ -16,7 +16,8 @@ This project implements a sophisticated multi-agent system that collaborates to 
 
 ## System Architecture
 
-<img width="899" alt="Screenshot 2025-04-08 at 1 49 26 PM" src="https://github.com/user-attachments/assets/4b4fba84-c3fa-4b8c-a29e-d3a855b6c5c6" />
+<img width="929" alt="Screenshot 2025-04-21 at 7 33 52 PM" src="https://github.com/user-attachments/assets/82179473-458b-4cb4-ac3d-64779b81b3fa" />
+
 
 
 
