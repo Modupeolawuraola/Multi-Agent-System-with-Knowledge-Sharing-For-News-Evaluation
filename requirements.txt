@@ -1,3 +1,13 @@
+sphinx>=8.1.3
+sphinx_rtd_theme>=3.0.2
+myst_parser>=4.0.0
+graphdatascience
+retry
+streamlit
+numpy
+pandas
+plotly
+py2neo
 
 aiohappyeyeballs==2.4.6
  aiohttp==3.11.12

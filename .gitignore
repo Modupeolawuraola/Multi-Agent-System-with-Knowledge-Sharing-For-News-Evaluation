@@ -32,3 +32,8 @@ docs/requirements_doc.txt
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Database Credentials
+Code/Neo4j-61e9103a-Created-2025-02-17.txt
+Code/.env
+Code/.env
