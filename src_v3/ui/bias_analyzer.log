@@ -1,0 +1,845 @@
+2025-04-18 19:10:09,199 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-18 19:10:11,921 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:12:30,756 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:12:32,417 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:12:32,520 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:12:57,411 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:12:58,690 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:12:58,780 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:13:23,789 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:13:26,318 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:13:26,469 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:18:33,976 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:18:35,718 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:18:35,804 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:31:41,708 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-18 19:31:41,775 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 19:31:43,668 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:31:45,065 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:31:45,201 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:32:13,136 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 19:32:14,491 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:32:15,759 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:32:15,915 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:32:15,962 - root - INFO - Clearing chat history
+2025-04-18 19:32:16,089 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 19:32:17,239 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:32:18,406 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:32:18,503 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:36:02,988 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 19:36:04,455 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:36:05,801 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:36:05,891 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:36:22,814 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 19:36:24,155 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 19:36:25,588 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 19:36:25,676 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 19:36:25,731 - root - INFO - Received user input: Generate a bias report on DOGE
+2025-04-18 19:36:25,732 - root - INFO - Processing user input...
+2025-04-18 19:36:25,733 - root - INFO - Processing user input: Generate a bias report on DOGE
+2025-04-18 19:36:25,733 - root - INFO - Identified as BIAS REPORT request
+2025-04-18 19:36:25,733 - root - INFO - Getting bias report for topic: generate bias report doge
+2025-04-18 19:36:25,733 - root - INFO - BIAS REPORT requested for topic: generate bias report doge
+2025-04-18 19:36:25,733 - root - INFO - Calling KG get_bias_report for topic: generate bias report doge
+2025-04-18 19:36:25,926 - root - ERROR - Error generating bias report: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+neo4j.exceptions.GqlError: {gql_status: 42I06} {gql_status_description: error: syntax error or access rule violation - invalid input. Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {message: 42I06: Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {diagnostic_record: {'_classification': 'CLIENT_ERROR', '_position': {'line': 6, 'offset': 283, 'column': 13}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}} {raw_classification: CLIENT_ERROR}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 270, in get_bias_report
+    bias_report = kg.get_bias_report(topic, limit=5)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/memory/knowledge_graph.py", line 308, in get_bias_report
+    results = self.graph.query(
+              ^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/langchain_neo4j/graphs/neo4j_graph.py", line 230, in query
+    data, _, _ = self._driver.execute_query(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 970, in execute_query
+    return session._run_transaction(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/session.py", line 583, in _run_transaction
+    result = transaction_function(tx, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_work/query.py", line 144, in wrapped
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 1306, in _work
+    res = tx.run(query, parameters)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/transaction.py", line 206, in run
+    result._tx_ready_run(query, parameters)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 177, in _tx_ready_run
+    self._run(query, parameters, None, None, None, None, None, None)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 236, in _run
+    self._attach()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 430, in _attach
+    self._connection.fetch_message()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 184, in inner
+    func(*args, **kwargs)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt.py", line 864, in fetch_message
+    res = self._process_message(tag, fields)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt5.py", line 1208, in _process_message
+    response.on_failure(summary_metadata or {})
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 254, in on_failure
+    raise self._hydrate_error(metadata)
+neo4j.exceptions.CypherSyntaxError: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+2025-04-18 19:36:26,180 - root - INFO - Response type: bias_report
+2025-04-18 20:04:54,936 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:04:57,662 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:04:58,947 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:04:59,047 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:04:59,085 - root - INFO - Received user input: Show me news about Biden's policy on immigration"
+2025-04-18 20:04:59,086 - root - INFO - Processing user input...
+2025-04-18 20:04:59,086 - root - INFO - Processing user input: Show me news about Biden's policy on immigration"
+2025-04-18 20:04:59,086 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-18 20:04:59,086 - root - INFO - KNOWLEDGE GRAPH QUERY for: Show me news about Biden's policy on immigration"
+2025-04-18 20:04:59,086 - root - INFO - Searching KG with query: biden policy immigration
+2025-04-18 20:04:59,304 - root - INFO - Retrieved 0 articles from KG
+2025-04-18 20:04:59,305 - root - WARNING - No articles found for keywords: ['biden', 'policy', 'immigration']
+2025-04-18 20:04:59,305 - root - INFO - Response type: query
+2025-04-18 20:05:42,217 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:05:43,449 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:05:44,674 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:05:44,770 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:05:44,876 - root - INFO - Received user input: Find articles about the latest Supreme Court decision
+2025-04-18 20:05:44,877 - root - INFO - Processing user input...
+2025-04-18 20:05:44,877 - root - INFO - Processing user input: Find articles about the latest Supreme Court decision
+2025-04-18 20:05:44,877 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-18 20:05:44,878 - root - INFO - KNOWLEDGE GRAPH QUERY for: Find articles about the latest Supreme Court decision
+2025-04-18 20:05:44,878 - root - INFO - Searching KG with query: latest supreme court decision
+2025-04-18 20:05:45,048 - root - INFO - Retrieved 0 articles from KG
+2025-04-18 20:05:45,048 - root - WARNING - No articles found for keywords: ['latest', 'supreme', 'court', 'decision']
+2025-04-18 20:05:45,048 - root - INFO - Response type: query
+2025-04-18 20:06:36,529 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:06:37,958 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:06:39,220 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:06:39,347 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:06:39,390 - root - INFO - Received user input: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-18 20:06:39,391 - root - INFO - Processing user input...
+2025-04-18 20:06:39,391 - root - INFO - Processing user input: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-18 20:06:39,391 - root - INFO - Identified as FACT CHECK request
+2025-04-18 20:06:39,391 - root - INFO - FACT CHECK requested for: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-18 20:06:39,391 - root - INFO - Calling fact_checker_agent...
+2025-04-18 20:06:39,393 - root - INFO - Processing direct query: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-18 20:06:39,393 - root - INFO - Extracting entities from claim text (length: 52)
+2025-04-18 20:06:39,394 - root - ERROR - Error during direct query fact checking: Transformer not initialized. Call initialize_entity_extractor(llm) first.
+2025-04-18 20:06:39,395 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-18 20:06:39,395 - root - INFO - Fact check result found in articles
+2025-04-18 20:06:39,395 - root - INFO - Response type: fact_check
+2025-04-18 20:23:13,732 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:23:16,293 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:23:18,503 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:23:18,636 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:23:18,725 - root - INFO - Received user input: Analyze bias in coverage of gun control legislation
+2025-04-18 20:23:18,726 - root - INFO - Processing user input...
+2025-04-18 20:23:18,726 - root - INFO - Processing user input: Analyze bias in coverage of gun control legislation
+2025-04-18 20:23:18,727 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-18 20:23:18,727 - root - INFO - BIAS ANALYSIS requested for: Analyze bias in coverage of gun control legislation
+2025-04-18 20:23:18,727 - root - INFO - Calling bias_analyzer_agent...
+2025-04-18 20:23:18,834 - root - INFO - Starting direct KG bias analysis
+2025-04-18 20:23:18,894 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-18 20:23:18,895 - root - WARNING - No bias result found in the returned state
+2025-04-18 20:23:18,895 - root - INFO - Response type: bias_analysis
+2025-04-18 20:24:12,158 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:24:13,410 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:24:14,564 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:24:14,637 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:24:14,689 - root - INFO - Received user input: Democrats push controversial tax plan
+2025-04-18 20:24:14,691 - root - INFO - Processing user input...
+2025-04-18 20:24:14,691 - root - INFO - Processing user input: Democrats push controversial tax plan
+2025-04-18 20:24:14,691 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-18 20:24:14,691 - root - INFO - KNOWLEDGE GRAPH QUERY for: Democrats push controversial tax plan
+2025-04-18 20:24:14,691 - root - INFO - Searching KG with query: democrats push controversial tax plan
+2025-04-18 20:24:14,836 - root - INFO - Retrieved 0 articles from KG
+2025-04-18 20:24:14,836 - root - WARNING - No articles found for keywords: ['democrats', 'push', 'controversial', 'tax', 'plan']
+2025-04-18 20:24:14,836 - root - INFO - Response type: query
+2025-04-18 20:24:53,717 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:24:55,192 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:24:56,451 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:24:56,778 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:24:57,054 - root - INFO - Received user input: Generate a bias report on Ukraine conflict
+2025-04-18 20:24:57,056 - root - INFO - Processing user input...
+2025-04-18 20:24:57,056 - root - INFO - Processing user input: Generate a bias report on Ukraine conflict
+2025-04-18 20:24:57,056 - root - INFO - Identified as BIAS REPORT request
+2025-04-18 20:24:57,057 - root - INFO - Getting bias report for topic: generate bias report ukraine conflict
+2025-04-18 20:24:57,057 - root - INFO - BIAS REPORT requested for topic: generate bias report ukraine conflict
+2025-04-18 20:24:57,057 - root - INFO - Calling KG get_bias_report for Polictical topic: generate bias report ukraine conflict
+2025-04-18 20:24:57,151 - root - ERROR - Error generating bias report: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+neo4j.exceptions.GqlError: {gql_status: 42I06} {gql_status_description: error: syntax error or access rule violation - invalid input. Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {message: 42I06: Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {diagnostic_record: {'_classification': 'CLIENT_ERROR', '_position': {'line': 6, 'offset': 283, 'column': 13}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}} {raw_classification: CLIENT_ERROR}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 270, in get_bias_report
+    bias_report = kg.get_bias_report(topic, limit=5)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/memory/knowledge_graph.py", line 308, in get_bias_report
+    topic (str): Topic to analyze bias for
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/langchain_neo4j/graphs/neo4j_graph.py", line 230, in query
+    data, _, _ = self._driver.execute_query(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 970, in execute_query
+    return session._run_transaction(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/session.py", line 583, in _run_transaction
+    result = transaction_function(tx, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_work/query.py", line 144, in wrapped
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 1306, in _work
+    res = tx.run(query, parameters)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/transaction.py", line 206, in run
+    result._tx_ready_run(query, parameters)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 177, in _tx_ready_run
+    self._run(query, parameters, None, None, None, None, None, None)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 236, in _run
+    self._attach()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 430, in _attach
+    self._connection.fetch_message()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 184, in inner
+    func(*args, **kwargs)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt.py", line 864, in fetch_message
+    res = self._process_message(tag, fields)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt5.py", line 1208, in _process_message
+    response.on_failure(summary_metadata or {})
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 254, in on_failure
+    raise self._hydrate_error(metadata)
+neo4j.exceptions.CypherSyntaxError: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+2025-04-18 20:24:57,186 - root - INFO - Response type: bias_report
+2025-04-18 20:25:49,406 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 20:25:50,772 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 20:25:51,969 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 20:25:52,049 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-18 20:25:52,099 - root - INFO - Received user input: how bias report for abortion rights coverage
+2025-04-18 20:25:52,104 - root - INFO - Processing user input...
+2025-04-18 20:25:52,104 - root - INFO - Processing user input: how bias report for abortion rights coverage
+2025-04-18 20:25:52,104 - root - INFO - Identified as BIAS REPORT request
+2025-04-18 20:25:52,104 - root - INFO - Getting bias report for topic: how bias report abortion rights coverage
+2025-04-18 20:25:52,104 - root - INFO - BIAS REPORT requested for topic: how bias report abortion rights coverage
+2025-04-18 20:25:52,104 - root - INFO - Calling KG get_bias_report for Polictical topic: how bias report abortion rights coverage
+2025-04-18 20:25:52,186 - root - ERROR - Error generating bias report: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+neo4j.exceptions.GqlError: {gql_status: 42I06} {gql_status_description: error: syntax error or access rule violation - invalid input. Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {message: 42I06: Invalid input 'GROUP', expected: 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF>.} {diagnostic_record: {'_classification': 'CLIENT_ERROR', '_position': {'line': 6, 'offset': 283, 'column': 13}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}} {raw_classification: CLIENT_ERROR}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 270, in get_bias_report
+    bias_report = kg.get_bias_report(topic, limit=5)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/memory/knowledge_graph.py", line 308, in get_bias_report
+    topic (str): Topic to analyze bias for
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/langchain_neo4j/graphs/neo4j_graph.py", line 230, in query
+    data, _, _ = self._driver.execute_query(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 970, in execute_query
+    return session._run_transaction(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/session.py", line 583, in _run_transaction
+    result = transaction_function(tx, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_work/query.py", line 144, in wrapped
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/driver.py", line 1306, in _work
+    res = tx.run(query, parameters)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/transaction.py", line 206, in run
+    result._tx_ready_run(query, parameters)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 177, in _tx_ready_run
+    self._run(query, parameters, None, None, None, None, None, None)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 236, in _run
+    self._attach()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/work/result.py", line 430, in _attach
+    self._connection.fetch_message()
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 184, in inner
+    func(*args, **kwargs)
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt.py", line 864, in fetch_message
+    res = self._process_message(tag, fields)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_bolt5.py", line 1208, in _process_message
+    response.on_failure(summary_metadata or {})
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/neo4j/_sync/io/_common.py", line 254, in on_failure
+    raise self._hydrate_error(metadata)
+neo4j.exceptions.CypherSyntaxError: {code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'GROUP': expected 'FOREACH', ',', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 6, column 13 (offset: 283))
+"            GROUP BY a.source_name, b.overall_assessment"
+             ^}
+2025-04-18 20:25:52,200 - root - INFO - Response type: bias_report
+2025-04-18 21:25:05,807 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-18 21:25:09,054 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-18 21:25:10,163 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-18 21:25:10,247 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 12:01:50,929 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 12:01:54,487 - root - INFO - Knowledge Graph and LLM initialized successfully
+2025-04-19 12:01:55,982 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 12:01:56,113 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:21:35,823 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-19 17:21:35,882 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:21:38,165 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:21:39,633 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:21:39,733 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:26:53,024 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:26:54,859 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:26:56,241 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:26:56,370 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:26:56,437 - root - INFO - Received user input: how do you do 
+2025-04-19 17:26:56,439 - root - INFO - Processing user input...
+2025-04-19 17:26:56,439 - root - INFO - Processing user input: how do you do 
+2025-04-19 17:26:56,439 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 17:26:56,439 - root - INFO - KNOWLEDGE GRAPH QUERY for: how do you do 
+2025-04-19 17:26:56,469 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:27:06,538 - root - ERROR - Error querying knowledge graph: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 263, in query_knowledge_graph
+    data_added = populate_test_data()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 132, in populate_test_data
+    kg.add_bias_analysis(article['url'], bias_analysis)
+TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 17:27:06,541 - root - INFO - Response type: query
+2025-04-19 17:28:14,155 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:28:16,138 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:28:17,638 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:28:17,723 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:28:17,776 - root - INFO - Received user input: Show me news about Biden
+2025-04-19 17:28:17,778 - root - INFO - Processing user input...
+2025-04-19 17:28:17,778 - root - INFO - Processing user input: Show me news about Biden
+2025-04-19 17:28:17,778 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 17:28:17,778 - root - INFO - KNOWLEDGE GRAPH QUERY for: Show me news about Biden
+2025-04-19 17:28:17,792 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:28:27,485 - root - ERROR - Error querying knowledge graph: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 263, in query_knowledge_graph
+    data_added = populate_test_data()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 132, in populate_test_data
+    kg.add_bias_analysis(article['url'], bias_analysis)
+TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 17:28:27,488 - root - INFO - Response type: query
+2025-04-19 17:28:43,693 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:28:45,404 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:28:47,149 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:28:47,253 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:28:47,304 - root - INFO - Received user input: Find articles about Supreme Court decisions
+2025-04-19 17:28:47,306 - root - INFO - Processing user input...
+2025-04-19 17:28:47,307 - root - INFO - Processing user input: Find articles about Supreme Court decisions
+2025-04-19 17:28:47,307 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 17:28:47,307 - root - INFO - KNOWLEDGE GRAPH QUERY for: Find articles about Supreme Court decisions
+2025-04-19 17:28:47,318 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:28:57,751 - root - ERROR - Error querying knowledge graph: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 263, in query_knowledge_graph
+    data_added = populate_test_data()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 132, in populate_test_data
+    kg.add_bias_analysis(article['url'], bias_analysis)
+TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 17:28:57,755 - root - INFO - Response type: query
+2025-04-19 17:29:16,763 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:29:18,178 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:29:19,876 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:29:19,974 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:29:20,017 - root - INFO - Received user input: What's the latest on Trump's campaign?
+2025-04-19 17:29:20,019 - root - INFO - Processing user input...
+2025-04-19 17:29:20,019 - root - INFO - Processing user input: What's the latest on Trump's campaign?
+2025-04-19 17:29:20,019 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 17:29:20,019 - root - INFO - KNOWLEDGE GRAPH QUERY for: What's the latest on Trump's campaign?
+2025-04-19 17:29:20,024 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:29:28,993 - root - ERROR - Error querying knowledge graph: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 263, in query_knowledge_graph
+    data_added = populate_test_data()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 132, in populate_test_data
+    kg.add_bias_analysis(article['url'], bias_analysis)
+TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 17:29:28,997 - root - INFO - Response type: query
+2025-04-19 17:30:05,784 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:30:07,944 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:30:09,609 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:30:09,741 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:30:09,790 - root - INFO - Received user input: Fact check: Did President Biden say he would ban fracking?
+2025-04-19 17:30:09,791 - root - INFO - Processing user input...
+2025-04-19 17:30:09,791 - root - INFO - Processing user input: Fact check: Did President Biden say he would ban fracking?
+2025-04-19 17:30:09,792 - root - INFO - Identified as FACT CHECK request
+2025-04-19 17:30:09,792 - root - INFO - FACT CHECK requested for: Fact check: Did President Biden say he would ban fracking?
+2025-04-19 17:30:09,792 - root - INFO - Calling fact_checker_agent...
+2025-04-19 17:30:09,835 - root - INFO - Initialized entity extractor in fact checker
+2025-04-19 17:30:09,837 - root - INFO - Processing direct query: Fact check: Did President Biden say he would ban fracking?
+2025-04-19 17:30:09,837 - root - INFO - Extracting entities from claim text (length: 58)
+2025-04-19 17:30:09,839 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:30:14,655 - root - INFO - Extracted entities: ['Fracking Ban', 'President Biden', 'Fact Check']
+2025-04-19 17:30:14,656 - root - INFO - [KG] Retrieving context for entities: ['Fracking Ban', 'President Biden', 'Fact Check']
+2025-04-19 17:30:15,790 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:30:20,477 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-19 17:30:20,479 - root - INFO - Fact check result found in articles
+2025-04-19 17:30:20,479 - root - INFO - Response type: fact_check
+2025-04-19 17:31:56,988 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:31:59,721 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:32:01,507 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:32:01,602 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:32:01,674 - root - INFO - Received user input: Is it true that Trump claimed he won the 2020
+2025-04-19 17:32:01,675 - root - INFO - Processing user input...
+2025-04-19 17:32:01,676 - root - INFO - Processing user input: Is it true that Trump claimed he won the 2020
+2025-04-19 17:32:01,676 - root - INFO - Identified as FACT CHECK request
+2025-04-19 17:32:01,676 - root - INFO - FACT CHECK requested for: Is it true that Trump claimed he won the 2020
+2025-04-19 17:32:01,676 - root - INFO - Calling fact_checker_agent...
+2025-04-19 17:32:01,733 - root - INFO - Initialized entity extractor in fact checker
+2025-04-19 17:32:01,733 - root - INFO - Processing direct query: Is it true that Trump claimed he won the 2020
+2025-04-19 17:32:01,733 - root - INFO - Extracting entities from claim text (length: 45)
+2025-04-19 17:32:01,736 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:32:05,822 - root - INFO - Extracted entities: ['2020 Us Presidential Election', 'False Claim Of Election Victory', 'Donald Trump']
+2025-04-19 17:32:05,822 - root - INFO - [KG] Retrieving context for entities: ['2020 Us Presidential Election', 'False Claim Of Election Victory', 'Donald Trump']
+2025-04-19 17:32:05,978 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:32:09,473 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-19 17:32:09,475 - root - INFO - Fact check result found in articles
+2025-04-19 17:32:09,475 - root - INFO - Response type: fact_check
+2025-04-19 17:32:35,507 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:32:37,011 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:32:39,707 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:32:39,810 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:32:39,929 - root - INFO - Received user input: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-19 17:32:39,931 - root - INFO - Processing user input...
+2025-04-19 17:32:39,931 - root - INFO - Processing user input: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-19 17:32:39,931 - root - INFO - Identified as FACT CHECK request
+2025-04-19 17:32:39,932 - root - INFO - FACT CHECK requested for: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-19 17:32:39,933 - root - INFO - Calling fact_checker_agent...
+2025-04-19 17:32:39,983 - root - INFO - Initialized entity extractor in fact checker
+2025-04-19 17:32:39,983 - root - INFO - Processing direct query: Verify if Kamala Harris sponsored the Green New Deal
+2025-04-19 17:32:39,983 - root - INFO - Extracting entities from claim text (length: 52)
+2025-04-19 17:32:39,985 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:32:43,320 - root - INFO - Extracted entities: ['Green New Deal', 'Kamala Harris']
+2025-04-19 17:32:43,321 - root - INFO - [KG] Retrieving context for entities: ['Green New Deal', 'Kamala Harris']
+2025-04-19 17:32:43,611 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:32:47,376 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-19 17:32:47,376 - root - INFO - Fact check result found in articles
+2025-04-19 17:32:47,376 - root - INFO - Response type: fact_check
+2025-04-19 17:35:22,758 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:35:24,819 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:35:26,418 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:35:26,558 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:35:26,606 - root - INFO - Received user input: Analyze bias in coverage of gun control legislation
+2025-04-19 17:35:26,607 - root - INFO - Processing user input...
+2025-04-19 17:35:26,607 - root - INFO - Processing user input: Analyze bias in coverage of gun control legislation
+2025-04-19 17:35:26,607 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 17:35:26,607 - root - INFO - BIAS ANALYSIS requested for: Analyze bias in coverage of gun control legislation
+2025-04-19 17:35:26,608 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 17:35:26,690 - root - INFO - Starting direct KG bias analysis
+2025-04-19 17:35:26,716 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 17:35:26,716 - root - WARNING - No bias result found in the returned state
+2025-04-19 17:35:26,716 - root - INFO - Response type: bias_analysis
+2025-04-19 17:35:50,374 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:35:52,250 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:35:53,590 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:35:53,704 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:35:53,763 - root - INFO - Received user input: Is there bias in how Fox News covers climate change?
+2025-04-19 17:35:53,764 - root - INFO - Processing user input...
+2025-04-19 17:35:53,765 - root - INFO - Processing user input: Is there bias in how Fox News covers climate change?
+2025-04-19 17:35:53,765 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 17:35:53,765 - root - INFO - BIAS ANALYSIS requested for: Is there bias in how Fox News covers climate change?
+2025-04-19 17:35:53,765 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 17:35:53,843 - root - INFO - Starting direct KG bias analysis
+2025-04-19 17:35:53,876 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 17:35:53,876 - root - WARNING - No bias result found in the returned state
+2025-04-19 17:35:53,876 - root - INFO - Response type: bias_analysis
+2025-04-19 17:36:20,730 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:36:22,154 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:36:23,697 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:36:23,786 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:36:23,837 - root - INFO - Received user input: Check the bias in this headline: 'Democrats push controversial tax plan
+2025-04-19 17:36:23,839 - root - INFO - Processing user input...
+2025-04-19 17:36:23,839 - root - INFO - Processing user input: Check the bias in this headline: 'Democrats push controversial tax plan
+2025-04-19 17:36:23,840 - root - INFO - Identified as GREETING
+2025-04-19 17:36:23,841 - root - INFO - Response type: greeting
+2025-04-19 17:36:42,680 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:36:45,252 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:36:48,233 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:36:48,434 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:36:49,015 - root - INFO - Received user input: Check the bias in this headline: 'Democrats push controversial tax plan
+2025-04-19 17:36:49,017 - root - INFO - Processing user input...
+2025-04-19 17:36:49,017 - root - INFO - Processing user input: Check the bias in this headline: 'Democrats push controversial tax plan
+2025-04-19 17:36:49,018 - root - INFO - Identified as GREETING
+2025-04-19 17:36:49,018 - root - INFO - Response type: greeting
+2025-04-19 17:37:07,718 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:37:09,099 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:37:10,491 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:37:10,664 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:37:10,709 - root - INFO - Received user input: Show bias report for Ukraine conflict
+2025-04-19 17:37:10,710 - root - INFO - Processing user input...
+2025-04-19 17:37:10,710 - root - INFO - Processing user input: Show bias report for Ukraine conflict
+2025-04-19 17:37:10,710 - root - INFO - Identified as BIAS REPORT request
+2025-04-19 17:37:10,710 - root - INFO - Getting bias report for topic: bias ukraine conflict
+2025-04-19 17:37:10,710 - root - INFO - BIAS REPORT requested for topic: bias ukraine conflict
+2025-04-19 17:37:10,714 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 17:37:18,891 - root - ERROR - Error generating bias report: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 332, in get_bias_report
+    data_added = populate_test_data()
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Desktop/Final_capstone/Capstone/src_v3/ui/chatbot_ui.py", line 132, in populate_test_data
+    kg.add_bias_analysis(article['url'], bias_analysis)
+TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 17:37:18,895 - root - INFO - Response type: bias_report
+2025-04-19 17:37:40,186 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 17:37:41,674 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 17:37:42,869 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 17:37:43,003 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 17:37:43,066 - root - INFO - Received user input: What bias does the article about Trump have?
+2025-04-19 17:37:43,068 - root - INFO - Processing user input...
+2025-04-19 17:37:43,068 - root - INFO - Processing user input: What bias does the article about Trump have?
+2025-04-19 17:37:43,068 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 17:37:43,068 - root - INFO - BIAS ANALYSIS requested for: What bias does the article about Trump have?
+2025-04-19 17:37:43,068 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 17:37:43,160 - root - INFO - Starting direct KG bias analysis
+2025-04-19 17:37:43,187 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 17:37:43,187 - root - WARNING - No bias result found in the returned state
+2025-04-19 17:37:43,187 - root - INFO - Response type: bias_analysis
+2025-04-19 18:33:51,534 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:33:54,952 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:33:56,596 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:33:56,683 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:36:50,016 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:36:53,655 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:36:55,054 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:36:55,162 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:36:55,214 - root - INFO - Received user input: Analyze bias in coverage of gun control legislation
+2025-04-19 18:36:55,217 - root - INFO - Processing user input...
+2025-04-19 18:36:55,217 - root - INFO - Processing user input: Analyze bias in coverage of gun control legislation
+2025-04-19 18:36:55,217 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 18:36:55,218 - root - INFO - BIAS ANALYSIS requested for: Analyze bias in coverage of gun control legislation
+2025-04-19 18:36:55,218 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 18:36:55,336 - root - INFO - Starting direct KG bias analysis
+2025-04-19 18:36:55,360 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 18:36:55,360 - root - WARNING - No bias result found in the returned state
+2025-04-19 18:36:55,360 - root - INFO - Response type: bias_analysis
+2025-04-19 18:38:40,173 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:38:43,489 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:38:44,915 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:38:45,016 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:38:45,064 - root - INFO - Received user input: Democrats push controversial tax plan
+2025-04-19 18:38:45,066 - root - INFO - Processing user input...
+2025-04-19 18:38:45,066 - root - INFO - Processing user input: Democrats push controversial tax plan
+2025-04-19 18:38:45,067 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:38:45,067 - root - INFO - KNOWLEDGE GRAPH QUERY for: Democrats push controversial tax plan
+2025-04-19 18:38:45,080 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 18:38:54,494 - root - ERROR - Error adding bias analysis: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 18:38:54,499 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 18:39:01,657 - root - ERROR - Error adding bias analysis: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 18:39:01,661 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 18:39:07,064 - root - ERROR - Error adding bias analysis: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3 were given
+2025-04-19 18:39:07,066 - root - INFO - Searching KG with query: democrats push controversial tax plan
+2025-04-19 18:39:07,246 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:39:07,247 - root - WARNING - No articles found for keywords: ['democrats', 'push', 'controversial', 'tax', 'plan']
+2025-04-19 18:39:07,247 - root - INFO - Response type: query
+2025-04-19 18:40:27,126 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:40:29,582 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:40:31,018 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:40:31,104 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:40:31,168 - root - INFO - Received user input: Generate a bias report on immigration
+2025-04-19 18:40:31,170 - root - INFO - Processing user input...
+2025-04-19 18:40:31,171 - root - INFO - Processing user input: Generate a bias report on immigration
+2025-04-19 18:40:31,171 - root - INFO - Identified as BIAS REPORT request
+2025-04-19 18:40:31,171 - root - INFO - Getting bias report for topic: bias immigration
+2025-04-19 18:40:31,171 - root - INFO - BIAS REPORT requested for topic: bias immigration
+2025-04-19 18:40:31,172 - root - INFO - Cleaned bias report topic: bias immigration
+2025-04-19 18:40:31,172 - root - INFO - Calling KG get_bias_report for Political topic: bias immigration
+2025-04-19 18:40:31,317 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownRelationshipTypeWarning} {category: UNRECOGNIZED} {title: The provided relationship type is not in the database.} {description: One of the relationship types in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing relationship type is: has_bias)} {position: line: 2, column: 37, offset: 37} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration' OR a.content CONTAINS 'bias immigration'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:40:31,317 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownLabelWarning} {category: UNRECOGNIZED} {title: The provided label is not in the database.} {description: One of the labels in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing label name is: Bias)} {position: line: 2, column: 51, offset: 51} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration' OR a.content CONTAINS 'bias immigration'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:40:31,317 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: content)} {position: line: 3, column: 64, offset: 120} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration' OR a.content CONTAINS 'bias immigration'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:40:31,319 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: overall_assessment)} {position: line: 4, column: 49, offset: 204} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration' OR a.content CONTAINS 'bias immigration'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:40:31,354 - root - INFO - Retrieved bias report with 0 sources
+2025-04-19 18:40:31,355 - root - WARNING - No bias report found for topic: bias immigration
+2025-04-19 18:40:31,355 - root - INFO - Response type: bias_report
+2025-04-19 18:41:02,704 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:41:04,137 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:41:05,513 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:41:05,611 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:41:05,671 - root - INFO - Received user input: Compare media bias on infrastructure bill"
+2025-04-19 18:41:05,672 - root - INFO - Processing user input...
+2025-04-19 18:41:05,673 - root - INFO - Processing user input: Compare media bias on infrastructure bill"
+2025-04-19 18:41:05,673 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 18:41:05,673 - root - INFO - BIAS ANALYSIS requested for: Compare media bias on infrastructure bill"
+2025-04-19 18:41:05,673 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 18:41:05,782 - root - INFO - Starting direct KG bias analysis
+2025-04-19 18:41:05,815 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 18:41:05,815 - root - WARNING - No bias result found in the returned state
+2025-04-19 18:41:05,815 - root - INFO - Response type: bias_analysis
+2025-04-19 18:41:26,431 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:41:27,683 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:41:28,979 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:41:29,129 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:41:29,202 - root - INFO - Received user input: give ,e bias report on trump goverment 
+2025-04-19 18:41:29,203 - root - INFO - Processing user input...
+2025-04-19 18:41:29,204 - root - INFO - Processing user input: give ,e bias report on trump goverment 
+2025-04-19 18:41:29,204 - root - INFO - Identified as BIAS REPORT request
+2025-04-19 18:41:29,205 - root - INFO - Getting bias report for topic: bias trump goverment
+2025-04-19 18:41:29,205 - root - INFO - BIAS REPORT requested for topic: bias trump goverment
+2025-04-19 18:41:29,205 - root - INFO - Cleaned bias report topic: bias trump goverment
+2025-04-19 18:41:29,205 - root - INFO - Calling KG get_bias_report for Political topic: bias trump goverment
+2025-04-19 18:41:29,309 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownRelationshipTypeWarning} {category: UNRECOGNIZED} {title: The provided relationship type is not in the database.} {description: One of the relationship types in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing relationship type is: has_bias)} {position: line: 2, column: 37, offset: 37} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias trump goverment' OR a.content CONTAINS 'bias trump goverment'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:41:29,310 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownLabelWarning} {category: UNRECOGNIZED} {title: The provided label is not in the database.} {description: One of the labels in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing label name is: Bias)} {position: line: 2, column: 51, offset: 51} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias trump goverment' OR a.content CONTAINS 'bias trump goverment'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:41:29,310 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: content)} {position: line: 3, column: 68, offset: 124} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias trump goverment' OR a.content CONTAINS 'bias trump goverment'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:41:29,349 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: overall_assessment)} {position: line: 4, column: 49, offset: 212} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias trump goverment' OR a.content CONTAINS 'bias trump goverment'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:41:29,421 - root - INFO - Retrieved bias report with 0 sources
+2025-04-19 18:41:29,426 - root - WARNING - No bias report found for topic: bias trump goverment
+2025-04-19 18:41:29,428 - root - INFO - Response type: bias_report
+2025-04-19 18:42:01,047 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:42:02,476 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:42:03,689 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:42:03,778 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:42:03,822 - root - INFO - Received user input: What bias does the article about Trump have?
+2025-04-19 18:42:03,823 - root - INFO - Processing user input...
+2025-04-19 18:42:03,824 - root - INFO - Processing user input: What bias does the article about Trump have?
+2025-04-19 18:42:03,824 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 18:42:03,824 - root - INFO - BIAS ANALYSIS requested for: What bias does the article about Trump have?
+2025-04-19 18:42:03,824 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 18:42:03,904 - root - INFO - Starting direct KG bias analysis
+2025-04-19 18:42:03,931 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 18:42:03,931 - root - WARNING - No bias result found in the returned state
+2025-04-19 18:42:03,931 - root - INFO - Response type: bias_analysis
+2025-04-19 18:43:29,064 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:43:31,325 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:43:32,908 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:43:33,012 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:43:33,089 - root - INFO - Received user input: Trump Claims Economy Would Be Stronger Under His Leadership
+2025-04-19 18:43:33,090 - root - INFO - Processing user input...
+2025-04-19 18:43:33,090 - root - INFO - Processing user input: Trump Claims Economy Would Be Stronger Under His Leadership
+2025-04-19 18:43:33,090 - root - INFO - Identified as GREETING
+2025-04-19 18:43:33,091 - root - INFO - Response type: greeting
+2025-04-19 18:43:48,728 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:43:50,571 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:43:52,322 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:43:52,456 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:43:52,527 - root - INFO - Received user input: Trump Claims Economy Would Be Stronger Under His Leadership
+2025-04-19 18:43:52,530 - root - INFO - Processing user input...
+2025-04-19 18:43:52,530 - root - INFO - Processing user input: Trump Claims Economy Would Be Stronger Under His Leadership
+2025-04-19 18:43:52,531 - root - INFO - Identified as GREETING
+2025-04-19 18:43:52,531 - root - INFO - Response type: greeting
+2025-04-19 18:46:31,659 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:46:33,118 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:46:34,364 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:46:34,459 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:46:34,516 - root - INFO - Received user input: Find me articles about Biden's immigration policy
+2025-04-19 18:46:34,517 - root - INFO - Processing user input...
+2025-04-19 18:46:34,517 - root - INFO - Processing user input: Find me articles about Biden's immigration policy
+2025-04-19 18:46:34,517 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:46:34,517 - root - INFO - KNOWLEDGE GRAPH QUERY for: Find me articles about Biden's immigration policy
+2025-04-19 18:46:34,517 - root - INFO - Searching KG with query: biden immigration policy
+2025-04-19 18:46:34,661 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:46:34,661 - root - WARNING - No articles found for keywords: ['biden', 'immigration', 'policy']
+2025-04-19 18:46:34,661 - root - INFO - Response type: query
+2025-04-19 18:46:59,140 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:47:00,872 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:47:02,489 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:47:02,585 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:47:02,692 - root - INFO - Received user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-19 18:47:02,693 - root - INFO - Processing user input...
+2025-04-19 18:47:02,693 - root - INFO - Processing user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-19 18:47:02,693 - root - INFO - Identified as FACT CHECK request
+2025-04-19 18:47:02,693 - root - INFO - FACT CHECK requested for: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-19 18:47:02,694 - root - INFO - Calling fact_checker_agent...
+2025-04-19 18:47:02,801 - root - INFO - Initialized entity extractor in fact checker
+2025-04-19 18:47:02,805 - root - INFO - Processing direct query: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-19 18:47:02,805 - root - INFO - Extracting entities from claim text (length: 57)
+2025-04-19 18:47:02,826 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 18:47:06,588 - root - INFO - Extracted entities: ['2020 Election', 'Election Fraud Claim', 'Donald Trump']
+2025-04-19 18:47:06,589 - root - INFO - [KG] Retrieving context for entities: ['2020 Election', 'Election Fraud Claim', 'Donald Trump']
+2025-04-19 18:47:06,720 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-19 18:47:59,204 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-19 18:47:59,207 - root - INFO - Fact check result found in articles
+2025-04-19 18:47:59,207 - root - INFO - Response type: fact_check
+2025-04-19 18:48:18,158 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:48:19,726 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:48:21,179 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:48:21,284 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:48:21,333 - root - INFO - Received user input: Analyze the bias in the article about Supreme Court voting rights
+2025-04-19 18:48:21,334 - root - INFO - Processing user input...
+2025-04-19 18:48:21,335 - root - INFO - Processing user input: Analyze the bias in the article about Supreme Court voting rights
+2025-04-19 18:48:21,335 - root - INFO - Identified as BIAS ANALYSIS request
+2025-04-19 18:48:21,335 - root - INFO - BIAS ANALYSIS requested for: Analyze the bias in the article about Supreme Court voting rights
+2025-04-19 18:48:21,335 - root - INFO - Calling bias_analyzer_agent...
+2025-04-19 18:48:21,433 - root - INFO - Starting direct KG bias analysis
+2025-04-19 18:48:21,463 - root - INFO - Bias analyzer completed with status: bias_analyzed
+2025-04-19 18:48:21,463 - root - WARNING - No bias result found in the returned state
+2025-04-19 18:48:21,463 - root - INFO - Response type: bias_analysis
+2025-04-19 18:48:42,922 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:48:44,151 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:48:45,435 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:48:45,531 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:48:45,610 - root - INFO - Received user input: Show me the article about Trump's economy claims
+2025-04-19 18:48:45,612 - root - INFO - Processing user input...
+2025-04-19 18:48:45,612 - root - INFO - Processing user input: Show me the article about Trump's economy claims
+2025-04-19 18:48:45,612 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:48:45,612 - root - INFO - KNOWLEDGE GRAPH QUERY for: Show me the article about Trump's economy claims
+2025-04-19 18:48:45,612 - root - INFO - Searching KG with query: article trump economy claims
+2025-04-19 18:48:45,760 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:48:45,761 - root - WARNING - No articles found for keywords: ['article', 'trump', 'economy', 'claims']
+2025-04-19 18:48:45,761 - root - INFO - Response type: query
+2025-04-19 18:48:59,765 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:49:01,496 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:49:02,924 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:49:03,003 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:49:03,048 - root - INFO - Received user input: Generate a bias report on immigration policy
+2025-04-19 18:49:03,050 - root - INFO - Processing user input...
+2025-04-19 18:49:03,055 - root - INFO - Processing user input: Generate a bias report on immigration policy
+2025-04-19 18:49:03,055 - root - INFO - Identified as BIAS REPORT request
+2025-04-19 18:49:03,055 - root - INFO - Getting bias report for topic: bias immigration policy
+2025-04-19 18:49:03,056 - root - INFO - BIAS REPORT requested for topic: bias immigration policy
+2025-04-19 18:49:03,056 - root - INFO - Cleaned bias report topic: bias immigration policy
+2025-04-19 18:49:03,056 - root - INFO - Calling KG get_bias_report for Political topic: bias immigration policy
+2025-04-19 18:49:03,167 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownRelationshipTypeWarning} {category: UNRECOGNIZED} {title: The provided relationship type is not in the database.} {description: One of the relationship types in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing relationship type is: has_bias)} {position: line: 2, column: 37, offset: 37} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration policy' OR a.content CONTAINS 'bias immigration policy'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:49:03,167 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownLabelWarning} {category: UNRECOGNIZED} {title: The provided label is not in the database.} {description: One of the labels in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing label name is: Bias)} {position: line: 2, column: 51, offset: 51} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration policy' OR a.content CONTAINS 'bias immigration policy'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:49:03,167 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: content)} {position: line: 3, column: 71, offset: 127} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration policy' OR a.content CONTAINS 'bias immigration policy'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:49:03,168 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: overall_assessment)} {position: line: 4, column: 49, offset: 218} for query: "\n                MATCH (a:Article)-[:has_bias]->(b:Bias)\n                WHERE a.title CONTAINS 'bias immigration policy' OR a.content CONTAINS 'bias immigration policy'\n                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count\n                RETURN source, assessment, article_count\n                ORDER BY article_count DESC\n                LIMIT 5\n                "
+2025-04-19 18:49:03,241 - root - INFO - Retrieved bias report with 0 sources
+2025-04-19 18:49:03,241 - root - WARNING - No bias report found for topic: bias immigration policy
+2025-04-19 18:49:03,241 - root - INFO - Response type: bias_report
+2025-04-19 18:49:33,677 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:49:35,424 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:49:36,913 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:49:36,999 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:49:37,048 - root - INFO - Received user input: Find news about Supreme Court and Biden
+2025-04-19 18:49:37,049 - root - INFO - Processing user input...
+2025-04-19 18:49:37,049 - root - INFO - Processing user input: Find news about Supreme Court and Biden
+2025-04-19 18:49:37,049 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:49:37,049 - root - INFO - KNOWLEDGE GRAPH QUERY for: Find news about Supreme Court and Biden
+2025-04-19 18:49:37,049 - root - INFO - Searching KG with query: supreme court biden
+2025-04-19 18:49:37,226 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:49:37,234 - root - WARNING - No articles found for keywords: ['supreme', 'court', 'biden']
+2025-04-19 18:49:37,235 - root - INFO - Response type: query
+2025-04-19 18:49:53,160 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:49:54,406 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:49:55,698 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:49:55,789 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:49:55,846 - root - INFO - Received user input: What articles mention Trump and the economy together?
+2025-04-19 18:49:55,848 - root - INFO - Processing user input...
+2025-04-19 18:49:55,848 - root - INFO - Processing user input: What articles mention Trump and the economy together?
+2025-04-19 18:49:55,848 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:49:55,848 - root - INFO - KNOWLEDGE GRAPH QUERY for: What articles mention Trump and the economy together?
+2025-04-19 18:49:55,848 - root - INFO - Searching KG with query: mention trump economy together
+2025-04-19 18:49:55,963 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:49:55,963 - root - WARNING - No articles found for keywords: ['mention', 'trump', 'economy', 'together']
+2025-04-19 18:49:55,963 - root - INFO - Response type: query
+2025-04-19 18:50:17,773 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:50:19,231 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:50:20,468 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:50:20,573 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:50:20,624 - root - INFO - Received user input: Find articles about cryptocurrency regulations
+2025-04-19 18:50:20,625 - root - INFO - Processing user input...
+2025-04-19 18:50:20,625 - root - INFO - Processing user input: Find articles about cryptocurrency regulations
+2025-04-19 18:50:20,625 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:50:20,625 - root - INFO - KNOWLEDGE GRAPH QUERY for: Find articles about cryptocurrency regulations
+2025-04-19 18:50:20,625 - root - INFO - Searching KG with query: cryptocurrency regulations
+2025-04-19 18:50:20,782 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:50:20,782 - root - WARNING - No articles found for keywords: ['cryptocurrency', 'regulations']
+2025-04-19 18:50:20,782 - root - INFO - Response type: query
+2025-04-19 18:50:46,619 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:50:48,053 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:50:49,816 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:50:49,951 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:50:50,026 - root - INFO - Received user input: What articles do you have in your knowledge graph?
+2025-04-19 18:50:50,027 - root - INFO - Processing user input...
+2025-04-19 18:50:50,027 - root - INFO - Processing user input: What articles do you have in your knowledge graph?
+2025-04-19 18:50:50,028 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:50:50,028 - root - INFO - KNOWLEDGE GRAPH QUERY for: What articles do you have in your knowledge graph?
+2025-04-19 18:50:50,028 - root - INFO - Searching KG with query: you have your knowledge graph
+2025-04-19 18:50:50,156 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:50:50,156 - root - WARNING - No articles found for keywords: ['you', 'have', 'your', 'knowledge', 'graph']
+2025-04-19 18:50:50,156 - root - INFO - Response type: query
+2025-04-19 18:51:10,954 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-19 18:51:12,289 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-19 18:51:13,827 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-19 18:51:13,913 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-19 18:51:13,990 - root - INFO - Received user input: How do conservative vs liberal sources differ in their coverage of Biden?
+2025-04-19 18:51:13,992 - root - INFO - Processing user input...
+2025-04-19 18:51:13,992 - root - INFO - Processing user input: How do conservative vs liberal sources differ in their coverage of Biden?
+2025-04-19 18:51:13,992 - root - INFO - Defaulting to KNOWLEDGE GRAPH query
+2025-04-19 18:51:13,993 - root - INFO - KNOWLEDGE GRAPH QUERY for: How do conservative vs liberal sources differ in their coverage of Biden?
+2025-04-19 18:51:13,993 - root - INFO - Searching KG with query: conservative liberal sources differ their biden
+2025-04-19 18:51:14,081 - root - INFO - Retrieved 0 articles from KG
+2025-04-19 18:51:14,081 - root - WARNING - No articles found for keywords: ['conservative', 'liberal', 'sources', 'differ', 'their', 'biden']
+2025-04-19 18:51:14,081 - root - INFO - Response type: query
+2025-04-22 14:50:38,283 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:50:38,356 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:50:40,871 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:50:42,436 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:50:42,557 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:51:02,217 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:51:03,502 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:51:04,973 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:51:05,071 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:51:05,119 - root - INFO - Received user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Processing user input...
+2025-04-22 14:51:05,120 - root - INFO - Processing user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Identified as FACT CHECK request
+2025-04-22 14:51:05,120 - root - INFO - FACT CHECK requested for: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Calling fact_checker_agent...
+2025-04-22 14:51:05,155 - root - INFO - Initialized entity extractor in fact checker
+2025-04-22 14:51:05,156 - root - INFO - Processing direct query: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,156 - root - INFO - Extracting entities from claim text (length: 57)
+2025-04-22 14:51:05,175 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:51:05,596 - langchain_aws.llms.bedrock - ERROR - Error raised by bedrock service
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/langchain_aws/llms/bedrock.py", line 935, in _prepare_input_and_invoke
+    response = self.client.invoke_model(**request_options)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/client.py", line 570, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/context.py", line 124, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/client.py", line 1031, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (ExpiredTokenException) when calling the InvokeModel operation: The security token included in the request is expired
+2025-04-22 14:51:05,602 - root - ERROR - Error during direct query fact checking: An error occurred (ExpiredTokenException) when calling the InvokeModel operation: The security token included in the request is expired
+2025-04-22 14:51:05,602 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-22 14:51:05,602 - root - INFO - Fact check result found in articles
+2025-04-22 14:51:05,602 - root - INFO - Response type: fact_check
+2025-04-22 14:54:14,222 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:54:14,293 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:54:15,642 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:54:17,006 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:54:17,084 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:10,282 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:55:10,397 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:55:11,885 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:55:13,316 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:55:13,396 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:30,814 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:55:32,227 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:55:33,357 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:55:33,448 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:33,494 - root - INFO - Received user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,495 - root - INFO - Processing user input...
+2025-04-22 14:55:33,496 - root - INFO - Processing user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,496 - root - INFO - Identified as FACT CHECK request
+2025-04-22 14:55:33,496 - root - INFO - FACT CHECK requested for: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,497 - root - INFO - Calling fact_checker_agent...
+2025-04-22 14:55:33,549 - root - INFO - Initialized entity extractor in fact checker
+2025-04-22 14:55:33,551 - root - INFO - Processing direct query: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,551 - root - INFO - Extracting entities from claim text (length: 57)
+2025-04-22 14:55:33,569 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:55:38,956 - root - INFO - Extracted entities: ['Election Fraud Claim', '2020 Election', 'Donald Trump']
+2025-04-22 14:55:38,958 - root - INFO - [KG] Retrieving context for entities: ['Election Fraud Claim', '2020 Election', 'Donald Trump']
+2025-04-22 14:55:39,109 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:55:44,436 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-22 14:55:44,440 - root - INFO - Fact check result found in articles
+2025-04-22 14:55:44,440 - root - INFO - Response type: fact_check

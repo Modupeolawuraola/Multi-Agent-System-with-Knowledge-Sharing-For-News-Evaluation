@@ -130,12 +130,12 @@ python main.py
 Unit Tests 
 
 ```bash
-pytest unit_tests/ -v
+pytest unit_tests_v2/ -v
 ```
 
 Integration Tests
 ```bash
-cd tests_int
+cd tests_int_v2
 pytest -c integration_pytest.ini 
 ```
 
@@ -150,7 +150,7 @@ system evaluation is done on several metrics
 Run the evaluation 
 
 ```bash 
-python sys_evaluation/evaluate.py
+python sys_evaluation/evaluate_bias.py
 ```
 
 
