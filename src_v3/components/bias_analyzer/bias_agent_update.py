@@ -1,12 +1,14 @@
 import logging
 import json
 from src_v3.memory.schema import GraphState
-from .tools import (create_bias_analysis_chain,
-                    create_llm,
-                    format_article,
-                    initialize_entity_extractor,
-                    extract_entities
-                    )
+from .tools import (
+    create_bias_analysis_chain,
+    create_llm,
+    format_article,
+    initialize_entity_extractor,
+    extract_entities,
+    transformer
+)
 from src_v3.utils.aws_helpers import diagnostic_check
 import os
 
@@ -32,6 +34,15 @@ def bias_analyzer_agent(graph_state: GraphState, knowledge_graph) -> GraphState:
     Returns:
         Updated graph state
     """
+    # Initialize transformer if needed
+    global transformer
+    if transformer is None:
+        try:
+            llm = create_llm()
+            initialize_entity_extractor(llm)
+            logging.info("Initialized entity extractor in bias analyzer")
+        except Exception as e:
+            logging.warning(f"Could not initialize transformer: {e}")
 
     # Only run diagnostic check if we're NOT in evaluation mode
     if os.environ.get("EVALUATION_MODE", "false").lower() != "true":
@@ -70,7 +81,6 @@ def bias_analyzer_agent(graph_state: GraphState, knowledge_graph) -> GraphState:
                 entities_str = "N/A"
                 logging.info("No similar articles available. Use only the article text.")
 
-
             # Step 5: Invoke LLM with both article and context
             result = analysis_chain.invoke({
                 "article_text": article_text,
@@ -91,6 +101,3 @@ def bias_analyzer_agent(graph_state: GraphState, knowledge_graph) -> GraphState:
     new_state.articles = analyzed_articles
     new_state.current_status = "bias_analyzed"
     return new_state
-
-
-

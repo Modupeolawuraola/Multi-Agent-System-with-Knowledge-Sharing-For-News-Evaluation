@@ -5,9 +5,11 @@ from unittest.mock import MagicMock, patch
 import json
 from datetime import datetime
 
+import src_v3.components.fact_checker.fact_checker_updated
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import modules to test
-from src_v3.components.fact_checker.fact_checker_Agent import fact_checker_agent
+from src_v3.components.fact_checker.fact_checker_updated import fact_checker_agent
 from src_v3.memory.schema import GraphState
 from src_v3.components.fact_checker.tools import (
     extract_entities_from_claim,
@@ -83,7 +85,7 @@ def test_article():
 
 def test_extract_entities(mock_llm):
     """Test entity extraction from claim text."""
-    with patch('src_v3.components.fact_checker.tools.transformer') as mock_transformer:
+    with patch("src_v3.components.fact_checker.tools.transformer") as mock_transformer:
         # Setup mock graph docs with entities
         mock_graph = MagicMock()
         mock_node1 = MagicMock()
@@ -147,10 +149,10 @@ def test_fact_checker_agent_with_articles(mock_llm, test_article, mock_kg):
     )
 
     # Patch the required functions
-    with patch('src_v3.components.fact_checker.fact_checker_Agent.get_bedrock_llm', return_value=mock_llm), \
+    with patch('src_v3.components.fact_checker.fact_checker_updated.get_bedrock_llm', return_value=mock_llm), \
             patch('src_v3.components.fact_checker.tools.get_bedrock_llm', return_value=mock_llm), \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.create_factcheck_chain') as mock_chain, \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.extract_entities_from_claim',
+            patch('src_v3.components.fact_checker.fact_checker_updated.create_factcheck_chain') as mock_chain, \
+            patch('src_v3.components.fact_checker.fact_checker_updated.extract_entities_from_claim',
                   return_value=["Company X"]):
         # Setup mock chain
         mock_chain.return_value = MagicMock()
@@ -185,10 +187,10 @@ def test_fact_checker_agent_with_json_string_articles(mock_llm, test_article, mo
     )
 
     # Patch the required functions
-    with patch('src_v3.components.fact_checker.fact_checker_Agent.get_bedrock_llm', return_value=mock_llm), \
+    with patch('src_v3.components.fact_checker.fact_checker_updated.get_bedrock_llm', return_value=mock_llm), \
             patch('src_v3.components.fact_checker.tools.get_bedrock_llm', return_value=mock_llm), \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.create_factcheck_chain') as mock_chain, \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.extract_entities_from_claim',
+            patch('src_v3.components.fact_checker.fact_checker_updated.create_factcheck_chain') as mock_chain, \
+            patch('src_v3.components.fact_checker.fact_checker_updated.extract_entities_from_claim',
                   return_value=["Company X"]):
         # Setup mock chain
         mock_chain.return_value = MagicMock()
@@ -241,7 +243,7 @@ def test_fact_checker_agent_exception_handling(mock_llm, test_article, mock_kg):
     )
 
     # Patch to raise an exception during fact checking
-    with patch('src_v3.components.fact_checker.fact_checker_Agent.extract_entities_from_claim',
+    with patch('src_v3.components.fact_checker.fact_checker_updated.extract_entities_from_claim',
                side_effect=Exception("Test exception")):
         # Run the agent function
         new_state = fact_checker_agent(test_state, mock_kg)
@@ -261,10 +263,10 @@ def test_kg_storage(mock_llm, test_article, mock_kg):
     )
 
     # Patch the required functions
-    with patch('src_v3.components.fact_checker.fact_checker_Agent.get_bedrock_llm', return_value=mock_llm), \
+    with patch('src_v3.components.fact_checker.fact_checker_updated.get_bedrock_llm', return_value=mock_llm), \
             patch('src_v3.components.fact_checker.tools.get_bedrock_llm', return_value=mock_llm), \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.create_factcheck_chain') as mock_chain, \
-            patch('src_v3.components.fact_checker.fact_checker_Agent.extract_entities_from_claim',
+            patch('src_v3.components.fact_checker.fact_checker_updated.create_factcheck_chain') as mock_chain, \
+            patch('src_v3.components.fact_checker.fact_checker_updated.extract_entities_from_claim',
                   return_value=["Company X"]):
         # Setup mock chain
         mock_chain.return_value = MagicMock()

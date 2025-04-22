@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import json
 from datetime import datetime
 
-from src_v3.components.kg_builder.kg_builder import KnowledgeGraph
+from src_v3.memory.knowledge_graph import KnowledgeGraph
 from langchain_neo4j import Neo4jGraph
 
 

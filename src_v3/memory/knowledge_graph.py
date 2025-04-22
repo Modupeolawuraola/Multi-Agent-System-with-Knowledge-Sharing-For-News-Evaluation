@@ -196,27 +196,48 @@ class KnowledgeGraph:
 
         return True
 
-    def add_bias_analysis(self, article):
-        """Add bias analysis data to the knowledge graph"""
-        url = article.get("url")
-        bias_analysis = article.get("bias_analysis", {})
+    def add_bias_analysis(self, article_url: str, bias_analysis: Dict) -> bool:
+        """Add bias analysis results to an article.
 
-        self.graph.query(
-            """
-            MATCH (a:Article {url: $url})
-            MERGE (b:BiasAnalysis {article_url: $url})
-            SET b.confidence_score = $confidence_score,
-                b.overall_assessment = $overall_assessment,
-                b.findings = $findings
-            MERGE (a)-[:HAS_BIAS_ANALYSIS]->(b)
-            """,
-            {
-                "url": url,
-                "confidence_score": bias_analysis.get("confidence_score", 0),
-                "overall_assessment": bias_analysis.get("overall_assessment", ""),
-                "findings": str(bias_analysis.get("findings", []))
-            }
-        )
+        Args:
+            article_url (str): URL of the article
+            bias_analysis (Dict): Bias analysis results
+
+        Returns:
+            bool: Success status
+        """
+        try:
+            # Extract bias properties
+            overall = bias_analysis.get('bias', 'Neutral')
+            score = bias_analysis.get('confidence_score', 50)
+            reasoning = bias_analysis.get('reasoning', '')
+
+            # Create bias node and connect to article
+            self.graph.query(
+                """
+                MATCH (a:Article {url: $url})
+                MERGE (b:Bias {id: $url + "_bias"})
+                SET b.overall_assessment = $overall,
+                    b.confidence_score = $score,
+                    b.reasoning = $reasoning,
+                    b.timestamp = $timestamp
+                MERGE (a)-[:has_bias]->(b)
+                """,
+                {
+                    'url': article_url,
+                    'overall': overall,
+                    'score': score,
+                    'reasoning': reasoning,
+                    'timestamp': datetime.now().isoformat()
+                }
+            )
+
+            logging.info(f"Added bias analysis for article: {article_url}")
+            return True
+
+        except Exception as e:
+            logging.error(f"Error adding bias analysis: {e}")
+            return False
 
     def add_fact_check(self, article):
         """Add fact check data to the knowledge graph"""
@@ -302,26 +323,47 @@ class KnowledgeGraph:
         return [dict(record) for record in results]
 
     def get_bias_report(self, topic, limit=10):
-        """
-        Generate a report of bias across news sources on a specific topic
-        """
-        results = self.graph.query(
-            """
-            MATCH (a:Article)-[:HAS_BIAS_ANALYSIS]->(b:BiasAnalysis)
-            WHERE a.title CONTAINS $topic OR a.full_content CONTAINS $topic
-            RETURN a.source_name as source, b.overall_assessment as assessment,
-                   COUNT(a) as article_count
-            GROUP BY a.source_name, b.overall_assessment
-            ORDER BY article_count DESC
-            LIMIT $limit
-            """,
-            {
-                "topic": topic,
-                "limit": limit
-            }
-        )
+        """Get a report of bias across news sources on a topic.
 
-        return [dict(record) for record in results]
+        Args:
+            topic (str): Topic to analyze bias for
+            limit (int): Maximum number of sources to include
+
+        Returns:
+            List of dictionaries with source name and bias assessment
+        """
+        try:
+            # Escape the topic for search
+            search_topic = topic.replace("'", "\\'")
+
+            results = self.graph.query(
+                f"""
+                MATCH (a:Article)-[:has_bias]->(b:Bias)
+                WHERE a.title CONTAINS '{search_topic}' OR a.content CONTAINS '{search_topic}'
+                WITH a.source_name as source, b.overall_assessment as assessment, count(*) as article_count
+                RETURN source, assessment, article_count
+                ORDER BY article_count DESC
+                LIMIT {limit}
+                """
+            )
+
+            bias_report = []
+            for record in results:
+                source = record.get('source', 'Unknown Source')
+                assessment = record.get('assessment', 'Neutral')
+                count = record.get('article_count', 0)
+
+                bias_report.append({
+                    'source': source,
+                    'assessment': assessment,
+                    'article_count': count
+                })
+
+            return bias_report
+
+        except Exception as e:
+            logging.error(f"Error getting bias report: {e}")
+            return []
 
     def get_similar_articles_by_embedding(self, article_url: str, top_k: int = 5) -> list:
         """Find top-k articles most similar to the given article using Node2Vec embeddings."""

@@ -12,7 +12,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 
 
-from src_v3.components.bias_analyzer.bias_agent import bias_analyzer_agent
+from src_v3.components.bias_analyzer.bias_agent_update import bias_analyzer_agent
 from src_v3.memory.schema import GraphState
 
 # Sample test article
@@ -24,6 +24,13 @@ SAMPLE_ARTICLE = {
     "url": "https://example.com/test-article"
 }
 
+
+@pytest.fixture(autouse=True)
+def setup_transformer():
+    """Setup transformer for all tests"""
+    # Patch the transformer initialization
+    with patch('src_v3.components.bias_analyzer.tools.transformer', MagicMock()):
+        yield
 
 @pytest.fixture
 def mock_kg():
@@ -60,13 +67,13 @@ def test_bias_analyzer_agent(mock_kg, mock_chain):
     initial_state = GraphState(articles=[SAMPLE_ARTICLE])
 
     # Patch all the necessary functions to avoid AWS calls
-    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain",
+    with patch('src_v3.components.bias_analyzer.bias_agent_update.create_bias_analysis_chain',
                return_value=mock_chain), \
-            patch("src_v3.components.bias_analyzer.bias_agent.create_llm", return_value=MagicMock()), \
-            patch("src_v3.components.bias_analyzer.bias_agent.initialize_entity_extractor"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.extract_entities",
+            patch("src_v3.components.bias_analyzer.bias_agent_update.create_llm", return_value=MagicMock()), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.initialize_entity_extractor"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.extract_entities",
                   return_value=["Test Entity 1", "Test Entity 2"]), \
-            patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
+            patch("src_v3.components.bias_analyzer.bias_agent_update.diagnostic_check"):
         # Call the bias analyzer agent
         result_state = bias_analyzer_agent(initial_state, mock_kg)
 
@@ -93,9 +100,9 @@ def test_bias_analyzer_with_empty_articles(mock_kg):
     initial_state = GraphState(articles=[])
 
     # Patch necessary functions
-    with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.create_llm", return_value=MagicMock()), \
-            patch("src_v3.components.bias_analyzer.bias_agent.initialize_entity_extractor"):
+    with patch("src_v3.components.bias_analyzer.bias_agent_update.diagnostic_check"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.create_llm", return_value=MagicMock()), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.initialize_entity_extractor"):
         # Call the bias analyzer agent
         result_state = bias_analyzer_agent(initial_state, mock_kg)
 
@@ -112,10 +119,10 @@ def test_bias_analyzer_exception_handling(mock_kg):
     initial_state = GraphState(articles=[SAMPLE_ARTICLE])
 
     # Patch to make extract_entities raise an exception
-    with patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.create_llm", return_value=MagicMock()), \
-            patch("src_v3.components.bias_analyzer.bias_agent.initialize_entity_extractor"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.extract_entities",
+    with patch("src_v3.components.bias_analyzer.bias_agent_update.diagnostic_check"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.create_llm", return_value=MagicMock()), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.initialize_entity_extractor"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.extract_entities",
                   side_effect=Exception("Test exception")):
         # Call the bias analyzer agent
         result_state = bias_analyzer_agent(initial_state, mock_kg)
@@ -136,13 +143,13 @@ def test_bias_analyzer_json_state(mock_kg, mock_chain):
     }
 
     # Patch all the necessary functions
-    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain",
+    with patch("src_v3.components.bias_analyzer.bias_agent_update.create_bias_analysis_chain",
                return_value=mock_chain), \
-            patch("src_v3.components.bias_analyzer.bias_agent.create_llm", return_value=MagicMock()), \
-            patch("src_v3.components.bias_analyzer.bias_agent.initialize_entity_extractor"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.extract_entities",
+            patch("src_v3.components.bias_analyzer.bias_agent_update.create_llm", return_value=MagicMock()), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.initialize_entity_extractor"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.extract_entities",
                   return_value=["Test Entity 1", "Test Entity 2"]), \
-            patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
+            patch("src_v3.components.bias_analyzer.bias_agent_update.diagnostic_check"):
         # Call the bias analyzer agent
         result_state = bias_analyzer_agent(initial_state, mock_kg)
 
@@ -160,13 +167,13 @@ def test_bias_analyzer_no_knowledge_graph(mock_chain):
     initial_state = GraphState(articles=[SAMPLE_ARTICLE])
 
     # Patch necessary functions
-    with patch("src_v3.components.bias_analyzer.bias_agent.create_bias_analysis_chain",
+    with patch("src_v3.components.bias_analyzer.bias_agent_update.create_bias_analysis_chain",
                return_value=mock_chain), \
-            patch("src_v3.components.bias_analyzer.bias_agent.create_llm", return_value=MagicMock()), \
-            patch("src_v3.components.bias_analyzer.bias_agent.initialize_entity_extractor"), \
-            patch("src_v3.components.bias_analyzer.bias_agent.extract_entities",
+            patch("src_v3.components.bias_analyzer.bias_agent_update.create_llm", return_value=MagicMock()), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.initialize_entity_extractor"), \
+            patch("src_v3.components.bias_analyzer.bias_agent_update.extract_entities",
                   return_value=["Test Entity 1", "Test Entity 2"]), \
-            patch("src_v3.components.bias_analyzer.bias_agent.diagnostic_check"):
+            patch("src_v3.components.bias_analyzer.bias_agent_update.diagnostic_check"):
         # Call the bias analyzer agent with None for knowledge_graph
         result_state = bias_analyzer_agent(initial_state, None)
 
