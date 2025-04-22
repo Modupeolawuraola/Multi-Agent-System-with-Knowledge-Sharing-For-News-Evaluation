@@ -213,9 +213,10 @@ This is an expected limitation of AWS used for educational purposes and this doe
 
 Our system provides an intuitive chat interface built with Streamlit:
 
-<img width="898" alt="ui2" src="https://github.com/user-attachments/assets/9b0d55d3-153b-4ca3-8840-fadaf032127b" />
 
 <img width="885" alt="ui1" src="https://github.com/user-attachments/assets/1e9fec3f-0db7-4253-96f5-1c94618ebe78" />
+
+<img width="898" alt="ui2" src="https://github.com/user-attachments/assets/9b0d55d3-153b-4ca3-8840-fadaf032127b" />
 
 
 ## Project  Folder Structure
