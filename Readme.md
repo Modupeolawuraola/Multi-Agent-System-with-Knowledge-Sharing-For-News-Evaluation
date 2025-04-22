@@ -213,9 +213,11 @@ This is an expected limitation of AWS used for educational purposes and this doe
 
 Our system provides an intuitive chat interface built with Streamlit:
 
-![Multi-Agent Knowledge Sharing System UI](assets/ui1.png)
-![Multi-Agent Knowledge Sharing System UI](assets/ui2.png)
+![Multi-Agent Knowledge Sharing System UI](assets/figs/ui_interface/ui1.png)
+![Multi-Agent Knowledge Sharing System UI](assets/fig/ui_interface/ui1.png)
+![Multi-Agent Knowledge Sharing System UI](assets/figs/ui_interface/ui2.png)
 
+<img src="assets/fig/ui_interface/ui1.png" alt="Multi-Agent Knowledge Sharing System UI" width="800">
 
 
 ## Project  Folder Structure
