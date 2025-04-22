@@ -776,3 +776,70 @@ TypeError: KnowledgeGraph.add_bias_analysis() takes 2 positional arguments but 3
 2025-04-19 18:51:14,081 - root - INFO - Retrieved 0 articles from KG
 2025-04-19 18:51:14,081 - root - WARNING - No articles found for keywords: ['conservative', 'liberal', 'sources', 'differ', 'their', 'biden']
 2025-04-19 18:51:14,081 - root - INFO - Response type: query
+2025-04-22 14:50:38,283 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:50:38,356 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:50:40,871 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:50:42,436 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:50:42,557 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:51:02,217 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:51:03,502 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:51:04,973 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:51:05,071 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:51:05,119 - root - INFO - Received user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Processing user input...
+2025-04-22 14:51:05,120 - root - INFO - Processing user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Identified as FACT CHECK request
+2025-04-22 14:51:05,120 - root - INFO - FACT CHECK requested for: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,120 - root - INFO - Calling fact_checker_agent...
+2025-04-22 14:51:05,155 - root - INFO - Initialized entity extractor in fact checker
+2025-04-22 14:51:05,156 - root - INFO - Processing direct query: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:51:05,156 - root - INFO - Extracting entities from claim text (length: 57)
+2025-04-22 14:51:05,175 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:51:05,596 - langchain_aws.llms.bedrock - ERROR - Error raised by bedrock service
+Traceback (most recent call last):
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/langchain_aws/llms/bedrock.py", line 935, in _prepare_input_and_invoke
+    response = self.client.invoke_model(**request_options)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/client.py", line 570, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/context.py", line 124, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/modupeolafagbenro/Applications/anaconda3/lib/python3.12/site-packages/botocore/client.py", line 1031, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (ExpiredTokenException) when calling the InvokeModel operation: The security token included in the request is expired
+2025-04-22 14:51:05,602 - root - ERROR - Error during direct query fact checking: An error occurred (ExpiredTokenException) when calling the InvokeModel operation: The security token included in the request is expired
+2025-04-22 14:51:05,602 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-22 14:51:05,602 - root - INFO - Fact check result found in articles
+2025-04-22 14:51:05,602 - root - INFO - Response type: fact_check
+2025-04-22 14:54:14,222 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:54:14,293 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:54:15,642 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:54:17,006 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:54:17,084 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:10,282 - botocore.credentials - INFO - Found credentials in environment variables.
+2025-04-22 14:55:10,397 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:55:11,885 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:55:13,316 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:55:13,396 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:30,814 - root - INFO - Attempting to initialize Knowledge Graph and LLM...
+2025-04-22 14:55:32,227 - root - INFO - Knowledge Graph and Multi-Agent LLM initialized successfully
+2025-04-22 14:55:33,357 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE CONSTRAINT article_url_constraint IF NOT EXISTS FOR (e:Article) REQUIRE (e.url) IS UNIQUE` has no effect.} {description: `CONSTRAINT article_url_constraint FOR (e:Article) REQUIRE (e.url) IS UNIQUE` already exists.} {position: None} for query: '\n        CREATE CONSTRAINT article_url_constraint IF NOT EXISTS\n        FOR (a:Article) REQUIRE a.url IS UNIQUE\n        '
+2025-04-22 14:55:33,448 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE RANGE INDEX article_title_idx IF NOT EXISTS FOR (e:Article) ON (e.title)` has no effect.} {description: `RANGE INDEX article_title_idx FOR (e:Article) ON (e.title)` already exists.} {position: None} for query: '\n        CREATE INDEX article_title_idx IF NOT EXISTS\n        FOR (a:Article) ON (a.title)\n        '
+2025-04-22 14:55:33,494 - root - INFO - Received user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,495 - root - INFO - Processing user input...
+2025-04-22 14:55:33,496 - root - INFO - Processing user input: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,496 - root - INFO - Identified as FACT CHECK request
+2025-04-22 14:55:33,496 - root - INFO - FACT CHECK requested for: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,497 - root - INFO - Calling fact_checker_agent...
+2025-04-22 14:55:33,549 - root - INFO - Initialized entity extractor in fact checker
+2025-04-22 14:55:33,551 - root - INFO - Processing direct query: Fact check: Did Trump claim the 2020 election was stolen?
+2025-04-22 14:55:33,551 - root - INFO - Extracting entities from claim text (length: 57)
+2025-04-22 14:55:33,569 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:55:38,956 - root - INFO - Extracted entities: ['Election Fraud Claim', '2020 Election', 'Donald Trump']
+2025-04-22 14:55:38,958 - root - INFO - [KG] Retrieving context for entities: ['Election Fraud Claim', '2020 Election', 'Donald Trump']
+2025-04-22 14:55:39,109 - langchain_aws.llms.bedrock - INFO - Using Bedrock Invoke API to generate response
+2025-04-22 14:55:44,436 - root - INFO - Fact checker completed with status: fact_checked
+2025-04-22 14:55:44,440 - root - INFO - Fact check result found in articles
+2025-04-22 14:55:44,440 - root - INFO - Response type: fact_check
