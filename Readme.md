@@ -11,11 +11,7 @@ The goal of this project is to design, develop, and validate a multi-agent chatb
 Developing several agents based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection, and chat functionality.
 Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on comparing compute resources, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
 
-Evaluation metrics includes  measuring:
 
-Accuracy of bias classification (balanced accuracy, Cohen's kappa)
-Fact-checking performance (precision, recall, F1 scores)
-Overall system quality (weighted F1, Matthews correlation)
 
 ## System Architecture
 
@@ -164,10 +160,34 @@ pytest tests_int_v2/test_integration_real_aws.py
 
 ### System Evaluation 
 
-system evaluation is done on several metrics 
-- fact-checking accuracy 
-- Bias detection precision and recall
-- Knowledge graph integration effectiveness
+**System Evaluation**
+Evaluation metrics includes  measuring:
+
+Accuracy of bias classification (balanced accuracy, Cohen's kappa)
+Fact-checking performance (precision, recall, F1 scores)
+Overall system quality (weighted F1, Matthews correlation)
+
+The system evaluation focused on comparing performance between LLM-only and LLM+KG configurations across several metrics:
+
+**Fact-Checking Performance**
+
+Precision: LLM-Only  vs. LLM+KG 
+Recall for True Claims: LLM-Only  vs. LLM+KG 
+Overall F1-Score: LLM-Only vs. LLM+KG (
+
+**Bias Detection Performance**
+
+Balanced Accuracy: LLM-Only vs. LLM+KG 
+Cohen's Kappa: LLM-Only  vs. LLM+KG 
+Matthews Correlation: LLM-Only vs. LLM+KG 
+Weighted F1: LLM-Only  vs. LLM+KG 
+
+**Knowledge Graph Integration Effectiveness**
+
+Most significant improvements in inter-rater reliability metrics (Cohen's Kappa: 53% increase)
+Substantial improvement in true claim detection (257% increase in recall)
+Enhanced contextual understanding for political content analysis
+
 
 Run the evaluation 
 
@@ -189,6 +209,13 @@ When AWS credentials expire, the system will fallback to minimal operation mode 
 This is an expected limitation of AWS used for educational purposes and this does not reflect any issues with the underlying code. 
 
 ### UI interface 
+
+
+Our system provides an intuitive chat interface built with Streamlit:
+
+![Multi-Agent Knowledge Sharing System UI](assets/ui1.png)
+![Multi-Agent Knowledge Sharing System UI](assets/ui2.png)
+
 
 
 ## Project  Folder Structure
