@@ -11,8 +11,11 @@ The goal of this project is to design, develop, and validate a multi-agent chatb
 Developing several agents based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection, and chat functionality.
 Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on comparing compute resources, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
 
+Evaluation metrics includes  measuring:
 
-This project implements a sophisticated multi-agent system that collaborates to collect, analyze, and fact-check news articles while maintaining a knowledge graph of verified information.
+Accuracy of bias classification (balanced accuracy, Cohen's kappa)
+Fact-checking performance (precision, recall, F1 scores)
+Overall system quality (weighted F1, Matthews correlation)
 
 ## System Architecture
 
@@ -21,33 +24,53 @@ This project implements a sophisticated multi-agent system that collaborates to 
 
 
 
-The system consists of five specialized agents that work together:
+The system consists of four  primary components that work together:
 
-1. **News Collector Agent**: Collects news articles from NewsAPI and other sources
-2. **Bias Analyzer Agent**: Analyzes news articles for potential bias and political leaning
-3. **Updater Agent**: Maintains the knowledge graph with new articles and analysis
-4. **Retriever Agent**: Retrieves balanced information from the knowledge graph
-5. **Fact Checker Agent**: Verifies factual claims in news articles
+1. **Knowledge Graph** : A Neo4j-based dynamic knowledge repository that stores news articles, detected bias, fact-check results, and entity relationships
+2. **Specialized Agents** :
+ **Bias Analyzer Agent** : Analyzes news articles for political bias and leaning
+ **Fact Checker Agent** : Verifies factual claims against knowledge graph context and internal knowledge
+3. **Agent Manager** :Orchestrates workflow between agents
+Routes user requests to appropriate processing paths
+Returns consolidated results to the user interface
+4. **Integration Framework**:
+
+**GraphState Schema**: Standardized data structure for agent communication
+
+**Streamlit UI**: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collective intelligence while maintaining specialized expertise in their respective domains. The system demonstrated improved performance when using knowledge graph integration compared to LLM-only approaches.
+
 
 ## System Architecture Workflow/Interaction Diagram:
+The system implement a flexible, knowledge -graph -centered architecture with specialized agents that operate independently but share information through a centralized knowledge repository.  
 
-##  Agent Workflow Routes
+# Processing Route: 
+The system supports three main processing routes:
+1. **full-path** :Complete news analysis workflow
+- Collects news from external sources
+- Performs bias analysis and fact-checking
+- Updates knowledge graph with findings
+- Returns comprehensive analysis
 
-# Route 1: Direct Query Processing-Factchecking 
+2. **Fact-Check Path** : Direct claim verification
+- Bypasses news collection and bias analysis
+- Directly queries or updates knowledge graph with fact-check results
+- Returns verification results with confidence scores
 
-User: User provides a specific claim or article query to Agent 5
 
-Agent 5: Fact Checker Agent: Checks knowledge graph for existing fact checks, if needed, Performs new fact-checking analysis,  Returns verified facts to the user
+3. **Bias Analysis Path** : Focused bias assessment
+- Skips news collection when analyzing specific content
+- Updates knowledge graph with bias analysis
+- Returns bias classification with supporting evidence
 
-# Route 2: News Collection and Bias Analysis
 
-Agent 1: News Collector Agent: Collects political news(specifically) from NewsAPI ; Passes collected articles to Bias Analyzer
 
-Agent 2: Bias Analyzer Agent : Analyzes bias in news articles; Verifies claims; Classifies articles as biased or unbiased; Passes analyzed articles to Updater Agent
+**Architecture Benefits** 
 
-Agent 3: Updater Agent:  Integrates analyzed news articles into knowledge graph; Stores bias analysis results
+Modular Design: Agents function independently and can be developed/tested separately
+Flexible Routing: Multiple entry points based on user needs
+Shared Knowledge: Central knowledge graph eliminates redundant processing
+Improved Performance: Knowledge graph integration enhances accuracy compared to LLM-only approaches
 
-Agent 4: Retriever Agent: Retrieves balanced information from knowledge graph ; Generates summaries with bias trends and balanced perspectives: Returns comprehensive analysis to user
 
 
 System Capabilities
@@ -135,16 +158,15 @@ pytest unit_tests_v2/ -v
 
 Integration Tests
 ```bash
-cd tests_int_v2
-pytest -c integration_pytest.ini 
+pytest tests_int_v2/test_integration_real_aws.py
+  
 ```
 
 ### System Evaluation 
 
 system evaluation is done on several metrics 
 - fact-checking accuracy 
-- Bias detection precision and recall 
-- Processing efficiency 
+- Bias detection precision and recall
 - Knowledge graph integration effectiveness
 
 Run the evaluation 
@@ -165,6 +187,9 @@ This AWS credentials have limited lifespans:
 
 When AWS credentials expire, the system will fallback to minimal operation mode for demonstration purpose.
 This is an expected limitation of AWS used for educational purposes and this does not reflect any issues with the underlying code. 
+
+### UI interface 
+
 
 ## Project  Folder Structure
 
