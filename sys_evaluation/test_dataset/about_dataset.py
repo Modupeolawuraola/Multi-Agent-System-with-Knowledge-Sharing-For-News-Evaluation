@@ -73,7 +73,7 @@ def analyze_factcheck_dataset(file_path):
                  f'{int(height)}', ha='center', va='bottom', fontsize=11)
 
     plt.tight_layout()
-    plt.savefig('fact_check_Pre-processing_comparison.png', dpi=300, bbox_inches='tight')
+    plt.savefig('fact_check_Pre-processing_comparison.pdf', dpi=300, format='pdf', bbox_inches='tight')
     plt.close()
 
     # Create summary table
@@ -112,7 +112,7 @@ def analyze_factcheck_dataset(file_path):
     ax.axis('off')
     ax.set_title('Fact-Check Dataset Pre-processing Summary', fontsize=16, fontweight='bold', pad=20)
 
-    plt.savefig('fact_check_Pre-processing_table.png', dpi=300, bbox_inches='tight')
+    plt.savefig('fact_check_Pre-processing_table.pdf', dpi=300, format='pdf', bbox_inches='tight')
     plt.close()
 
     return df_normalized
@@ -180,7 +180,7 @@ def analyze_bias_dataset(file_path):
                  f'{int(height)}', ha='center', va='bottom', fontsize=11)
 
     plt.tight_layout()
-    plt.savefig('bias_pre-processing_comparison.png', dpi=300, bbox_inches='tight')
+    plt.savefig('bias_pre-processing_comparison.pdf', dpi=300, format='pdf', bbox_inches='tight')
     plt.close()
 
     # Create summary table
@@ -219,7 +219,7 @@ def analyze_bias_dataset(file_path):
     ax.axis('off')
     ax.set_title('Media Bias Dataset Pre-processing Summary', fontsize=16, fontweight='bold', pad=20)
 
-    plt.savefig('bias_Pre-processing_table.png', dpi=300, bbox_inches='tight')
+    plt.savefig('bias_Pre-processing_table.pdf', dpi=300, format='pdf', bbox_inches='tight')
     plt.close()
 
     return df_normalized
@@ -263,7 +263,7 @@ def create_final_comparison(fact_check_df, bias_df):
                  f'{int(height)}', ha='center', va='bottom', fontsize=10)
 
     plt.tight_layout()
-    plt.savefig('Pre-processing_datasets_final_distribution.png', dpi=300, bbox_inches='tight')
+    plt.savefig('Pre-processing_datasets_final_distribution.pdf', dpi=300, format = 'pdf',  bbox_inches='tight')
     plt.close()
 
 
@@ -283,8 +283,8 @@ if __name__ == "__main__":
 
     print("\nData Pre-processing analysis complete!")
     print("\nGenerated files:")
-    print("1. fact_check_Pre-processing_comparison.png - Before and after Pre-processing comparison")
-    print("2. fact_check_Pre-processing_table.png - Summary table of fact-check data Pre-processing")
-    print("3. bias_Pre-processing_comparison.png - Before and after Pre-processing comparison")
-    print("4. bias_Pre-processing_table.png - Summary table of bias data Pre-processing")
-    print("5. Pre-processing_datasets_final_distribution.png - Final Pre-processing_datasets overview")
+    print("1. fact_check_Pre-processing_comparison.pdf - Before and after Pre-processing comparison")
+    print("2. fact_check_Pre-processing_table.pdf - Summary table of fact-check data Pre-processing")
+    print("3. bias_Pre-processing_comparison.pdf - Before and after Pre-processing comparison")
+    print("4. bias_Pre-processing_table.pdf - Summary table of bias data Pre-processing")
+    print("5. Pre-processing_datasets_final_distribution.pdf - Final Pre-processing_datasets overview")

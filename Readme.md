@@ -1,15 +1,16 @@
 ## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
 ## Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
 
-A multi-agent system that uses dynamic knowledge graph to detect and analyze media bias in news articles , fact-check the new topics/articles.
+A multi-agent system that uses dynamic knowledge graph to detect and analyze media bias in news articles , fact-check the news topics/articles.
 
-Proposed by Group6 Students - Initiative and Idea 
+Proposed by Group6 Students  
 
 ## Project Objectives:
 The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles. This project will explore the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  News. Specifically, this project will focus on:
 
-Developing several agents based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection, and chat functionality.
-Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on comparing compute resources, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
+1. Developing specialized multi-agents system based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection from news open source API, and chatbot functionality.
+
+2. Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on system performance improvement, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
 
 
 
@@ -20,11 +21,11 @@ Evaluating the effect of shared memory on a multi agent system, specifically foc
 
 
 
-The system consists of four  primary components that work together:
+The system consists of several components that work together:
 
-1. **Knowledge Graph** : A Neo4j-based dynamic knowledge repository that stores news articles, detected bias, fact-check results, and entity relationships
+1. **Knowledge Graph** : A Neo4j-based dynamic knowledge repository that stores news articles and entity relationships
 2. **Specialized Agents** :
- **Bias Analyzer Agent** : Analyzes news articles for political bias and leaning
+ **Bias Analyzer Agent** : Analyzes  political news articles bias and leaning
  **Fact Checker Agent** : Verifies factual claims against knowledge graph context and internal knowledge
 3. **Agent Manager** :Orchestrates workflow between agents
 Routes user requests to appropriate processing paths
@@ -33,7 +34,7 @@ Returns consolidated results to the user interface
 
 **GraphState Schema**: Standardized data structure for agent communication
 
-**Streamlit UI**: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collective intelligence while maintaining specialized expertise in their respective domains. The system demonstrated improved performance when using knowledge graph integration compared to LLM-only approaches.
+**Streamlit UI**: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collaborative intelligence also maintaining specialized expertise in their respective domains. 
 
 
 ## System Architecture Workflow/Interaction Diagram:
@@ -44,7 +45,6 @@ The system supports three main processing routes:
 1. **full-path** :Complete news analysis workflow
 - Collects news from external sources
 - Performs bias analysis and fact-checking
-- Updates knowledge graph with findings
 - Returns comprehensive analysis
 
 2. **Fact-Check Path** : Direct claim verification
@@ -163,30 +163,39 @@ pytest tests_int_v2/test_integration_real_aws.py
 **System Evaluation**
 Evaluation metrics includes  measuring:
 
-Accuracy of bias classification (balanced accuracy, Cohen's kappa)
-Fact-checking performance (precision, recall, F1 scores)
-Overall system quality (weighted F1, Matthews correlation)
+1. Accuracy of bias classification (balanced accuracy, Cohen's kappa)
+
+2. Fact-checking performance (precision, recall, F1 scores)
+
+3. Overall system quality (weighted F1, Matthews correlation)
 
 The system evaluation focused on comparing performance between LLM-only and LLM+KG configurations across several metrics:
 
-**Fact-Checking Performance**
+1. **Fact-Checking Performance**
 
-Precision: LLM-Only  vs. LLM+KG 
-Recall for True Claims: LLM-Only  vs. LLM+KG 
-Overall F1-Score: LLM-Only vs. LLM+KG (
+- Precision: LLM-Only  vs. LLM+KG 
 
-**Bias Detection Performance**
+- Recall for True Claims: LLM-Only  vs. LLM+KG 
 
-Balanced Accuracy: LLM-Only vs. LLM+KG 
-Cohen's Kappa: LLM-Only  vs. LLM+KG 
-Matthews Correlation: LLM-Only vs. LLM+KG 
-Weighted F1: LLM-Only  vs. LLM+KG 
+- Overall F1-Score: LLM-Only vs. LLM+KG 
 
-**Knowledge Graph Integration Effectiveness**
+2 **Bias Detection Performance**
 
-Most significant improvements in inter-rater reliability metrics (Cohen's Kappa: 53% increase)
-Substantial improvement in true claim detection (257% increase in recall)
-Enhanced contextual understanding for political content analysis
+- Balanced Accuracy: LLM-Only vs. LLM+KG
+
+- Cohen's Kappa: LLM-Only  vs. LLM+KG 
+
+- Matthews Correlation: LLM-Only vs. LLM+KG 
+
+- Weighted F1: LLM-Only  vs. LLM+KG 
+
+3 **Knowledge Graph Integration Effectiveness**
+
+- Most significant improvements in inter-rater reliability metrics (Cohen's Kappa: 53% increase)
+
+- Substantial improvement in true claim detection (257% increase in recall)
+
+- Enhanced contextual understanding for political content analysis
 
 
 Run the evaluation 

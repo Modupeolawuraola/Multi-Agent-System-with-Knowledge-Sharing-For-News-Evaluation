@@ -8,11 +8,13 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+capstone.egg-info
 
 # Virtual Environment
 venv/
 ENV/
-src/.env
+.env.swp
+.env
 
 # IDE
 .idea/
@@ -37,3 +39,23 @@ Thumbs.db
 Code/Neo4j-61e9103a-Created-2025-02-17.txt
 Code/.env
 Code/.env
+
+# Log files
+*.log
+system.log
+evaluation.log
+bias_analyzer.log
+
+# Project configuration
+get-pip.py
+
+# Personal config directories
+.config/
+.ipython/
+.local/
+.nv/
+.pycharm_helpers/
+
+#large files
+sys_evaluation/test_dataset/*.pdf
+*.pdf
