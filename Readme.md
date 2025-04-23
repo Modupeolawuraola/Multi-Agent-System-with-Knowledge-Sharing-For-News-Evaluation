@@ -227,10 +227,17 @@ Our system provides an intuitive chat interface built with Streamlit:
 
 <img width="898" alt="ui2" src="https://github.com/user-attachments/assets/9b0d55d3-153b-4ca3-8840-fadaf032127b" />
 
+### Visualization-slideshow 
+
+```markdown
+![Project Visualization Summary](visualization_slideshow/visualization_slideshow.gif)
+```
+
 
 ## Project  Folder Structure
 
 ```
+
 
 project_root/
 ├── src/
