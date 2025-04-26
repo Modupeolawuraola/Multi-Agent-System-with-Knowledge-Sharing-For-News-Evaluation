@@ -8,8 +8,8 @@ import sys
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Multi-agent-knowledge-sharing-system'
-copyright = '2025, Group6-Modupeola, Christopher, chella'
-author = 'Group6-Modupeola, Christopher, chella'
+copyright = '2025, Group6-Modupeola Fagbenro, Christopher Washer , Pavani chella'
+author = 'Group6-Modupeola Fagbenro , Christopher Washer , Pavani chella'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------

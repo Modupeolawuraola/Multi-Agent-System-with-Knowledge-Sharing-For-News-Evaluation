@@ -59,3 +59,6 @@ get-pip.py
 #large files
 sys_evaluation/test_dataset/*.pdf
 *.pdf
+
+# Add to .gitignore
+include/
