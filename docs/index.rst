@@ -16,15 +16,14 @@ A multi-agent chatbot system for detecting media bias in news articles and provi
 
 Project Overview
 ---------------
-This project implements a multi-agent system capable of detecting media bias in news articles and providing unbiased summaries using dynamic knowledge graphs. The system utilizes multiple specialized agents for tasks such as bias detection, summarization, and knowledge graph maintenance.
+This project implements a multi-agent with integrated dynamic KG system capable of detecting media bias in news articles and providing unbiased summaries. The system utilizes multiple specialized agents for tasks such as bias detection, fact-checking, and knowledge graph maintenance.
 
 Key Features
 -----------
-* Multi-agent system for news bias detection
+* Multi-agent system working collaboratively
 * Dynamic knowledge graph integration
-* Automated news summarization
-* Bias detection and analysis
-* Fact_checking agent
+* Specialized Bias detection and analysis agent
+* Specialized Fact_checking agent
 
 System Architecture
 -----------------
@@ -32,8 +31,9 @@ The system consists of several specialized agents:
 
 ![multiagent-diagram_v3](https://github.com/user-attachments/assets/bb406a4a-0e7c-464a-8c91-30fd90d342ea)
 
-- **Knowledge Graph** : A Neo4j-based dynamic knowledge repository that stores news articles and entity relationships
-- **Specialized Agents** : Bias Analyzer Agent : Analyzes political news articles bias and leaning Fact Checker Agent : Verifies factual claims against knowledge graph context and internal knowledge
+- **Knowledge Graph** : A Neo4j-based dynamic knowledge graph that stores news articles and entity relationships
+- **Specialized Agents** : Bias Analyzer Agent : Analyzes political news articles bias and leaning
+- **Fact Checker Agent : Verifies factual claims against knowledge graph context and internal knowledge
 - **Agent Manager** :Orchestrates workflow between agents Routes user requests to appropriate processing paths Returns consolidated results to the user interface
 
 Integration Framework:

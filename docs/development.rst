@@ -3,10 +3,11 @@ Development Guide
 
 Project Setup
 -----------
-1. Clone the repository
+1. Clone the repository with this repo link - https://github.com/Modupeolawuraola/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation
 2. Install dependencies from requirements.txt
 3. Set up Neo4j database
 4. Configure environment variables
+5. create a virtual environment  to connect with AWS Bedrock
 
 
 Setup environment variables create .env file in the src directory with the following variables:
@@ -27,8 +28,8 @@ Testing
 -------
 * Unit Testing
 * Integration Testing
-* Performance Testing
-* User Acceptance Testing
+* Performance Evaluation Testing
+* Streamlit End-user Interface prompt Testing
 
 Project Folder Structure
 --------------
