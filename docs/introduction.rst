@@ -7,20 +7,20 @@ The Improved Multi-Agent Knowledge Sharing System is a sophisticated chatbot sys
 
 Project Objectives
 ----------------
-* Design and develop a multi-agent chatbot for bias detection
-* Implement dynamic knowledge graphs for improved efficiency
-* Create specialized agents for specific tasks
-* Evaluate shared memory effects on system performance
-* Optimize compute resources and reduce redundancy
-* Improve bias classification accuracy
-* Enhance news summarization quality
+The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles. This project will explore the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  News. Specifically, this project will focus on:
+
+1. Developing specialized multi-agents system based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection from news open source API, and chatbot functionality.
+
+2. Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on system performance improvement, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
+
+
 
 Team
 ----
 * **Advisor:** Amir Jafari
 * **Team Members:**
-    * Modupeola
-    * Christopher
-    * Chella
+    * Modupeola Fagbenro
+    * Christopher Washer
+    * Chella Pavani
 * **Institution:** The George Washington University
 * **Program:** Data Science

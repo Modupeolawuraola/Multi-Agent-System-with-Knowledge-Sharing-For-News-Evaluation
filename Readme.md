@@ -230,7 +230,9 @@ Our system provides an intuitive chat interface built with Streamlit:
 ### Visualization-slideshow 
 
 ```markdown
+
 ![Project Visualization Summary](visualization_slideshow/visualization_slideshow.gif)
+
 ```
 
 
@@ -244,9 +246,9 @@ project_root/
 │   ├── component/
 │   │   ├── bias_analyzer_agent/
 │   │   ├── fact_checker_agent/
-│   │   ├── news_collector_agent/
-│   │   ├── retrieverAgent/
-│   │   └── UpdaterAgent/
+│   │   ├── KG Builder/
+│   │   
+│   │___|___agent_manager/ manager.py & transistion.py
 │   ├── memory/
 │   │   ├── knowledge_graph/
 │   │   ├── schema/
@@ -259,22 +261,22 @@ project_root/
 │   │   └── simplified_workflow/
 │   └── ui/                        
 │       └── streamlit/             
-│           ├── app.py            
-│           ├── pages/            
-│           └── components/       
+│           ├── chatbot_ui.py            
+│            
+│              
 ├── system_evaluation/
 │   ├── result/
 │   ├── test_dataset/
 │   ├── evaluate.py
-│   ├── metrics.py
-│   └── visualization.py
-├── unit_tests/                     
+│   ├── metrics_updated.py
+│   └── visualization_updated.py
+├── unit_tests_v2/                     
 │   ├── test_api_keys.py
 │   ├── test_bias_analyzer.py
 │   ├── test_fact_checking.py
-│   ├── test_integration.py
-│   ├── test_news_collector.py
-│   └── test_retriever_updater.py
+│   
+│   ├── test_fact_kg_builder.py
+│   └── test_bedrock_setup.py
 ├── docs/
 ├── project_proposal/
 ├── research_paper/

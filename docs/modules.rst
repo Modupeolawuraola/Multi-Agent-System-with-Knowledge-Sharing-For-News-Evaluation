@@ -1,42 +1,55 @@
 API Documentation
 ===============
 
-Agent Modules
-------------
+This section documents the API components of the Multi-Agent Knowledge Sharing System.
 
-.. automodule:: src.agents
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Agent Management
+--------------
 
-Knowledge Graph
--------------
+.. automodule:: src_v3.agent_manager
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-.. automodule:: src.knowledge_graph
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Memory Components
+---------------
+
+.. automodule:: src_v3.memory
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Agent Components
+--------------
 
 Bias Detection
-------------
+^^^^^^^^^^^^^
 
-.. automodule:: src.bias_detection
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. automodule:: src_v3.component.bias_analyzer
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-Summarization
------------
+Fact-Checking
+^^^^^^^^^^^^
 
-.. automodule:: src.summarization
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. automodule:: src_v3.component.fact_checker
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Knowledge Graph Builder
+^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: src_v3.component.kg_builder
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Utilities
 --------
 
-.. automodule:: src.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. automodule:: src_v3.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
