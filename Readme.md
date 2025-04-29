@@ -80,7 +80,7 @@ Our system employs a dynamic knowledge graph for information storage and retriev
 
 
 Structure:
-[graph_schema.pdf](https://github.com/user-attachments/files/19964699/graph_schema.pdf)
+<img width="672" alt="Screenshot 2025-04-29 at 1 10 56 PM" src="https://github.com/user-attachments/assets/3b927a22-cd86-4f02-ab0d-5b7eea1a2148" />
 
 
 ## Tech Stack:
