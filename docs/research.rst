@@ -28,23 +28,17 @@ Our research methodology combines qualitative and quantitative approaches:
 Results Analysis
 --------------
 
-System Testing and Evaluation
-----------------------------
-
-This research employed a comprehensive testing approach combining isolated component evaluation(unit-testing) and end-to-end system testing(integration test).
-We developed a Streamlit user interface allowing natural language interaction with the system.
-
-Evaluation Framework
-----------------------
-We evaluated our system using standard classification metrics (Precision, Recall, F1-score, Accuracy) alongside specialized metrics tailored to handle class imbalance in our datasets (Balanced accuracy, Cohen's Kappa, Matthews Correlation Coefficient, Weighted F1).
-
-
 Experimental Setup
 --------------------
+
 The research compared two system configurations:
 
 LLM-only: A baseline system using AWS Bedrock LLM -Claude 3.5 Sonnet v2 with direct prompting
 LLM+KG: Our complete multi-agent system integrating knowledge graph with the same LLM in AWS Bedrock LLM
+
+Evaluation Framework
+----------------------
+We evaluated our system using standard classification metrics (Precision, Recall, F1-score, Accuracy) alongside specialized metrics tailored to handle class imbalance in our datasets (Balanced accuracy, Cohen's Kappa, Matthews Correlation Coefficient, Weighted F1).
 
 Test datasets
 ----------------------
@@ -52,6 +46,13 @@ Test datasets
 Test datasets included:
 Fact-checking dataset: 210 claims (19% True, 81% False)
 Bias detection dataset: 222 articles labeled as Left, Center, or Right
+
+
+System Testing and Evaluation
+----------------------------
+
+This research employed a comprehensive testing approach combining isolated component evaluation(unit-testing) and end-to-end system testing(integration test).
+We developed a Streamlit user interface allowing natural language interaction with the system.
 
 
 
