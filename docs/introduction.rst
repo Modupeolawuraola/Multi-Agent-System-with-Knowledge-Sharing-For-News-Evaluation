@@ -3,11 +3,11 @@ Introduction
 
 Overview
 --------
-The Improved Multi-Agent Knowledge Sharing System is a sophisticated chatbot system designed for detecting media bias in news articles and providing unbiased summarized result. The system employs dynamic knowledge graphs and multiple specialized agents to deliver accurate, unbiased information and fact-check verifies claims.
+The Improved Multi-Agent Knowledge Sharing System is a sophisticated chatbot system designed for detecting media bias in news articles and providing unbiased  output. The system employs dynamic knowledge graphs and multiple specialized agents to deliver accurate, unbiased information and fact-check verifies claims.
 
 Project Objectives
 ----------------
-The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles. This project will explore the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  News. Specifically, this project will focus on:
+The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles. This project will explore and access the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  News. Specifically, this project will focus on:
 
 1. Developing specialized multi-agents system based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection from news open source API, and chatbot functionality.
 

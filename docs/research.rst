@@ -3,15 +3,17 @@ Research Methodology
 
 Problem Statement
 --------------
-This research study addresses the challenge of media bias in news reporting and the need for automated tools to detect, analyze, and mitigate such bias. The proliferation of news sources with varying political leanings makes it difficult for readers to access balanced information, creating a need for systems that can identify bias and provide more objective summaries.
+The  fundamental challenges in evaluating news for bias and misinformation. In today's world Human fact-checkers cannot keep pace with the volume of daily news articles and social media claims, creating huge verification delays that allow misinformation to spread widely before being debunked. Automated approaches face their own limitations: bias detection systems struggle with nuance and often rely on spurious signals like publication source rather than content analysis, while fact-checking models lack contextual knowledge and world understanding. Even advanced large language models (LLMs) suffer from hallucinations and knowledge cutoff limitations.
+The research study proposes that knowledge graph (KG)-integrated multi-agent systems offer an improved approach over traditional or LLM-only methods. By combining LLMs' language comprehension and reasoning abilities with KGs' verified, up-to-date information, these systems can provide grounded analysis and efficiently flag potential misinformation or extreme bias for human review.
+
+
 Research Areas
 ------------
-Our research spans several key areas:
+This research spans several key areas:
 
-1. **Bias Detection in Media**: Techniques for identifying political slant, framing bias, and emotional manipulation in news articles
-2. **Multi-Agent Systems**: Exploring how specialized agents can collaborate to achieve complex tasks
-3. **Knowledge Graph Applications**: Using graph-based knowledge representation for contextual understanding
-4. **Large Language Model Customization**: Fine-tuning LLMs for specific bias detection and fact-checking tasks
+1. **Multi-Agent Systems**: Exploring how specialized agents can collaborate to achieve complex tasks
+2. **Knowledge Graph Applications**: Using graph-based knowledge representation for contextual understanding
+3. **Large Language Model Customization**: Fine-tuning LLMs for specific bias detection and fact-checking tasks
 
 Methodology
 ----------
@@ -21,27 +23,72 @@ Our research methodology combines qualitative and quantitative approaches:
 2. **System Development**: Iterative design and implementation of the multi-agent system
 3. **Data Collection**: Gathering diverse news articles from various sources across the political spectrum
 4. **Experimental Testing**: Evaluating system performance using controlled inputs and comparing against human assessments
-5. **Comparative Analysis**: Benchmarking our system against existing bias detection tools
+5. **Comparative Analysis**: Using LLM Performance Benchmarking against  new system benchmarking , LLM +KG
 
 Results Analysis
 --------------
-The effectiveness of our system is evaluated based on several metrics:
 
-1. **Bias Detection Accuracy**: The system's ability to correctly identify political bias in news articles
-2. **Fact-Checking Reliability**: The accuracy of fact verification against trusted sources
-3. **Summary Quality**: The objectivity and completeness of generated summaries
-4. **System Efficiency**: Performance metrics including response time and resource utilization
-5. **Knowledge Graph Effectiveness**: Evaluation of how knowledge sharing enhances agent performance
+System Testing and Evaluation
+----------------------------
+
+This research employed a comprehensive testing approach combining isolated component evaluation(unit-testing) and end-to-end system testing(integration test).
+We developed a Streamlit user interface allowing natural language interaction with the system.
+
+Evaluation Framework
+----------------------
+We evaluated our system using standard classification metrics (Precision, Recall, F1-score, Accuracy) alongside specialized metrics tailored to handle class imbalance in our datasets (Balanced accuracy, Cohen's Kappa, Matthews Correlation Coefficient, Weighted F1).
+
+
+Experimental Setup
+--------------------
+The research compared two system configurations:
+
+LLM-only: A baseline system using AWS Bedrock LLM -Claude 3.5 Sonnet v2 with direct prompting
+LLM+KG: Our complete multi-agent system integrating knowledge graph with the same LLM in AWS Bedrock LLM
+
+Test datasets
+----------------------
+
+Test datasets included:
+Fact-checking dataset: 210 claims (19% True, 81% False)
+Bias detection dataset: 222 articles labeled as Left, Center, or Right
+
+
 
 Key Findings
 ----------
-[This section will be completed as research progresses and results are analyzed]
+Fact-Checking Performance
 
-Future Research Directions
+LLM+KG showed significant improvement in detecting true claims (recall increased from 0.07 to 0.25)
+Overall micro-average F1 score improved from 0.77 to 0.82
+Macro-average F1 score increased from 0.49 to 0.63
+
+Bias Detection Performance
+
+LLM+KG achieved balanced accuracy of 0.823 (vs. 0.735 for LLM-only)
+Cohen's kappa improved significantly from 0.488 to 0.745
+Matthews correlation coefficient increased from 0.574 to 0.759
+
+
+Limitations
+------------
+The system occasionally struggles with emerging political narratives not yet well represented in the knowledge graph.
+Limited articles on specific topics may have outsized influence, potentially presenting skewed rather than balanced contextual information.
+
+
+Conclusion
+-----------
+
+Our research demonstrates that integrating knowledge graphs with multi-agent LLM architectures creates significant improvements in news bias detection and fact-checking capabilities.
+We observed performance gains across all metrics suggest this approach could effectively augment fact-checking and editorial teams.
+
+
+Future Research Work
 ------------------------
 Potential areas for future research include:
 
-1. Extending the system to handle more languages and cultural contexts
-2. Implementing more sophisticated bias detection mechanisms
-3. Exploring different knowledge sharing architectures among agents
-4. Developing more advanced summarization techniques for presenting balanced viewpoints
+- Exploring approaches to improve handling of emerging topics
+- Extending the system to handle more languages and cultural contexts
+- Implementing more sophisticated bias detection mechanisms
+- Developing more advanced knowledge sharing architectures among agents
+
