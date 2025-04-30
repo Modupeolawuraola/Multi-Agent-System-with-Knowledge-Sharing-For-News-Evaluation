@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Architecture &mdash; Multi-agent-knowledge-sharing-system 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="modules.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi-agent-knowledge-sharing-system
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">System Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#agent-structure">Agent Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#knowledge-graph-workflow">Knowledge Graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-interface">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tech-stack">Tech Stack</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research.html">Research Methodology</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi-agent-knowledge-sharing-system</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">System Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="system-architecture">
+<h1>System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading"></a></h1>
+<section id="agent-structure">
+<h2>Agent Structure<a class="headerlink" href="#agent-structure" title="Link to this heading"></a></h2>
+<p>The system architectural design consists of several components that works in collaboration:</p>
+<ul class="simple">
+<li><p><strong>Knowledge Graph</strong>: A Neo4j-based dynamic knowledge graph that stores news articles and entity relationships</p></li>
+<li><p><strong>Specialized Agents</strong>:
+- <strong>Bias Analyzer Agent</strong>: Analyzes political news articles bias and leaning
+- <strong>Fact Checker Agent</strong>: functions in verification of factual claims against knowledge graph context and internal knowledge</p></li>
+<li><p><strong>Agent Manager</strong>: Orchestrates workflow between agents, routes user requests/query to appropriate processing paths/channel, returns consolidated and results to the user interface</p></li>
+</ul>
+<p>Integration Framework:
+- <strong>GraphState Schema</strong>: Standardized data structure for agent communication
+- <strong>Streamlit UI</strong>: User-friendly interface for interacting with the multi-agent-KG system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collaborative in storage intelligence while maintaining specialized expertise in their respective domains.</p>
+<blockquote>
+<div><p>System Architecture diagram</p>
+</div></blockquote>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/architecture.png"><img alt="System Architecture Diagram" src="_images/architecture.png" style="width: 800px;" />
+</a>
+</figure>
+</section>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h2>
+<p>The system implements a flexible, knowledge-graph-centered architecture with specialized agents that operate independently but share information through a centralized knowledge graph.</p>
+<ul class="simple">
+<li><p><strong>Processing Route</strong>:</p></li>
+</ul>
+<p>The system supports three processing routes based on the algorithm below:</p>
+<p>Main Processing Route of the System</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/system_workflow.jpeg"><img alt="System Workflow" src="_images/system_workflow.jpeg" style="width: 800px;" />
+</a>
+</figure>
+</section>
+<section id="knowledge-graph-workflow">
+<h2>Knowledge Graph Workflow<a class="headerlink" href="#knowledge-graph-workflow" title="Link to this heading"></a></h2>
+<p>Our system employs a dynamic knowledge graph for information storage and retrieval.</p>
+<blockquote>
+<div><p>Knowledge graph initialization and workflow</p>
+</div></blockquote>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/kg_intialization.jpeg"><img alt="Knowledge Graph Initialization" src="_images/kg_intialization.jpeg" style="width: 800px;" />
+</a>
+</figure>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/graph_copy.png"><img alt="Knowledge Graph Structure" src="_images/graph_copy.png" style="width: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Knowledge graph structure and relationships</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Link to this heading"></a></h2>
+<p>The system provides an intuitive user interface for interacting with the multi-agent system:</p>
+<p>Streamlit user interface for the multi-agent system</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/ui1.png"><img alt="User Interface" src="_images/ui1.png" style="width: 800px;" />
+</a>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/ui2.png"><img alt="User Interface" src="_images/ui2.png" style="width: 800px;" />
+</a>
+</figure>
+<p><strong>Architecture Benefits</strong></p>
+<ul class="simple">
+<li><p><strong>Modular Design</strong>: Agents independently functions, interact with KG and can be developed/tested separately</p></li>
+<li><p><strong>Flexible Routing</strong>: The system has multiple entry points based on user needs</p></li>
+<li><p><strong>Shared Knowledge</strong>: Central knowledge graph eliminates redundant processing</p></li>
+<li><p><strong>Improved Performance</strong>: Knowledge graph integration enhances accuracy compared to LLM-only approaches</p></li>
+</ul>
+<p><strong>System Capabilities</strong></p>
+<ol class="arabic simple">
+<li><p>Fact-checking of direct user queries</p></li>
+<li><p>Automated news collection and bias analysis</p></li>
+<li><p>Persistent storage of analyzed articles in knowledge graph</p></li>
+<li><p>Retrieval of balanced news perspectives</p></li>
+</ol>
+</section>
+<section id="tech-stack">
+<h2>Tech Stack<a class="headerlink" href="#tech-stack" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Large Language Models</strong>: Claude 3 via AWS Bedrock</p></li>
+<li><p><strong>Knowledge Graph</strong>: Neo4j</p></li>
+<li><p><strong>Backend</strong>: Python</p></li>
+<li><p><strong>API Integration</strong>: NewsAPI for article collection</p></li>
+<li><p><strong>Testing Framework</strong>: Pytest</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Group6-Modupeola Fagbenro, Christopher Washer , Pavani chella.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
