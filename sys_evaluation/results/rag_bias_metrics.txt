@@ -1,0 +1,17 @@
+RAG BIAS DETECTION RESULTS
+==========================
+Date: November 30, 2024
+Model: Mistral-7B-Instruct-v0.2 (CPU)
+Test Articles: 45
+Context Articles: 177
+
+METRICS:
+--------
+Weighted F1: 0.292
+Balanced Accuracy: 0.164
+Cohen's Kappa: 0.071
+
+Notes:
+- Used CPU-only processing
+- Runtime: ~3 days
+- Fact-checking failed to complete
