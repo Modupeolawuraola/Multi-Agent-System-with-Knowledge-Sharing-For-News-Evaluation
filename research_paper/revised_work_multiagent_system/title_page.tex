@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Improved Multi-Agent Knowledge Sharing System using Knowledge Graphs for News Bias Detection and Fact-Checking}
+\author{Modupeola Fagbenro$^{1*}$, Christopher Washer$^{1}$, Pavani Chella$^{1}$, and Amir Jafari$^{1}$\\
+\small $^{1}$Department of Data Science, The George Washington University, Washington, DC, USA\\
+\small \texttt{modupeola.fagbenro@gwu.edu, cwasher@gwu.edu, pavani.chella@gwu.edu, ajafari@gwu.edu}\\
+\small * Corresponding author: modupeola.fagbenro@gwu.edu
+}
+\date{} %don't display the current date
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+This research study explores how integrating a multi-agent system with a knowledge graph as shared memory enhances news bias analyses, detection, and fact-checking. Automated fact-checking and verification systems have evolved significantly but often struggle with complex contextual information and advanced narratives. This research examines the potential advantages of structured knowledge graphs, which offer significant advantages over both direct LLM prompting and unstructured RAG retrieval approaches in multi-agent systems for news evaluation.  This system was designed and implemented as a framework showing multiple specialized agents using Large Language Models (LLMs) to collaborate while building and referencing a dynamic shared knowledge graph. Experiments conducted on diverse political news article datasets comparing three approaches—RAG baseline, LLM-only, and KG-augmented system—with statistical significance testing showing that integrating knowledge graphs improved performance over both RAG baseline and LLM-only. The result indicates that the multi-agent system with a knowledge graph outperforms baselines ($p<0.01$), achieving an F1 of 0.901 for bias detection (vs. 0.287 RAG, 0.713 LLM-only) and an F1 of 0.794 for fact-checking (vs. 0.661 RAG, 0.720 LLM-only). These results show that adding a structured knowledge graph representation to a multi-agent system is much better than unstructured retrieval, with statistically significant improvements in both the RAG baseline and LLM-only. 
+
+
+  
+\end{abstract}
+
+\section{Introduction}
+\subsection{Background}
+
+\subsubsection{\textbf{Misinformation and Media Bias In The News Landscape}}
+
+Misinformation and bias in the news media are widespread issues in today's digital media landscape, with real societal implications. Misinformation refers to false, misleading, or inaccurate information spread (intentional or not), proliferating rapidly on social media. The ease of producing and sharing content online leads to false information reaching millions, which makes it a significant threat to public interests \([1]\).
+Filling social media feeds with misleading claims can confuse and overwhelm the public and erode trust in institutions and elections \([2]\). Examples such as false stories about the 2020 U.S. presidential election suggest that misinformation can impact political outcomes. The issue is well known enough that over half of Americans expect political misinformation to worsen in their lifetimes, highlighting the increasing prevalence of this problem \([3]\)\([4]\). 
+Media bias refers to partiality in news reporting through tone, framing, or story selection that skews information in favor of a particular viewpoint. News media bias often results in audiences self-selecting news sources that support their existing beliefs, and the sources can reinforce them by presenting information through a partisan lens. Over time, biased presentation and consumption can produce different versions of reality for different audiences.
+A recent study of Breitbart, a conservative news outlet, and the New York Times, a left-leaning news outlet, found that each outlet was relatively neutral in coverage, but exhibited a polarizing attitude towards specific entities, contributing to disparities in audience political views \([5]\). This finding supports similar work looking at these two news outlets, showing how changes to similar common words can impart a different meaning to their audiences \([6]\). Therefore, even when mainstream outlets aim for accuracy, selective emphasis on certain topics or certain word choices can reinforce political polarization. Continued research is needed to counter these trends in media bias and misinformation to improve the political news landscape.
+
+
+\end{document}

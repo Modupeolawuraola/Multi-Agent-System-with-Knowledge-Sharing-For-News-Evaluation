@@ -1,0 +1,20 @@
+% LaTeX code for Table 5: Overall Performance Comparison
+% Copy this into your paper
+
+\begin{table}[htbp]
+\centering
+\caption{Overall Performance Comparison Across Methods and Tasks}
+\label{tab:overall_comparison}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Method} & \textbf{Bias Detection} & \textbf{Fact-Checking} & \textbf{Significance} \\
+ & \textbf{Weighted F1} & \textbf{Weighted F1} & \textbf{vs. RAG} \\
+\midrule
+RAG & 0.285 [0.14-0.43] & 0.659 [0.59-0.73] & Baseline \\
+LLM-only & 0.709 [0.57-0.82] & 0.720 [0.64-0.79] & $p < 0.001$*** \\
+LLM+\,KG & 0.901 [0.82-0.98] & 0.794 [0.73-0.86] & $p < 0.001$*** \\
+\bottomrule
+\multicolumn{4}{l}{\small * $p<0.05$, ** $p<0.01$, *** $p<0.001$, ns: not significant} \\
+\multicolumn{4}{l}{\small Values shown as: F1-score [95\% CI]} \\
+\end{tabular}
+\end{table}

@@ -3,14 +3,16 @@ Run statistical tests for bias detection comparison
 """
 import pandas as pd
 from statistical_testing import add_statistical_significance
+import numpy as np
+np.random.seed(42)
 
 print("="*60)
 print("BIAS DETECTION - STATISTICAL SIGNIFICANCE TESTING")
 print("="*60)
 
 # Load comparison files (created by extract_christopher_predictions.py)
-comp1 = pd.read_csv('results/comparison_rag_vs_llm_only_bias.csv')
-comp2 = pd.read_csv('results/comparison_rag_vs_llm_kg_bias.csv')
+comp1 = pd.read_csv('results/bias_classification/comparison_rag_vs_llm_only_bias.csv')
+comp2 = pd.read_csv('results/bias_classification/comparison_rag_vs_llm_kg_bias.csv')
 
 
 # Extract predictions

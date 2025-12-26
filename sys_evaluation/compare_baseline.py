@@ -61,7 +61,7 @@ def compare_all_system_bias():
         ]
     }
 
-    df = p.DataFrame(comparison)
+    df = pd.DataFrame(comparison)
     print("\n====BIAS DETECTION COMPARISON=====\n")
     print(df.to_string(index=False))
 

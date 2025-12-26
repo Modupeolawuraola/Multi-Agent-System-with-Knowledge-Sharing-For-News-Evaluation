@@ -1,0 +1,854 @@
+\documentclass[11pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{amsmath}
+
+
+\title{Improved Multi-Agent Knowledge Sharing System using Knowledge Graphs for News Bias Detection and Fact-Checking}
+
+\author{Modupeola Fagbenro$^{1}$, Christopher Washer$^{1}$, Pavani Chella$^{1}$, and Amir Jafari$^{1}$,\\
+\small $^{1}$Department of Data Science, The George Washington University, Washington, DC, USA\\
+\small \texttt{modupeola.fagbenro@gwu.edu, cwasher@gwu.edu, pavani.chella@gwu.edu,ajafari@gwu.edu}
+}
+\date{} %don't display the current date
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+This research study explores how integrating a multi-agent system with a knowledge graph as shared memory enhances news bias analyses, detection, and fact-checking. Automated fact-checking and verification systems have evolved significantly but often struggle with complex contextual information and advanced narratives. This research examines the potential advantages of structured knowledge graphs, which offer significant advantages over both direct LLM prompting and unstructured RAG retrieval approaches in multi-agent systems for news evaluation.  This system was designed and implemented as a framework showing multiple specialized agents using Large Language Models (LLMs) to collaborate while building and referencing a dynamic shared knowledge graph. Experiments conducted on diverse political news article datasets comparing three approaches—RAG baseline, LLM-only, and KG-augmented system—with statistical significance testing showing that integrating knowledge graphs improved performance over both RAG baseline and LLM-only. The result indicates that the multi-agent system with a knowledge graph outperforms baselines ($p<0.01$), achieving an F1 of 0.901 for bias detection (vs. 0.287 RAG, 0.713 LLM-only) and an F1 of 0.794 for fact-checking (vs. 0.661 RAG, 0.720 LLM-only). These results show that adding a structured knowledge graph representation to a multi-agent system is much better than unstructured retrieval, with statistically significant improvements in both the RAG baseline and LLM-only. 
+
+
+
+  
+\end{abstract}
+
+\section{Introduction}
+\subsection{Background}
+
+\subsubsection{\textbf{Misinformation and Media Bias In The News Landscape}}
+
+Misinformation and bias in the news media are widespread issues in today's digital media landscape, with real societal implications. Misinformation refers to false, misleading, or inaccurate information spread (intentional or not), proliferating rapidly on social media. The ease of producing and sharing content online leads to false information reaching millions, which makes it a significant threat to public interests \cite{r1}.
+Filling social media feeds with misleading claims can confuse and overwhelm the public and erode trust in institutions and elections \cite{r2}. Examples such as false stories about the 2020 U.S. presidential election suggest that misinformation can impact political outcomes. The issue is well known enough that over half of Americans expect political misinformation to worsen in their lifetimes, highlighting the increasing prevalence of this problem \cite{r3}\cite{r4}. 
+Media bias refers to partiality in news reporting through tone, framing, or story selection that skews information in favor of a particular viewpoint. News media bias often results in audiences self-selecting news sources that support their existing beliefs, and the sources can reinforce them by presenting information through a partisan lens. Over time, biased presentation and consumption can produce different versions of reality for different audiences.
+A recent study of Breitbart, a conservative news outlet, and the New York Times, a left-leaning news outlet, found that each outlet was relatively neutral in coverage, but exhibited a polarizing attitude towards specific entities, contributing to disparities in audience political views \cite{r5}. This finding supports similar work looking at these two news outlets, showing how changes to similar common words can impart a different meaning to their audiences \cite{r6}. Therefore, even when mainstream outlets aim for accuracy, selective emphasis on certain topics or certain word choices can reinforce political polarization. Continued research is needed to counter these trends in media bias and misinformation to improve the political news landscape.
+
+\subsubsection{Knowledge graphs in information processing}
+
+Knowledge graphs (KGs) are a structured way of representing and organizing complex information using a network of nodes (entities such as people, organizations, events, or concepts) and edges (relationships between those entities), typically expressed as subject-predicate-object triplets \cite{r7}. This structure allows information to be stored in a way that mirrors real-world relationships. For example, a KG can represent the fact that a politician belongs to a specific political party with the triplet:' Politician - memberOf - party'. These triplets allow for context-rich storing of information as the connections between nodes model the logic and structure of content. Linking discrete data points into a graph enables structure-based and semantic reasoning by traversing nodes and connections to infer new insight or answer complex queries \cite{r8}. Unlike unstructured text or relational databases, the interconnected structure of a KG supports advanced retrieval and inference.
+
+KGs are integral to many complex information systems that require access to structured knowledge \cite{r9}. Search engines use massive KGs (such as Google Knowledge Graph) to enrich search results. In the context of news and fact-checking, KGs offer a way to compile and link vast amounts of information about entities, claims, and sources. A news oriented KG can connect a claim to who said it and what evidence supports or refutes it, enabling automated reasoning about truthfulness\cite{r10}.
+For bias detection, a KG can represent a network of articles with source or political bias information and help identify patterns such as grouping articles that frame an event similarly. A recent study built a political KG and showed that it improved political perspective detection in news media \cite{r11}. The KG provided structured context from real-world political dynamics that are missing in similar text-only models, highlighting how KGs can aid processing tasks by providing broader factual and relational content.
+
+ 
+
+
+
+
+
+\subsection{Problem Statement}
+\subsubsection{Challenges in news evaluation }
+
+
+Evaluating news for bias and misinformation is a difficult task, with human and computational limitations. One major challenge is the daily number of news articles and social media claims that emerge outpaces what human fact-check teams or editors can feasibly review. Studies find that professional fact-checkers may spend hours on a given claim, making purely manual verification insufficient against the increasing tide of online information \cite{r12}. This leads to a verification delay; by the time a human analysis is complete and published, the misinformation may already be widely spread. Bias may often be complicated by the reader; what one person perceives as biased, another might view as reasonable, making it difficult for ground truth bias detection.
+Automated approaches have other difficulties. Automated bias detection is challenging because bias can be nuanced: it may appear through tone, omission of context, or choice of sources, which require understanding beyond surface text features. Early machine learning models often picked up on spurious signals; for example, a classifier could mainly learn the source publication as a proxy for bias without analyzing the content \cite{r13}. This limitation often reduces generalizability for new or moderate outlets.
+
+
+Automated fact-checking has similar challenges, as natural language processing-based approaches lack world knowledge and context to spot subtle misinformation or biases. Traditional models check if phrasing or metadata resembles known false statements and might struggle without contextual knowledge. Modern large language models (LLMs) bring in-depth language understanding, but despite this methodology, they still suffer from hallucinations and produce confident-sounding but incorrect answers\cite{r14}. LLMs are constrained by what they have seen in training, so recent research is often not in their knowledge base, which is essential for news-based fact-checking.
+ 
+\subsubsection{Need for automated fact-checking and bias detection}
+Given these challenges, there is a clear need for automated approaches to assist in fact-checking and bias detection. No newsroom or fact-checking team can keep up with the influx of online claims, so scalable AI agents are needed to help monitor and evaluate content  \cite{r12}. Automated systems can rapidly flag potential misinformation or extreme bias for news teams to review. While automation is essential, it is important to combine it with robust knowledge resources to improve accuracy. By connecting LLM-based agents to an external KG, we can ground their analysis in up-to-date, verified information. The LLM brings comprehension and reasoning, while the KG provides retrievable evidence that the LLM can use to make informed judgments. Overall, the high volume of content, the nuance of bias detection, and the knowledge limitations of artificial intelligence make news evaluation a difficult problem. For these reasons, we suggest that KG-integrated multi-agent systems provide a more effective approach to combating misinformation and media bias compared to traditional methods, Retrieval Augmented Generation (RAG) methods, and LLM-only methods.
+
+
+
+
+\subsection{Research Objectives}
+\subsubsection{Primary objectives}
+
+\begin{enumerate}
+    \item Assess the impact of shared KG-based memory in a multi-agent system on news bias detection and fact-checking accuracy.
+
+
+    \item Measure the performance difference between multi-agent systems with and without KG integration to show the effect of KG against baseline approaches and to illustrate the added value of structured knowledge graph representation over both direct LLM prompting and unstructured retrieval in addressing complex news evaluation tasks.
+
+    \item Use statistical tests for validation to indicate significant improvement and reproducibility. 
+\end{enumerate}
+
+\subsubsection{Specific research questions}
+
+\begin{enumerate}
+    \item Does the structured knowledge graph have a statistical advantage over unstructured knowledge retrieval-augmented generation (RAG) approaches for news evaluation? 
+    \item Does a structured knowledge graph address complex news evaluation challenges compared to direct LLM prompting approaches? 
+
+\end{enumerate}
+
+
+\subsection{Dataset Description}
+\subsubsection{Source and characteristics}
+
+The news KG integration to support this system was constructed from a comprehensive corpus of political articles collected via the NewsAPI aggregator \cite{r15}. We focused on a curated list of 20 well-known news outlets spanning the ideological spectrum, including ABC News, Associated Press, Axios, Breitbart News, CBS News, CNN, Fox News, MSNBC, National Review, NBC News, Newsweek, New York Magazine, Politico, Reuters, The American Conservative, The Hill, The Huffington Post, The Washington Post, The Washington Times, and USA Today. These sources were selected to ensure a balance of political leanings and editorial standards. Each source’s known bias was characterized using ratings from AllSides \cite{r16}, which provides crowd-sourced reviews augmented by expert editorial analysis. AllSides’ media bias classification (on a three-point left-center-right scale) was used for the political bias of each source, and this metadata was associated with the corresponding source and article entries in the knowledge graph.
+For fact-checking, we compiled a benchmark data set by scraping the Daily Fact Checks of Media Bias / Fact Check (MBFC)\cite{r17}. MBFC publishes daily summaries of fact checks drawn from internationally recognized fact-checking organizations. 
+For bias detection, a separate corpus of articles was assembled, each article labeled according to its source’s AllSides bias rating. This data set reflects a mix of left, center, and right biases based on the outlet of origin, serving as ground truth for testing the bias detection capabilities of the system. 
+
+
+
+\subsection{Research Implications and Contributions}
+\subsubsection{Theoretical contributions}
+\begin{enumerate}
+    \item This study shows that using a structured knowledge graph representation in a multi-agent system has significance compared to both unstructured retrieval (RAG) and direct LLM prompting for complex news rating tasks.
+
+    \item This study creates a framework for agents to operate together through a shared database for knowledge graphs.
+
+
+\end{enumerate}
+
+\subsubsection{Practical applications}
+\begin{enumerate}
+    \item This system and the methods explored can be used by fact-check or editorial teams to assist in media evaluation. News consumers can also benefit from the increased transparency our system offers. 
+    \item Educators and independent news outlets can use this system to demonstrate media bias and misinformation in the US political domain. 
+
+
+\end{enumerate}
+
+\section{Related Work and Literature Review}
+\subsubsection{Existing News Evaluation Systems}
+In response to increasing misinformation, platforms such as Ground News\cite{r18} and AllSides use comparative bias tracking to analyze stories across various political media outlets. These platforms give news consumers an understanding of the of the bias associated with sources and news coverage but may not address individual news articles or independent media sources. 
+
+Academic researchers have proposed solutions employing natural language processing to evaluate factual accuracy and bias\cite{r19}. While this effectively detects coverage discrepancies, they have often faced a problem operating in isolation.  This research provides groundwork for automated bias detection and fact checking but does not do so in a multi-agent collaborative fashion which may limit the overall functionality in real world application.
+
+\subsubsection{Multi-Agent Architectures}
+Multi-agent systems have become popular in knowledge-intensive domains because of their modularity and distributed problem-solving capabilities. Multi-agent systems were created as a framework for agent autonomy in foundational research work \cite{r20}. Recent studies have shown the effectiveness of implementing large language models (LLMs) as the decision makers and operators\cite{r21}\cite{r22}. These system architectures, orchestrated by platforms like LangChain\cite{r23}, facilitate shared memory and modular reasoning among agents, enhancing their collaborative interaction. Despite ongoing advanced research, there is limited application of integrating these systems with a shared knowledge graph-based memory or applying them to news evaluation tasks.
+
+\subsubsection{Knowledge Graph Applications in Information Processing}
+KGs are fundamental in structured information representation with semantically enriched storage for entity-relation triplets. KGs often used enable the connection of diverse news topics and sources through semantic reasoning and logic. Tools like Neo4j have robust capabilities designed to make them more suitable for dynamic, evolving datasets such as political news. Recent initiatives \cite{r24}\cite{r25}investigate the integration of knowledge graphs with transformer-based models to improve claim verification and event linking. However, building a KG to support a multi-agent setting in this domain remains unexplored.
+
+
+
+
+\subsubsection{Fact-Checking Methodologies}
+Fact-checking is a popular area of research for the application of LLM-based systems. Approaches have progressed from simple binary verification to more complex, context-sensitive analysis. Recent methodologies utilize transformer-based models trained on datasets such as LIAR\cite{r26} and BABE \cite{r27}, while earlier research findings in similar systems, like ClaimBuster \cite{r28}, implemented rule-based filters and similarity metrics \cite{r29}. Recent advancements have explored chaining together multiple facts through multi-hop reasoning and entailment analysis to verify claims\cite{r30, r31}. Nonetheless, there are still concerns regarding hallucinations in outputs generated by large language models, the
+weighting of source credibility, and scalability across various human domains and languages. The integration of a structured memory via KG into fact-checking processes is a promising opportunity to improve on the past in verification workflows. Retrieval-augmented generation (RAG) has been promising for fact-checking recently and information verification and confirmation \cite{r32, r33}.RAG works by combining neural language models with a retrieval mechanism that extracts relevant documents from larger corpora, enabling the model to have extended access to external knowledge without explicit structural representation. While RAG techniques have shown tremendous improvements over standalone language models, RAG depends on unstructured text retrieval and does not have the advantages of a structured knowledge graph for news evaluation tasks. And this remains an open research question.
+
+\subsubsection{Bias Detection Approaches}
+The identification of bias in news includes story selection, tone, or choice of sources. Linguistic models have been trained to recognize subjective words, sentiment polarity, and modality \cite{r31}. Recent efforts leverage models which account for political alignment, narrative framing, and language cues \cite{r32}. LLMs fine-tuned on news bias-related corpora have demonstrated improvement in bias detection, particularly when paired with external contextual data.
+
+\subsubsection{Research Gaps and Opportunities}
+
+There are a growing number of tools and methodologies in the domain of news evaluation, but various limitations and setbacks have slowed advancement. First, effective solutions often work in isolation, lacking the collaborative nature of multi-agent system designs. Second, while KGs offer semantic depth, their integration with agent-based reasoning remains underexplored. This study aims to address these research gaps by (i) implementing a multi-agent system driven by a large language model, (ii) utilizing a knowledge graph (KG) as a shared memory, and (iii) evaluating the system’s effectiveness through metrics such as bias detection and fact-checking accuracy in comparison to a RAG and  LLM lacking KG integration. Such a system will contribute to the advancement of automated journalistic integrity, improve media transparency, and inform public conversation.
+
+
+
+
+\section{System Design and  Methodology}
+
+\subsection{System Architecture and Workflow}
+\subsubsection{System workflow Design}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.125]{sys_architecture.pdf}
+\end{center}
+\caption{Multi-agent system architecture illustrating the Agent Manager coordinating specialized agents (Bias Detection and Fact-checker) that query a dynamic knowledge graph constructed from news articles.}
+\label{setup}
+\end{figure}
+
+The system has three main paths in order to provide robust capability in news evaluation. Figure 1 shows the  The main path consists of fetching news from the NewsAPI and building the KG. The user interacts with the chatbot, and the agent manager directs queries to the most appropriate agent or the KG itself. Each agent operates independently and directly with the KG.
+
+The next two paths are specific to the Fact Checker and Bias Detector. They independently receive queries and interact directly with the KG to provide a response. The decision-making workflow is shown in Algorithm 1.
+
+\renewcommand{\thealgocf}{1}
+\begin{algorithm}[H]
+\caption{System Workflow Design}
+\KwIn{User request (news search, bias detection, or fact-checking)}
+\KwOut{Processed output based on selected path}
+
+\SetKwBlock{MainPath}{Main Workflow Paths}{end}
+\SetKwBlock{FactPath}{Fact Check Path}{end}
+\SetKwBlock{BiasPath}{Bias Analysis Path}{end}
+
+\MainPath{
+    1. KG Builder fetches news from NewsAPI and updates the Knowledge Graph\;
+    2. Bias Detector and Fact Checker interact directly with the Knowledge Graph\;
+    3. Agent Manager handles user interactions and can trigger any of the above processes\;
+    4. Each Agent operates independently, interacting via the Knowledge Graph\;
+}
+
+\FactPath{
+    1. Route directly to the Fact Checker Agent\;
+    2. Triggered when user provides a specific claim for verification\;
+    3. Bypasses News Collection and Bias Analysis\;
+}
+
+\BiasPath{
+    1. Route directly to the Bias Analyzer Agent\;
+    2. Triggered when user wants to analyze article bias\;
+    3. Bypasses News Collection\;
+}
+
+\Return{Output generated by selected agent(s) via Knowledge Graph}
+\caption{System decision making workflow for processing user queries.}
+\end{algorithm}
+
+This architecture facilitates flexibility as components do not directly rely on one another, but each agent collaborates independently via the shared knowledge graph. 
+
+\subsubsection{Agent Manager Design}
+The agent manager controls the operation and overall workflow in the architecture effectively. The manger coordinates to which agent, if any, user queries should be sent and ensures the response is returned back to the user.  
+
+
+\renewcommand{\thealgocf}{2}
+\begin{algorithm}[H]
+\caption{Agent Manager Path Determination}
+\KwIn{User input query}
+\KwOut{Selected processing path}
+
+\SetKwFunction{FactCheck}{FactCheckPath}
+\SetKwFunction{Bias}{BiasPath}
+\SetKwFunction{Full}{FullWorkflow}
+
+\SetKwBlock{Manager}{Agent Manager Workflow}{end}
+
+\Manager{
+    1. Receive user input\;
+    2. Analyze input to determine intent\;
+    
+    \If{input contains a claim}{
+        \FactCheck{}\;
+    }
+    \ElseIf{input is bias query}{
+        \Bias{}\;
+    }
+    \Else{
+        \Full{}\;
+    }
+
+    3. Route request to the appropriate agent(s)\;
+    4. Return results to the user\;
+}
+
+\SetKwBlock{FactCheckPath}{\FactCheck: Fact Check Path}{end}
+\FactCheckPath{
+    Direct input to Fact Checker Agent\;
+    Skip news fetching and bias detection\;
+}
+
+\SetKwBlock{BiasPath}{\Bias: Bias Analysis Path}{end}
+\BiasPath{
+    Direct input to Bias Detection Agent\;
+    Skip news fetching and fact checking\;
+}
+
+\SetKwBlock{FullWorkflow}{\Full: Full Path}{end}
+\FullWorkflow{
+    Trigger news fetching via KG Builder\;
+    Then run Bias Detection and Fact Checking in sequence\;
+}
+
+\end{algorithm}
+
+
+\subsection{Fact Checker Agent Design and Implementation}
+The agent fact-checker is designed to verify the truthfulness of user-provided claims by using the shared KG and LLM—Claude 3.5 Sonnet’s—reasoning abilities. Its implementation follows a pipeline that combines structured retrieval and natural language analysis.
+
+\begin{enumerate}
+
+    \item Claim parsing: Upon submission of a claim for verification by a user. fact-checker initially analyzes the claim utilizing LangChain’s graph transformer to discern its essential components and produce triplets.
+    
+    \item Query KG: The agent then queries the KG using a Cypher query template and the extracted triplets to find similar facts or context. Any information that supports or refutes the claim is retrieved.
+    
+    \item Prompt Construction: The fact checker builds a prompt for the LLM that incorporates the original claim and the supporting evidence from the graph. In the prompt, LLM is directed to prioritize the information provided by the KG over its internal information to weigh the facts from the KG.
+    
+    \item LLM Analysis and Verdict: The LLM processes the prompt and weighs the claim against the evidence. The fact checker determines whether the claim contradicts the evidence or aligns with it  and produces a true/false response and provides the reasoning for its determination
+ 
+
+\end{enumerate}
+
+The fact-checker agent effectively operates as the interface between the structured information in the KG and the unstructured reasoning of the LLM.  In its current implementation, the KG is the primary source of evidence for the agent. By design, this agent can also be extensible to search the web for information that is not in the KG, but this was not included in this initial work. 
+
+\subsection{Bias Detection Agent Implementation}
+The Bias Detection Agent focuses on determining the presence and lean of political bias in a provided news article by comparing it with other coverage of the same subject in the KG. Its implementation uses the KG as a basis for contextual comparisons, using other articles as a baseline to judge the slant of the target article.
+
+\begin{enumerate}
+\item Article Parsing: Upon receiving a news article to analyze, the agent leverages LangChain’s Graph Transformer to extract the key topics, entities, and relationships in the article and produce triplets.
+    
+    \item Bias Retrieval from KG: The agent queries the KG for the most structurally similar article in the KG, meaning the identified article shares the most nodes and edges as the provided article. The agent retrieves only the bias of the most structurally similar article and passes that to the LLM.
+    
+    \item Bias Prompt Construction: The Bias Detection Agent assembles a prompt using the provided article contents, the bias of the most similar KG article, and the shared entities between the articles. The LLM is prompted to use the evidence provided by the similar article as a clue but also to evaluate the article for specific tone or word choices that may indicate a bias.
+    
+    \item  LLM Bias Classification: The LLM analyzes the prompt, provides a “Left,” “Center,” or “Right” verdict, and offers good reasoning for this determination capability.
+\end{enumerate}
+
+An article by itself may be difficult to determine the bias, but by providing structurally similar bias in articles and the shared entities as a clue, the LLM can make a better determination of the provided article’s. The KG provides key context that an LLM alone will likely miss.
+
+\subsection{Knowledge Graph Components}
+In this section, we describe how the KG is built, its schema, and how agents interact with it so it can be the central shared memory in the multi-agent system. Figure 2 shows a portion of an example KG that uses matching nodes and relationships as the one used for this effort. 
+\begin{figure}[h!]
+\begin{center}
+
+\hspace*{-2cm}    
+\includegraphics[scale=0.5]{graph_schema.pdf}
+
+\end{center}
+\caption{An example portion of the knowledge graph schema. Blue nodes represent news articles in the corpus from which the other entity nodes have been extracted. Several articles can be related to similar entities, enabling complex relationships between the nodes.
+}
+\label{setup2}
+\end{figure}
+
+\subsubsection{KG Builder}
+
+The KG Builder module constructs and updates the knowledge graph using raw textual inputs. The KG Builder utilizes LangChain’s LLM Graph Transformer and Claude 3.5 Sonnet to convert unstructured news article text collected from the NewsAPI into structured graph data (Figure 2). The builder identifies entities and relationships from news articles and structures them into triplets that can be added to the KG.
+The KG builder is configured to allow certain nodes and relationships relevant to U.S. political news to ensure that the KG stays relevant to the scope of this effort, maintains a structured format, and reduces noise in the content. The builder functions also include methods for avoiding duplicate nodes when the same entity appears. The Graph Transformer also creates additional relationships in the KG that are not specified in the schema. This results in a robust, structured, and interconnected knowledge base for the news articles that our agents can access to address user queries.
+
+\subsubsection{Knowledge Representation Schema}
+
+The schema of the news KG is designed to capture the important elements of the news content and their interconnections. The KG is centered around news article nodes that connect to the other types of nodes in the KG. This approach allows us to make queries traceable to news articles and better understand complex relationships in the data. We define several types of nodes and edges:
+
+\renewcommand{\thealgocf}{3}
+\begin{algorithm}[h!]
+\caption{Initialize News Knowledge Graph Schema}
+\KwIn{News article corpus}
+\KwOut{Structured Knowledge Graph (KG)}
+
+\SetKwBlock{Define}{Define}{end}
+
+\Define (\textbf{Nodes})
+{
+
+    {\textbf{Article}\;
+    \textbf{Person}\;
+    \textbf{Organization}\;
+    \textbf{Event}\;
+    \textbf{Policy}\;
+    \textbf{Issue}\;
+    \textbf{Location}\;
+    \textbf{Election}\;
+    \textbf{Bill}\;
+    \textbf{Vote}\;
+    \textbf{Speech}\;
+    \textbf{Alliance}\;}
+}
+
+\Define (\textbf{Edge Types})
+{
+    \textbf{Mentions} (\textit{Article} $\rightarrow$ Any Entity)\;
+    \textbf{Affiliated With} (Any Entity $\leftrightarrow$ Any Entity)\;
+    \textbf{Participated In} (\textit{Person} $\rightarrow$ \textit{Event})\;
+    \textbf{Endorsed} (\textit{Person} $\rightarrow$ \textit{Policy})\;
+    \textbf{Sponsored} (\textit{Person} $\rightarrow$ \textit{Bill})\;
+    \textbf{Gave Speech} (\textit{Person} $\rightarrow$ \textit{Speech})\;
+    \textbf{Involved In} (\textit{Person} $\rightarrow$ \textit{Event})\;
+    \textbf{Organized} (\textit{Organization} $\rightarrow$ \textit{Event})\;
+    \textbf{Supports} (\textit{Organization} $\rightarrow$ \textit{Policy})\;
+    \textbf{Lobbied For} (\textit{Organization} $\rightarrow$ \textit{Bill})\;
+    \textbf{Takes Place In} (\textit{Event} $\rightarrow$ \textit{Location})\;
+    \textbf{Addresses} (\textit{Policy/Speech} $\rightarrow$ \textit{Issue})\;
+    \textbf{Decided By} (\textit{Bill} $\rightarrow$ \textit{Vote/Organization/Person})\;
+    \textbf{Includes} (Any Entity $\rightarrow$ Any Entity)\;
+}
+
+\Return{Initialized KG Schema}
+
+\end{algorithm}
+
+
+\subsection{ Knowledge Graph Query Mechanisms}
+A user interfaces with our system using an LLM chatbot. Based on the user input, the chatbot will interact with the KG directly or pass the interaction to another agent. The agents then generate the Cypher query by extracting key information from the user message in the form of nodes and relationships that align with those present in the KG. The extracted elements are formatted into  pre-built Cypher templates to interact directly with the KG. Once a query is executed, the results are provided in the form of triplets back to the agent. Through a combination of Cypher querying and LLM-driven element extraction, the agents can flexibly pull the information they need from the graph.
+ 
+\subsection{Knowledge Sharing Protocol}
+A key aspect of the system architecture is that the KG serves as a shared memory space for all agents. This sharing protocol ensures that updates to the KG and queries against it happen in a coordinated fashion so that each agent has a consistent and current view of the knowledge. Each agent, whether it’s the KG Builder, the Fact Checker, the Bias Detector, or the Chatbot, interacts with the KG through a defined interface through the Neo4j API.
+
+Currently, the KG Builder helps to write into the KG, and as soon as it makes changes or updates the KG, the other agents all have access to the new information. This is a benefit of using the shared memory; if one agent makes an update or change, all other agents will have immediate access to that information.
+
+\subsection{Implementation Details}
+\subsubsection{Technologies and Frameworks}
+The main multi-agent system and the two baseline comparisons were built with a modern technology stack that concentrated  on
+
+\paragraph{LLM+KG System}
+
+\begin{enumerate}
+    \item Core Language used in the development: Python 3.12.3 for all components
+    \item Large Language Model: AWS Bedrock Claude 3.5 Sonnet v2 as the backbone that powers the multi-agent capabilities
+\item Knowledge Graph: Neo4j graph database for storing and querying news data.  
+\item Machine learning:  LangChain as a framework for the multi-agent framework and for managing numerous agents. LangChain-Neo4j is for graph database agent interaction, and  LangChain is a graph transformer tool.
+\end{enumerate}
+
+\paragraph{Baseline Systems}
+\begin{enumerate}
+    \item LLM only:  AWS Bedrock Claude 3.5 Sonnet v2 for direct prompting
+
+    \item  RAG: Mistral-7B-Instruct-v02 \cite{r34}, ChromaDB, and Sentence-Transformers
+
+
+\end{enumerate}
+
+\subsection{Limitations of Current Approach}
+Even though the system is successful, the approach has key limitations that, if addressed, can further improve the capability:
+
+\begin{enumerate}
+    \item Entity Recognition: The LLMGraphTransformer sometimes struggles with identifying the most influential entities and relationships in an article. Tuning the LLMGraphTransformer through prompting and KG design is a key to successful deployment. If under-restricted, the LLM-GraphTransformer will extract every detail and relationship, generating significant noise in the KG. If over-restricted, the KG will lose effective context for successful implementation.
+
+    \item Window Context Constraints: There is a restriction on Claude 3.5 on the amount of contextual information that can be processed in single requests. This particularly affects triplet extraction from long-form articles. There may be important details that are not incorporated into the KG. It can be mitigated with chunking techniques ,but was not implemented in this project.
+
+\item Computational Constraints: We lost access to the institutional AWS bedrock when we graduated in May 2025. This made it difficult to do evaluation testing on a large scale with the same LLM backend for all our methods and approaches. This process has resulted in the RAG baseline being created with the open-source Mistral-7B, while other approaches utilize the Claude 3.5 Sonnet. Future research should replicate this experiment by using consistent LLM architectures to isolate the contribution of knowledge graph representation from the efficiency of capabilities. 
+
+
+
+
+\end{enumerate}
+
+\section{System Testing and Evaluation}
+\subsection{Testing Methodology}
+Our testing strategy employs a comprehensive evaluation framework designed to assess both component-level functionality and system-wide performance. The strategy follows a dual approach:
+\subsubsection{Isolated Component Evaluation: Unit Test}
+Individual agents and components of the knowledge graph are tested separately to ensure that they meet functional requirements and performance benchmarks. The dual-layer approach used is the use of mock to test component logic in isolation, and its fast, deterministic, and does not require external services. Serves as a primary testing layer for development and CI/CD. The automated unit test suites for:
+\begin{enumerate}
+    \item Knowledge graph operations (article retrieval, bias assessment, fact verification)
+    \item Fact checker functionality (entity extraction, claim verification)
+    \item Bias analyzer performance (bias detection accuracy, context utilization)
+
+\end{enumerate}
+
+\subsubsection{End-to-End System Testing: Integration Test}
+The complete system is evaluated using real-world data to measure overall effectiveness and validate information flow. We conducted end-to-end testing using a corpus of political news articles. The testing and evaluation focused on:
+\begin{enumerate}
+    \item System response quality
+    \item Processing efficiency
+    \item Knowledge graph utilization
+    \item Error resilience 
+\end{enumerate}
+
+\subsubsection{User Interface Implementation}
+A user interface was developed using Streamlit. This gives a user the ability to interact with the system in natural language and get back a natural language response for bias and fact check results. 
+
+\subsection{Evaluation Metrics}
+\subsubsection{Accuracy, Precision, Recall}
+In this research evaluation for multi-agent system, we employed standard classification metrics that are particularly appropriate for tasks involving class imbalance:
+\begin{enumerate}
+    
+    \item \textbf{Precision} measures the proportion of correct identifications (true positives divided by all positive predictions). This metric was especially important for fact-checking, where false accusations of misinformation could damage credibility. For bias detection, precision indicates how reliably the system can identify specific bias categories.
+    \item \textbf{Recall} (also known as sensitivity) measures the proportion of actual positives correctly identified (true positives divided by all actual positives). This was critical for fact-checking to ensure truthful claims weren’t incorrectly flagged as false, despite our dataset’s significant class imbalance.
+    \item \textbf{F1-score} represents the harmonic mean of precision and recall, providing a balanced measure that considers both false positives and false negatives. This was particularly valuable for our imbalanced fact-checking dataset 
+    \item \textbf{Accuracy} measures the proportion of correct predictions among the total number of cases evaluated. While useful as an overall metric, we supplemented it with balanced accuracy for the bias detection task to account for class imbalance.
+\end{enumerate}
+
+\subsubsection{System-specific Performance Metrics}
+In addition to standard classification metrics, we employed specialized metrics tailored to our specific evaluation tasks:
+
+ 
+\begin{enumerate}
+    \item \textbf {Balanced accuracy} accounts for class imbalance by calculating the average of recalls obtained on each class. This metric helps us understand the performance of our bias detection across left, center, and right, regardless of their proportion in the dataset.
+
+
+    \item \textbf {Cohen’s Kappa} measures inter-rater agreement while accounting for chance agreement. It is important in our bias detection system  for assessing how closely the system’s classifications align with human annotations beyond random agreement.
+
+ 
+    \item \textbf {The Matthews Correlation Coefficient (MCC)} measures balance in both binary and multiclass classification problems, even when there is class imbalance. This metric is important  for bias detection, offering a comprehensive evaluation of classification performance.
+
+
+
+    \item \textbf {Weighted F1}:  calculates the average F1 score weighted by the number of instances for each class and provides a more representative measure of overall performance across imbalanced classes.
+
+\end{enumerate}
+\subsubsection{Statistical Significance Testing}
+
+This study performed extensive statistical analyses to validate that the observed performance variations were not random fluctuations but rather statistically significant. We employed rigorous
+
+
+
+\begin{enumerate}
+
+    \item \textbf{McNemar's Test} \cite{r35}: A nonparametric test that compares two classifiers on the same dataset by pairing them up. McNemar's test looks at how often two classifiers disagree on predictions to see if one is always better than the other. The test statistic has a chi-squared distribution, and the significance level is $\alpha=0.05$.
+
+    \item \textbf{Bootstrap Confidence Interval}: Obtaining 95\% confidence intervals for all F1 values, bootstrap resampling is used  with 1,000 iterations. For each iteration, we randomly selected (with replacement) from the test set and computed the F1 score, and we established confidence intervals derived from the resulting distribution. This method offers very accurate estimates of uncertainty that take into account how big the dataset is and how unbalanced the classes are
+.
+
+    \item \textbf{Pairwise Comparison}: Statistical comparisons between the different pairings were conducted.
+
+.
+
+    
+\end{enumerate}
+
+
+\subsection{Experimental Setup}
+\subsubsection{Test Data Characteristics}
+For fact-checking evaluation, we compiled a benchmark dataset by scraping Media Bias/Fact Check (MBFC)’s Daily Fact Checks from February to April 2025. Table 1 shows the breakdown of the labels for claims that were collected. Each claim’s label corresponds to the verdict reported by MBFC, providing ground-truth annotations for evaluating our system’s fact-checking performance. 
+
+During preprocessing, 15 claims labeled "Missing" were removed. These represent datasets that are incomplete rather than valid classifications. 4 "misleading" claims were retained, as they represent a valid intermediate category between true and false. The resulting dataset comprises 214 claims, with 40 (18.7\%) labeled as "True," 170 (79.4\%) labeled as "False,"  and  4 (1.9\%) indicating a notable class imbalance. 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{llll}
+\hline
+\multicolumn{4}{c}{Fact Check Data Preprocessing}                     \\
+                & \multicolumn{2}{l}{Before}       & After            \\ \hline
+False           & \multicolumn{2}{l}{170 (74.2\%)} & 170 (79.4\%)     \\
+Misleading& \multicolumn{2}{l}{4 (1.7\%)}    & 4 (1.9\%)        \\
+Missing         & \multicolumn{2}{l}{15 (6.6\%)}   & 0 (0.0\%)        \\
+True& \multicolumn{2}{l}{40 (17.5\%)}   & 40 (18.7\%)      \\ \hline
+\end{tabular}
+\caption{Fact-checking dataset before and after data pre-processing}
+\end{center}
+\label{tab:my_table}
+\end{table}
+
+
+
+For bias detection, we compiled an evaluation corpus of 222 news articles,  labeled with its source's AllSides bias rating. Table 2 shows the dataset before and after pre-processing. Articles labeled "Lean Left" were categorized as "Left" for this evaluation. The resulting dataset used for evaluation contained a only "Left", "Center", and "Right" bias labels. This was used as a ground truth when evaluating the system's bias detection performance. 
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lll}
+\hline
+\multicolumn{3}{c}{Bias Data Preprocessing} \\
+            & Before        & After         \\ \hline
+Center      & 17 (7.7\%)    & 17 (7.7\%)    \\
+Lean Left   & 38 (17.1\%)   & 0 (0.0\%)     \\
+Left        & 93 (41.9\%)   & 131 (59.0\%)  \\
+Right       & 74 (33.3\%)   & 74 (33.3\%)   \\ \hline
+\end{tabular}
+\caption{Bias dataset before and after data pre-processing}
+\label{tab:my_table}
+\end{center}
+\end{table}
+
+Train/Test Split for RAG Baseline:
+In RAG baseline, we separate train-test sets that are required for the retrieval mechanism. 80/20 split rule was adopted for the bias detection corpus; this resulted in 177 articles for RAG knowledge base and 45 articles for testing.  The LLM+KG system makes use of the 177-article corpus to construct a knowledge graph. Evaluation was done on the same 45-test article to ensure experimental consistency. 
+
+This dataset separation ensures no data leakage; the 45 test articles were never added to the RAG retrieval database or the LLM + KG knowledge graph. While ensuring fair comparison across all 3 methods (RAG, LLM, and LLM-KG), 45 held-out articles were used for evaluation, ensuring that it reflects architectural performance capabilities rather than variation in the dataset.
+
+
+The articles and claims in the evaluation datasets were not present in the knowledge graph. However, the same news sources were used for the bias evaluation dataset and the knowledge graph due to availability of full article text from the NewsAPI. This separation ensures an unbiased assessment of unseen data, validating that the system’s performance is not inflated by data leakage.
+
+\subsubsection{Comparative Systems}
+
+To rigorously evaluate the impact and contribution of knowledge graph integration, we implemented three unique system configurations for comparison.
+\begin{enumerate}
+    \item \textbf{LLM-only}: utilizes AWS Bedrock Claude 3.5 Sonnet v2 for direct prompting but lacks external knowledge retrieval or structured memory. The configuration tests whether LLM parametric knowledge is enough or sufficient for the news evaluation task.
+
+    \item \textbf{RAG Baseline}: Retrieval-augmented generation \cite{r33}  uses unstructured retrieval of documents. These represent the current state-of-the-art for knowledge-enhanced language models.
+\textbf{RAG-Implementation}  Component include
+\begin{itemize}
+    \item Embedding Model:  Sentence-BERT (all-MiniLM-L6-v2)
+    \item Vector Database: ChromaDB is a vector database that can help with similarity searches of documents.
+    \item Retrieval: Helps in retrieving five articles that are most alike, based on cosine similarity. Model used: Mistral-7B-Instruct-v0.2 \cite{r34}
+
+\end{itemize}
+    
+\textbf{System Workflow}
+\begin{enumerate}
+    \item The system accepts a claim or article from the user.
+    \item The system retrieves the five articles from ChromaDB that are most similar to the user's input
+Combines the relevant information to create a coherent understanding.
+\item Mistral-7B classifies  based on the augmented context.
+\end{enumerate}
+
+\textbf{Implementation Note}
+Due to the loss of AWS Bedrock following our program completion.  We implement an RAG baseline that utilizes Mistral-7B. Both LLM-only and LLM+KG employ Claude 3.5 Sonnet. This is a careful review because:
+(1) Mistral-7B is optimized for following instructions.
+(2) RAG's retrieval makes up for smaller model, and
+(3) The differences in performance that were seen are much bigger than the regular differences in the size of the models.
+
+\item \textbf{LLM+KG}: The complete multi-agent system with the same AWS Bedrock Claude 3.5 Sonnet v2 model. Both systems employed identical prompt templates and preprocessing procedures to guarantee an equitable comparison. 
+This three-way comparison was advantageous in visualizing the results of what organized knowledge representation, unstructured retrieval, and direct LLM prompting can achieve.
+
+
+\end{enumerate}
+
+Both systems employed identical prompt templates and preprocessing procedures to guarantee an equitable comparison This configuration serves as a control to isolate the effect of the knowledge graph.
+
+\subsubsection{Evaluation Parameters}
+The system evaluation was conducted with the following parameters:
+\begin{enumerate}
+    \item LLM Temperature: 0.2 for all queries 
+    \item Maximum Token Limit: 4,096 tokens per request
+    \item Knowledge Graph Query Depth: Maximum 2-hop traversal for related entities
+    \item Bias Categories: Three-class classification (Left, Center, Right)
+    \item Fact-Check Categories: Binary classification (True, False) 
+    \item Testing Environment: Isolated environment with controlled network access
+    \item Evaluation Mode: Batch processing of all test instances with results logged for analysis; For each test case, we recorded the system’s prediction and reasoning for the prediction
+    \item  Statistical Testing: bootstrapping with 1000 cycles resampling for 95\% confidence intervals
+    \item  Significance Testing: McNemar's test for all pairwise method comparisons $\alpha=0.05$.
+
+
+
+\end{enumerate}
+For each test case, we recorded the system’s prediction and reasoning for the prediction. 
+
+\section{Results}
+\subsection{Quantitative Performance Analysis}
+\subsubsection{Comparative Performance Metrics}
+
+\textbf{Fact-Checking Results} 
+
+\begin{enumerate}
+    
+
+\item{RAG Baseline Performance}: The RAG baseline got a weighted F1 score of 0.66, but it did very poorly on the minority True class, with a recall of 0.05 and an F1 of 0.08. This system's significant reliance on the majority False class (F1: 0.81) leads to a macro F1 of only 0.22,  indicating that it had a lot of class imbalance issues.
+
+
+
+\item{LLM-Only Performance}: The LLM-only model result has a weighted F1 score of 0.72 overall (Table 3). The False class did well with (precision: 0.80, recall: 0.96, F1:0.87), but it performed badly on the True class (recall: 0.07, F1: 0.14), which was better than RAG on True claims.
+
+ 
+\item {LLM + Knowledge Graph Performance}: This model uses structured KG context and, on the other hand, did much better on almost all measures (Table 3, Figure 3). The recall for True claims went up from 0.05 (RAG) and 0.07 (LLM-only) to 0.25, and the F1-score went up to 0.39. The overall weighted F1 score went up to 0.79, and the macro F1 score went up to 0.43.
+
+\item {Statistical Significance Test}
+McNemar's test was used, and the results show that LLM+KG is much better than RAG ($p<0.001$) and LLM-only ($p=0.0019$). Table 4 shows there is no overlap between the 95\% confidence ranges. In Table 5, the confidence interval shows that these improvements are significant
+
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{3}{c}{\textbf{RAG}} & \multicolumn{3}{c}{\textbf{LLM-Only}} & \multicolumn{3}{c}{\textbf{LLM+KG}} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+\textbf{Class} & P & R & F1 & P & R & F1 & P & R & F1 \\
+\midrule
+True   & 0.18 & 0.05 & 0.08 & 1.00 & 0.07 & 0.14 & 0.91 & 0.25 & 0.39 \\
+False  & 0.82 & 0.81 & 0.81 & 0.80 & 0.96 & 0.87 & 0.83 & 0.99 & 0.91 \\
+\midrule
+Macro     & 0.25 & 0.21 & 0.22 & 0.45 & 0.26 & 0.25 & 0.58 & 0.41 & 0.43 \\
+Weighted  & 0.69 & 0.65 & 0.66 & 0.82 & 0.78 & 0.72 & 0.83 & 0.84 & 0.79 \\
+\bottomrule
+\multicolumn{10}{l}{\footnotesize Support: True=40, False=170, Misleading=4 (all methods 0.00 F1 on Misleading)} \\
+\end{tabular}
+\caption{Fact-checking performance comparison across methods (214 claims)}
+\label{tab:factcheck_comparison}
+\end{table}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.7]{figure4_factcheck_comparison.pdf}
+\end{center}
+
+\caption{Fact-checking performance comparison across RAG, LLM-only, and LLM+KG approaches. Error bars represent 95\% confidence intervals. Significance markers: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.}
+\label{fig:fack-checking-results}
+\end{figure}
+
+The result achieved further illustrates that integrating a structured knowledge graph has many advantages and is better than using unstructured retrieval (RAG) or direct LLM prompting, especially when it comes to handling minority instances of the class in imbalanced datasets. 
+
+
+
+
+\subsubsection{Bias Detection Results}
+This research experiment uses 3 approaches to compare how successfully the bias detection algorithm discovered bias across the Left, Center, and Right categories  (Table 4, Figure 4). The method are
+
+\begin{enumerate}
+    \item{RAG Performance Baseline}:  The baseline performance was poor; it earned a weighted F1 of 0.287 and a balanced accuracy of 0.164 (Table 4). The system had issues with minority classes that weren't the most common. For example, it had a very low recall for left articles (0.19) but a very high precision (0.83). It also predicted Center bias for almost all Center articles (recall: 1.00), but with a very low precision (0.16), which means it probably predicted this class too strongly.
+
+\item {LLM-Only Performance}: The LLM-only system has a Cohen's kappa of 0.488, a weighted F1 score of 0.713, and a balanced accuracy of 0.722 (Table 4). These results indicate that the model is not particularly effective in managing the minority Center class; yet, they do reflect some alignment with actual occurrences. The Matthews correlation coefficient (MCC) of 0.574 shows that the model did better on some classes than on others.
+
+ 
+\item {LLM + Knowledge Graph Performance}: The model with KG context did far better in every category (Table 4, Figure 4). The balanced accuracy went up to 0.857 (+18.7\% over LLM-only, +422.6\% over RAG), which shows that it was much better at dealing with class imbalance. Cohen's kappa went up to 0.745, which means that there was a lot of agreement that wasn't just by accident. The weighted F1 score went up to 0.900, which is 214\% higher than RAG and 26.2\% higher than LLM-only.
+
+\item {Statistical Significance Test}: A statistical significance test showed that LLM+KG is much better than both baselines ($p<0.001$ compared to RAG, $p=0.0055$ compared to LLM-only), with confidence intervals that do not overlap (Table 5). These results show that adding knowledge graphs to LLM-based bias detection models makes them much better and fairer, especially when there are more classes than others. The increase from RAG (0.287) to LLM-only (0.713) to LLM+KG (0.90) shows that structured knowledge representation is much better than unstructured retrieval.
+
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+         & \multicolumn{5}{c}{\textbf{Bias Detection Performance Metrics}} \\
+\textbf{Method} & \textbf{Balanced Accuracy} & \textbf{Cohen's Kappa} & \textbf{Macro F1} & \textbf{MCC} & \textbf{Weighted F1} \\
+\midrule
+RAG      & 0.164 & 0.071 & 0.228 & 0.142 & 0.287 \\
+LLM-Only & 0.722 & 0.488 & 0.644 & 0.574 & 0.713 \\
+LLM+KG   & 0.857 & 0.745 & 0.825 & 0.759 & 0.900 \\
+\bottomrule
+\end{tabular}
+\caption{Bias detection performance comparison across methods (45 articles)}
+\label{tab:bias_comparison}
+\end{table}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.7]{figure3_bias_comparison.pdf}
+\end{center}
+\caption{Bias detection performance comparison across RAG, LLM-only, and LLM+KG approaches. Error bars represent 95\% confidence intervals. Significance markers: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.}
+
+\label{fig:bias-results}
+\end{figure}
+These findings indicate that the integration of a knowledge graph significantly enhances the robustness and fairness of LLM-based bias detection models, especially in imbalanced multiclass settings. 
+
+
+\subsection{Qualitative Analysis}
+
+\subsubsection{Error Analysis}
+The assessment of the three methodologies uncovers unique performance attributes:
+The RAG baseline had a very low true-claim recall rate of just 0.05. With  LLM, it goes up to 0.07, and with LLM+KG integration, the score rose to 0.25. There is still room for growth, though.
+
+Based on the result, identifying bias ranges from RAG (weighted F1: 0.287) to LLM-only (0.713) to LLM+KG (0.900). This study shows the advantage of combining structured retrieval with a knowledge graph. The Matthews correlation indicates that the value increased from 0.574 for LLM-only to 0.759 for LLM+KG, suggesting an improved general balance in classification across all bias categories.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Method} & \textbf{Bias Detection} & \textbf{Fact-Checking} & \textbf{Significance} \\
+ & \textbf{Weighted F1} & \textbf{Weighted F1} & \textbf{vs. RAG} \\
+\midrule
+RAG      & 0.287 [0.14--0.44] & 0.660 [0.59--0.73] & Baseline \\
+LLM-only & 0.713 [0.57--0.82] & 0.721 [0.65--0.79] & $p<0.001$*** \\
+LLM+KG   & 0.901 [0.82--0.98] & 0.793 [0.73--0.86] & $p<0.001$*** vs RAG, $p<0.01$** vs LLM-only \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize * $p<0.05$, ** $p<0.01$, *** $p<0.001$} \\
+\multicolumn{4}{l}{\footnotesize Values shown as: F1-score [95\% CI]} \\
+\end{tabular}
+\caption{Overall performance comparison across methods and tasks}
+\label{tab:overall_comparison}
+\end{table}
+
+\textbf{Table 5} demonstrates how the two tasks compare overall.  It indicates that the same patterns appear in both tasks.  The obvious difference  between RAG and LLM+KG (F1: 0.28 to 0.900), which is up to 214\% improvement, further supports the premises and illustrates the importance of applying structured knowledge graphs to discover bias.
+
+Fact-checking has been better compared, showing improvements from RAG (0.660) to LLM-only (0.721) to LLM+KG (0.794).  This means that there is a small but significant improvement, since all pairwise comparisons are statistically significant ($p<0.01$).  The more pronounced performance gap in bias detection suggests that this research benefits more from structured knowledge access, likely due to the need to assess complex contextual and rhetorical patterns that are more effectively conveyed in graph structures than in unstructured text retrieval.
+
+
+\section{Discussion}
+\subsection{Interpretation of Results}
+The experimental gain and performance across the three different methods—RAG baseline, LLM-only, and LLM + KG—support our research premise and objectives.  It's illustrated that the combination of a structured knowledge graph with multi-agent LLM systems results in significant improvements and benefits over unstructured retrieval and direct prompting approaches.
+
+\begin{enumerate}
+  
+
+\item{Bias Detection}: The weighted F1 score goes from 0.287 (RAG) to 0.713 (LLM-only, +148\%) to 0.900 (LLM+KG, +214\% above RAG). In addition, balanced accuracy moves from (0.614 $\rightarrow$ 0.722 $\rightarrow$ 0.857), and Cohen's kappa increases (0.071 $\rightarrow$ 0.488 $\rightarrow$ 0.745), demonstrating that an organized knowledge graph is significantly better at handling class imbalance than either unstructured retrieval or direct prompting.
+
+\item{Fact-Checking}: In fact-checking, recall of true claims shows progression from 0.05 (RAG) to 0.07 (LLM-only) to 0.25 (LLM+KG), which accounts for 400\% improvement over RAG.  The weighted F1 progression (0.660 $\rightarrow$ 0.721 $\rightarrow$ 0.794) demonstrates that structured knowledge graph integration is the optimal way to acquire results, even as direct LLM prompting is better than unstructured retrieval.
+
+\end{enumerate}
+\textbf{Key Result Insight}:
+
+The results shown illustrate
+
+\begin{itemize}
+    
+
+\item \textbf{RAG's Limitations:}Unstructured retrieval has issues with minority classes; it struggles with contextual reasoning and class imbalance, particularly with minority classes.
+
+\item \textbf{Improvement with LLM-only:} There is great improvement with LLM-only direct prompting, in which the model has  great reasoning capabilities, even when it lacks consistent access to facts
+
+\item \textbf{Integration of KG and LLM}: The integration of the KG and LLM, the knowledge Graph has organized capabilities in a way that gives context and makes it easy to access relevant information, which makes classification more accurate and balanced
+\end{itemize}
+
+These improvements indicate that the use of KG provides critical contextual information that LLMs lack when operating independently.
+
+
+\subsection{Comparison with Existing Systems}
+
+Our three-way experimental comparison demonstrates multiple techniques for enhancing LLMs in news appraisal tasks.
+\begin{enumerate}
+    
+
+\item{Performance of  Bias Detection:} There is a gradual improvement in performance from RAG (weighted F1: 0.287, balanced accuracy: 0.164) to LLM-only (weighted F1: 0.713, balanced accuracy: 0.722) and then to LLM+KG (weighted F1: 0.900, balanced accuracy: 0.857), illustrating the effectiveness of the structured knowledge graph integration. The 423\% increase in balanced accuracy from RAG to LLM+KG, compared to the 340\% increase from RAG to LLM, shows that both the retrieval method and the knowledge structure have improved performance. The knowledge structure representation has had the greatest impact.
+
+\item{Performance of Fact-Checking:} The gradual performance improvement (weighted F1: 0.660 $\rightarrow$ 0.721 $\rightarrow$ 0.794) illustrates that the transition from RAG to LLM-only and the integration of structured context from LLM-only to LLM + KG hugely benefit this study. The significant increase in True claim recall (0.05 $\rightarrow$ 0.07 $\rightarrow$ 0.25) suggests that structured knowledge graphs contribute to this improvement, leading to better identification of verifiable facts, probably because they make factual relationships clearer.
+
+\item{Computational Trade-off:}
+RAG is basic and does make use of a lot of computational processing power. Its performance limitation makes it unsuitable for this task in production. The LLM-only strategy works better and is more effective, though it does not need significant infrastructure in comparison. While LLM+KG achieves the best results, it costs to maintain the knowledge graph. Though for high apps that demand high accuracy, especially when working with minority group datasets and imbalanced datasets, the additional complexity is justified
+\end{enumerate}
+
+\subsection{Limitations Discovered During Evaluation}
+The system evaluation across three approaches revealed several critical limitations:
+
+\subsubsection{Limitations Based on  Cross-Method:}
+\begin{enumerate}
+
+\item \textbf{Performance of Minority Classes: }
+The 3 approaches have problems with minority classes, but LLM+KG has demonstrated significant improvements compared to the other methods. The best method, which is LMM+KG, achieves 0.25 recall on true claims in fact-checking; these illustrate that it could perform better with an imbalanced dataset. Future work should explore more specialized techniques for minority class imbalance in detection systems, such as SMOTE (synthetic data augmentation)  
+
+\item \textbf{New emerging narrative: The}
+ upcoming emerging narrative indicates that all three approaches face challenges with new political stories that are not widely covered in their specific information sources. RAG has shown significant issues with collecting relevant context, LLM-only shows a lack of enough data for new topics, and LLM+KG has exhibited limitations based on how much knowledge graph coverage it has
+
+ \item \textbf{Dataset Size Constraint:}There is a tremendous computational constraint in using large evaluation datasets. Currently, the evaluation dataset (214 claims for fact-checking, 45 articles for bias detection reflecting the 80/20 splitting rule) and for fair system comparison the 3 systems were evaluated on the same 45 held-out articles; McNemar's tests and bootstrap confidence intervals demonstrated statistical significance despite these sample sizes and larger-scale validation (1000+ examples per task) in different, diverse news sources. This was largely constrained by computational resources following the loss of access to institutional AWS Bedrock resources. Having access to large-scale validation would strengthen confidence in the observed patterns
+
+ \end{enumerate}
+
+ \subsubsection{Approach-Specific Limitations:}
+\begin{enumerate}
+
+\item \textbf{RAG:} RAG has demonstrated difficulty in obtaining knowledge relevant to specific circumstances, and it is not particularly effective at performing tasks that require complex thinking, i.e., poor handling of complex reasoning tasks.
+
+\item \textbf{LLM-only:}Receiving reliable information is not always straightforward, and LLMs may generate inaccurate responses if they lack external support
+
+\item \textbf{LLM+KG:} It requires a lot of significant effort to develop and maintain a knowledge graph, and its performance largely depends on graph coverage and quality.
+
+
+
+\end{enumerate}
+.
+
+\subsection{Implications for News Evaluation Research}
+\begin{enumerate}
+    \item {Structured vs.Unstructured Knowledge:} This research's findings indicate that structured knowledge representation significantly outperforms unstructured retrieval-augmented generation in news rating tasks.  The gradual improvements in bias identification and fact-checking performance from RAG to LLM+KG demonstrate that presenting relationships, entities, and contextual information enhances reasoning more effectively than similarity-based retrieval.
+    \item {Consideration for hybrid architecture:}
+    LLM-only approaches have moderate performance, especially compared to RAG, indicating that for applications with few resources, direct prompting with well-thought-out prompts would be a considerably suitable alternative to complex retrieval algorithms that are complex.  However, for large production systems that require high accuracy and operate well with all classes, there is a need for extra infrastructure to connect well with the knowledge graph, although it's worth it.
+
+\end{enumerate}
+
+
+
+\section{Conclusion}
+\subsection{ Summary of Contributions}
+This research study makes important contributions:
+
+\begin{enumerate}
+    \item Evaluating Comprehensive baseline Method: This study presents the systematic comparison of three distinct methodologies and approaches: LLM-augmented news evaluation;  first, the unstructured retrieval-augmented generation (RAG); second,  direct LLM prompting (LLM-only); and third, structured knowledge graph integration (LLM+KG). This experiment shows that in the real world, structured knowledge graph representations are much better than unstructured retrieval and direct prompting.
+
+    \item New multi-agent architecture: In this study, we created an improved multi-agent system that has combined LLM features and a dynamic shared knowledge graph that helps agents work together and in collaboration to evaluate news. This illustrates that a structured knowledge graph is not only advantageous but also effective for both checking facts and finding bias.
+
+    \item Performance Improvement on Validation: In this study, we integrate McNemar’s test and bootstrap confidence interval, indicating that all of the metrics show a significant performance improvement. In the bias detection, the LLM+KG approach has a big performance improvement, which is 214\% better than RAG and 26\% better than LLM-only (weighted F1: 0.900). For fact-checking, there is a 20\% improvement in achievement compared to RAG and a 10\% improvement compared to LLM-only (weighted: F1:0.794). The particular improvement is in recall for minority classes, which is 400\% better than RAG
+
+\end{enumerate}
+
+
+\subsection{Achievement of Research Objectives}
+This research successfully shows the effectiveness of integrated KG architectures and the value of providing structured contextual knowledge to LLM-based systems through the use of KG. This shows statistically measured performance improvement between multi-agent systems with KG integration compared to those without  KG integration for news bias detection and fact-checking.
+This study successfully addresses the core research question in section 1.3
+
+\begin{enumerate}
+    \item RQ1: Does the structured knowledge graph have a statistical advantage over unstructured knowledge retrieval-augmented generation (RAG) approaches for news evaluation?
+
+Yes. Statistical testing carried out shows that LLM+KG statistically significantly outperforms  RAG in both tasks ($p<0.001$), with the biggest improvements (214\% in weighted F1) in finding bias. Structured knowledge representation allows for better contextual reasoning and the handling of class imbalances than similarity-based retrieval.
+
+\item RQ2: Does a structured knowledge graph address complex news evaluation challenges compared to direct LLM prompting approaches?
+
+The three-way comparison shows that LLM-only prompting works much better than RAG. This shows how useful the model's ability to reason on its own is. Adding structured knowledge graph access (LLM+KG) makes things even better ($p<0.01$). This conclusion illustrates that grounding external knowledge doesn't affect the LLM's ability to reason; it helps it.
+\end{enumerate}
+\subsection{Practical Applications}
+The developed system has immediate real-world practical applications in journalistic and industrial workflows and provides valuable educational contexts and media literacy programs. News organizations and outlets can implement this architecture to provide rapid fact-checking and bias analysis, while media experts and educators can use it to teach critical media analysis skills.
+
+
+
+\section{Future Work}
+
+\subsection{Architectural Improvements}
+Future research should primarily focus on optimizing agent communication protocols based on performance feedback. The introduction of additional agents that write to the KG can offer an aspect of continued learning even when the news corpus is not being updated. Having agents annotate the KG will provide additional bias or fact content that can be considered when making evaluations.
+
+
+\subsection{Knowledge Graph Enhancements}
+Other future research could be the inclusion of vector embeddings into the KG, such as GraphRAG, which can provide another layer of capturing contextual information for agents to use to improve news evaluations. Adding a temporal element to the KG to weigh emerging news stories should also be explored in future work.
+
+
+
+\subsection{Additional Agent Types}
+Additionally, we proposed the inclusion of the new agents to include rhetorical analysis specialists, source credibility evaluators, and narrative frame detectors. These specific specialized agents would further enhance the system’s overall analytical capabilities and provide a more comprehensive news evaluation in bias and fact-checking.
+
+\subsection{Real-World Deployment Considerations}
+The real-world consideration in production deployment requires addressing scalability challenges, implementing robust error-handling mechanisms, and developing user interfaces based on different stakeholder groups (journalists, educators, and researchers). In addition, there should be ethical considerations regarding transparency, accountability, and potential misuse that must be carefully addressed through established governance policy guidelines.
+
+
+
+\subsection{Full System Documentation}
+Technical documentation for this project and the software developed is available at:  
+\href{https://modupeolawuraola.github.io/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation/architecture.html}{github.io/Multi-Agent-System-with-Knowledge-Sharing-For-News-Evaluation}.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+\end{document}

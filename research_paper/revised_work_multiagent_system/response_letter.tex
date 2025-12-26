@@ -1,0 +1,288 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\title{\textbf{Response to Reviewers}\\
+\large \textbf{Manuscript: Improved Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking}}
+
+
+\begin{document}
+\maketitle
+
+\section*{Dear Editor and Reviewers,}
+
+We appreciate the reviewers'  constructive feedback, which was insightful. Below is the detailed explanation of each reviewer's point
+
+
+\section{Response to Reviewer 1}
+
+\subsection{Comment 1: Include complex baselines (KGFakeNet)}
+
+\subsubsection*{Response:}
+Thank you for suggesting that we compare to KGFakeNet. We do, however, respectfully disagree that KGFakeNet is a good foundation for our work because of major differences in architecture and methodology:
+ 
+
+\paragraph{Architectural Differences:}
+\begin{enumerate}
+    \item \textbf{Different Problem Scope:}
+    \begin{itemize}
+        \item KGFakeNet focuses specifically on fake news detection (binary classification)
+        \item Our system architecture has two main tasks: checking for bias (3-class) and checking facts (2-class; binary).
+        \item KGFakeNet does not specialize in classifying political bias
+
+    \end{itemize}
+    
+    \item \textbf{Different Ways of Representing Knowledge:}
+    \begin{itemize}
+        \item KGFakeNet employs a static, pre-built knowledge graph from structured sources like Concept-Net and DBpedia.
+        \item Our system constructs a dynamic knowledge graph from news items that is updated as new information comes in.
+        \item KGFakeNet's KG stands for broad world knowledge.
+        \item Our KG stands for the context and source relationships of news across time.
+
+    \end{itemize}
+    
+    \item \textbf{Different Data Requirements:}
+    \begin{itemize}
+        \item KGFakeNet needs datasets that are related to entities, like FakeNewsNet, with pre-annotated entities.
+        \item Our system can use raw news articles from NewsAPI without having to process the entities first.
+        \item It would take a lot of work to change KGFakeNet to work with our data
+    \end{itemize}
+    
+    \item \textbf{Different Ways to Integrate}
+    \begin{itemize}
+        \item KGFakeNet employs Graph Neural Networks (GNNs) to encode KG structure 
+        \item Our system uses LLM-based reasoning over graph context
+        \item  These are two quite different ways of doing things (neural graph encoding vs. LLM).
+
+        \end{itemize}
+\item \textbf{Different justification}
+We used a RAG (Retrieval-Augmented Generation) baseline instead of KGFakeNet. This makes it easier to compare:
+
+\begin{itemize}
+    \item Mistral-7B-Instruct-v0.2 is an open-source LLM.
+\item Same source of information (news articles)
+\item Tests specifically, "Does structured KG offer advantages over unstructured retrieval?"
+
+\end{itemize}
+\end{enumerate}
+Action Taken: 
+We put in place a RAG (Retrieval-Augmented Generation) baseline, and it gives a better comparison for our architecture using:
+\begin{itemize}
+    \item Sentence Transformer (all-MiniLM-L6-v2) to make text embeddings
+    \item ChromaDB for storing vectors and finding related documents
+    \item Mistral-7B-Instruct-v0.2 for generation
+\end{itemize}
+
+Note on implementation:
+
+\begin{itemize}
+    \item We utilized Mistral-7B for the RAG baseline because we lost access to AWS Bedrock after the program ended. 
+For the LLM-only and LLM+KG approaches, we used Claude 3.5 Sonnet. We know this is a problem (see Section 2.1 for more on computational limits). But we think this is a conservative assessment because:
+\item RAG's retrieval context can make up for a smaller model size.
+\item The big differences in performance (214\% better at finding bias) point to influences on the architecture rather than the size of the model. The results show the progression: $RAG < LLM-only < LLM+KG$ (see updated Figures 3-4 and Table 5 in Section 5).
+
+\end{itemize}
+
+
+\subsection{Comment 2: Figure 1 needs a more detailed caption}
+
+\subsubsection*{Action Taken:}
+We expanded Figure~1's caption to include:
+\begin{itemize}
+    \item A description of each part (Agent Manager, Bias Analyzer, Fact Checker, Knowledge Graph) • An explanation of how data moves between parts
+
+    \item Clarification of how agents interact and how workflows are routed. The amended manuscript (Section 3.1) has the new caption.
+
+\end{itemize}
+
+The updated caption is provided in the revised manuscript (Section~3.1).
+
+\section{Response to Reviewer 2}
+
+\subsection{Comment 1: Expand datasets to 1,000+ examples per class}
+
+\subsubsection*{Response:}
+ We acknowledge that this is a problem. But we think that the size of our present test dataset (214 fact-checking claims and 45 articles for bias testing) is good for this investigation of different architectures for the following reasons:
+Why the Methodology Is Needed: The bias detection test, which has 45 datasets, is based on the design needs and not just on the lack of resources. The RAG baseline needs the whole 222-article corpus to be split into 80\% for training and 20\% for testing. This strategy led to 45 test articles. We employ these 45 held-out articles for evaluation to make sure that all comparisons are fair throughout the system (RAG, LLM-only, and LLM+KG). Using separate evaluations on multiple test sets might mix up the impacts of the architecture with the effects of the different variations.
+
+
+\begin{enumerate}
+    \item \textbf{Statistical analyses and validation:}
+    The bootstrap confidence interval and McNemar's test (introduced in this revision) showed that the improvements we saw were statistically significant ($p < 0.01$ for all pairwise comparisons). There are significant differences in performance (214\% improvement for finding bias, 400\% improvement in true claims) that exceed what is typically expected from sample variation.
+     
+
+    
+    \item \textbf{Computational Constraints:}
+    The system was constructed and needs expensive LLM API calls through AWS Bedrock. There are usage limits on how much you can use AWS Bedrock.  The total cost of doing each experiment (3 baselines × 3 iterations) accounts for significant computational cost. After we graduated in May 2025, we lost access to institutional AWS Bedrock accounts, limiting our ability to run the experiment on a large scale. Because of these limits, RAG baseline was set up using the open-source Mistral-7B.
+
+    
+    \item \textbf{Architectural Focus:}
+    The system shows that integrating structured knowledge graphs outperforms both unstructured retrieval (RAG) and direct prompting (LLM-only), but it might not achieve state-of-the-art performance. Even with a smaller test dataset, this architectural comparison is still valid.
+
+   \end{enumerate} 
+
+\subsubsection*{Future Work:}
+We acknowledge larger-scale evaluation (1000+ examples) across different news sources, topics, and time periods is necessary for production deployment. We plan to expand datasets in the future with access to more computational resources.
+
+
+
+\subsubsection*{Action Taken:}
+Section 4.3.1 provides a comprehensive explanation of the train/test split methodology and why all the systems use a 45-article test set. In Section 6.3, we added a "Limitations" paragraph about the dataset's size limits and future plans.
+
+
+
+\subsection{Comment 2: Add proper baselines}
+
+\subsubsection*{Action Taken:}
+We set up a RAG (Retrieval-Augmented Generation) baseline using
+\begin{itemize}
+    \item Sentence Transformers (all-MiniLM-L6-v2) to make text embeddings.
+    \item ChromaDB  for storing vectors and looking for similar ones
+    \item Mistral-7B-Instruct-v0.2 for  generation
+
+\end{itemize}
+
+The results show the progression: The three setups that were evaluated are LLM-only, RAG, and LLM+KG. You can view the modified Tables 3 and 4 in Section 5. This baseline directly examines whether the structured knowledge graph is better than unstructured vector-based retrieval.
+.
+
+Implementation Note: After the program was over, access to AWS Bedrock was lost; thus, Mistral-7B was used for the RAG baseline, and Claude 3.5 Sonnet was used for the LLM-only and LLM+KG approaches. We agree that this is a problem (see the comment in Section 2.1 on computational limits). But we say this is a cautious assessment because:
+\begin{itemize}
+    \item Mistral-7B is best at following instructions and does well at categorization jobs.
+\item  RAG's retrieval context can make up for a smaller model size.
+\item The substantial differences in performance (214\% improvement for bias detection) point to effects on the architecture rather than the size of the model.
+
+\end{itemize}
+
+Results show the progression: $RAG < LLM-only < LLM+KG$ (see updated Figures 3-4 and Table 5 in Section 5).
+
+\subsection{Comment 3: Add statistical testing}
+
+\subsubsection*{Action Taken:}
+We added comprehensive statistical testing:
+\begin{itemize}
+    \item Bootstrap resampling (1,000 iterations, random seed 42 for repeatability) for 95\% confidence intervals
+
+    \item  McNemar's test for comparing pairwise classifier comparisons
+    \item All pairwise comparisons were tested: $RAG vs. LLM-only, RAG vs. LLM+KG, and LLM-only vs. LLM+KG$
+
+\end{itemize}
+
+\paragraph{Updated Results:}
+\textbf{Updated Results:}
+
+\textbf{Bias Detection:}
+\begin{itemize}
+    \item RAG: Weighted $F1 = 0.287$ [95\% CI: 0.139--0.446]
+    \item LLM-only: Weighted $F1 = 0.713$ [95\% CI: 0.594–0.827] 
+          ($p<0.001$ vs. RAG)
+    \item LLM+KG: Weighted $F1 = 0.901$ [95\% CI: 0.817--0.978] 
+          ($p=0.0055$ vs. LLM-only, $p<0.001$ vs. RAG)
+\end{itemize}
+
+\textbf{Fact-Checking:}
+\begin{itemize}
+    \item RAG: Weighted $F1 = 0.661$ [95\% CI: 0.585--0.728]
+    \item LLM-only: Weighted $F1 = 0.721$ [95\% CI: 0.643--0.795] 
+          ($p<0.001$ vs. RAG)
+    \item LLM+KG: Weighted $F1 = 0.794$ [95\% CI: 0.722--0.858] 
+          ($p=0.0019$ vs. LLM-only, $p<0.001$ vs. RAG)
+\end{itemize}
+
+All improvements are statistically significant ($p<0.01$). In Section 5.1 of the updated manuscript 2.4, you can find a full explanation of the statistical testing methods and results. 
+
+
+\subsection{Comment 4: Address data leakage}
+
+\subsubsection*{Response:}
+We want to make it clear that our initial solution took data leakage into account:
+
+\begin{itemize}
+    \item The knowledge graph did NOT have any test articles or claims.
+    \item We utilized the same news sources for both building and testing the KG, but we used different articles that were collected at different time periods
+
+    \item Temporal separation: KG was developed from articles collected in February and March 2025, while testing was done on articles and claims from April 2025.
+\end{itemize}
+
+\subsubsection*{Action Taken:}
+We changed Section 4.3.1 to make the data separation technique clearer and more detailed:
+
+
+\begin{quote}
+``The articles and claims in the evaluation of datasets were collected after the knowledge graph was built and were never added to it; therefore, there was no data leakage.
+All test instances represent data that was not used during system development or knowledge graph population.''
+\end{quote}
+
+\subsection{Comment 5: Improve the bias detection methodology}
+
+\subsubsection*{Response:}
+We acknowledge that our current approach for finding bias has some limitations. However,  our main goal is to show how useful knowledge graph integration can be for multi-agent reasoning, rather than developing a novel news bias detection technique. Algorithm. 
+Instead of using nearest-neighbor source matching, our method uses the knowledge graph's contextual information, such as source relationships, historical bias patterns, and related articles.
+The knowledge graph enables the system to 
+
+
+\begin{itemize}
+    \item Look up the past historical bias pattern of news sources
+    \item Retrieve  articles contextually that are related  to the same topic in context
+    \item Think about how credible the source is and what the editor's point of view stance
+
+\end{itemize}
+
+\subsubsection*{Action Taken:}
+We provided more information to Section 3.2 (Bias Detection Agent) to explain:
+
+\begin{itemize}
+    \item How graph context improves bias classification beyond simply looking up the source
+
+    \item Why this method is good for our research into multi-agent architectures
+    \item Planned future research work should include more advanced graph-based reasoning methods. We have added to the Discussion section with anticipated changes to the methodology for finding bias.
+
+
+\end{itemize}
+
+\subsection{Comment 6: Increase font size in Figures 3 and 4}
+
+\subsubsection*{Action Taken:}
+
+ We changed the fonts in Figures 3 and 4 to make them much bigger and easier to read (14 pt for labels and 12pt for axis text). The revised manuscript has new figures.
+
+
+\section{Summary of Changes}
+
+\begin{enumerate}
+    \item Added  RAG baseline comparison with a full, detailed explanation of how it was done and what the results were
+
+    \item Added tests for statistical significance (bootstrap resampling and McNemar's test)
+
+    \item  Improved  Figure 1 caption with full detailed descriptions of each component
+
+    \item Increase text sizes in Figures 3 and 4 for better readability.
+
+    \item Address the data leakage by  separating data clearly and providing an explanation to address data leakage concerns
+
+    \item  Added a comprehensive  explanation for why the KGFakeNet Framework might not work
+
+    \item Strengthen the system methodology discussion by adding substantial information on the bias detection methodology approach. 
+
+    \item Added  "Limitations" that talk about the size of the dataset and future work.
+
+\end{enumerate}
+
+\vspace{1em}
+
+We believe these changes substantially address the reviewers' concerns while acknowledging legitimate and some real limitations that will be addressed in future work. We are confident that the new statistical validation and baseline comparisons strengthen our contribution.
+
+\vspace{1em}
+
+Thank you for your time and consideration.
+
+\vspace{1em}
+
+\noindent Respectfully,
+
+
+\noindent The Authors
+
+
+\end{document}

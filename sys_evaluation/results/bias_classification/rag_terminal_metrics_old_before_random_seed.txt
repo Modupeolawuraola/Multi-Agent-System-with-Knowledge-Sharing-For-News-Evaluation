@@ -1,0 +1,20 @@
+============================================================
+RAG BASELINE EVALUATION RESULTS
+============================================================
+
+BIAS DETECTION METRICS:
+----------------------------------------
+Weighted F1: 0.2919
+Balanced Accuracy: 0.1643
+Cohen's Kappa: 0.0711
+
+FACT-CHECKING METRICS:
+----------------------------------------
+Macro F1: 0.183
+Weighted F1: 0.612
+
+============================================================
+Files Generated:
+- results/rag__bias_confusion.csv (45 test articles)
+- results/rag_factcheck_confusion.csv (210 claims)
+============================================================

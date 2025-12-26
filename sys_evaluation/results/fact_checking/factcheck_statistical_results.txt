@@ -1,0 +1,68 @@
+============================================================
+FACT-CHECKING STATISTICAL SIGNIFICANCE TESTS (214 CLAIMS)
+FINAL RESULTS WITH RANDOM SEED 42
+============================================================
+
+Dataset size: 214 claims
+True: 40, False: 170, Misleading: 4
+
+============================================================
+TEST 1: RAG vs LLM-only
+============================================================
+
+== STATISTICAL SIGNIFICANCE TESTING ==
+Comparing RAG vs LLM-only
+
+RAG Weighted F1: 0.661 (95% CI: [0.585, 0.728])
+LLM-only Weighted F1: 0.721 (95% CI: [0.643, 0.795])
+
+McNemar's Test:
+  Chi-square statistic: 17.3333
+  p-value: 0.0000
+  Significant at α=0.05: True
+✓ LLM-only is statistically significantly BETTER than RAG.
+
+============================================================
+TEST 2: RAG vs LLM+KG
+============================================================
+
+== STATISTICAL SIGNIFICANCE TESTING ==
+Comparing RAG vs LLM+KG
+
+RAG Weighted F1: 0.660 (95% CI: [0.590, 0.728])
+LLM+KG Weighted F1: 0.793 (95% CI: [0.725, 0.853])
+
+McNemar's Test:
+  Chi-square statistic: 36.2143
+  p-value: 0.0000
+  Significant at α=0.05: True
+✓ LLM+KG is statistically significantly BETTER than RAG.
+
+============================================================
+TEST 3: LLM-only vs LLM+KG
+============================================================
+
+== STATISTICAL SIGNIFICANCE TESTING ==
+Comparing LLM-only vs LLM+KG
+
+LLM-only Weighted F1: 0.721 (95% CI: [0.645, 0.799])
+LLM+KG Weighted F1: 0.794 (95% CI: [0.722, 0.858])
+
+McNemar's Test:
+  Chi-square statistic: 9.6000
+  p-value: 0.0019
+  Significant at α=0.05: True
+✓ LLM+KG is statistically significantly BETTER than LLM-only.
+
+============================================================
+SUMMARY FOR TABLE 5 (Overall Comparison)
+============================================================
+
+Fact-Checking Results:
+RAG:      F1=0.661 (95% CI: [0.585, 0.728])
+LLM-only: F1=0.721 (95% CI: [0.643, 0.795])  p<0.001*** vs RAG
+LLM+KG:   F1=0.794 (95% CI: [0.722, 0.858])  p=0.0019** vs LLM-only, p<0.001*** vs RAG
+
+============================================================
+✅ ALL FACT-CHECKING TESTS COMPLETE!
+============================================================

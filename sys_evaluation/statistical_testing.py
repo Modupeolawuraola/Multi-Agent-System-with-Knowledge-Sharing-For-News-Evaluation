@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, balanced_accuracy_score, cohen_kappa_score
 
+
 def calculate_confidence_interval(y_true, y_pred, metric_func, n_iterations=1000):
     """Bootstrap confidence intervals for any metrics
     Args:
@@ -21,14 +22,23 @@ def calculate_confidence_interval(y_true, y_pred, metric_func, n_iterations=1000
 
     for _ in range(n_iterations):
         indices = np.random.choice(n, size=n, replace=True)
-        y_true_boot = [y_true[i] for i in indices]  # FIXED: removed [indices]
-        y_pred_boot = [y_pred[i] for i in indices]  # FIXED: removed [indices]
+        y_true_boot = [y_true[i] for i in indices]
+        y_pred_boot = [y_pred[i] for i in indices]
 
         try:
-            score = metric_func(y_true_boot, y_pred_boot)  # FIXED: y_pred_boot not y_pred
-            scores.append(score)
+            score = metric_func(y_true_boot, y_pred_boot)
+            if not np.isnan(score):  # Only add if not NaN
+                scores.append(score)
         except:
             continue
+
+    if len(scores) == 0:
+        return {
+            'mean': 0.0,
+            'std': 0.0,
+            'lower': 0.0,
+            'upper': 0.0
+        }
 
     scores = np.array(scores)
     return {
@@ -37,7 +47,6 @@ def calculate_confidence_interval(y_true, y_pred, metric_func, n_iterations=1000
         'lower': np.percentile(scores, 2.5),
         'upper': np.percentile(scores, 97.5)
     }
-
 def mcnemar_test(y_true, y_pred1, y_pred2):
     """
     McNemar's test for comparing two classifiers
