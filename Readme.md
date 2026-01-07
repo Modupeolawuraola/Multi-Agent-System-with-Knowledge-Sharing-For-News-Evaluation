@@ -1,5 +1,5 @@
 ## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
-## Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
+### Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
 
 **Status:** Under review at Neural Computing and Applications (Submitted)
 
