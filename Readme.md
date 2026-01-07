@@ -23,12 +23,12 @@ Our experiments demonstrate that structured knowledge graph integration signific
 **Bias Detection (Weighted F1):**
 - RAG: 0.287
 - LLM-only: 0.713
-- **LLM+KG: 0.901** ✅ (214% improvement over RAG, 26% over LLM-only)
+- **LLM+KG: 0.901**  (214% improvement over RAG, 26% over LLM-only)
 
 **Fact-Checking (Weighted F1):**
 - RAG: 0.661
 - LLM-only: 0.721
-- **LLM+KG: 0.794** ✅ (20% improvement over RAG, 10% over LLM-only)
+- **LLM+KG: 0.794**  (20% improvement over RAG, 10% over LLM-only)
 
 All improvements are statistically significant (p < 0.01) based on McNemar's test with bootstrap confidence intervals.
 
