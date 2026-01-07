@@ -1,16 +1,36 @@
 ## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
 ## Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
 
+**Status:** Under review at Neural Computing and Applications (Submitted)
+
 A multi-agent system that uses dynamic knowledge graph to detect and analyze media bias in news articles , fact-check the news topics/articles.
 
 Proposed by Group6 Students  
 
-## Project Objectives:
-The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles. This project will explore the effects of shared memory on a multi-agent system and look at utilizing dynamic knowledge graphs to improve the overall efficiency of the system and accuracy of predictions and quality of  News. Specifically, this project will focus on:
+## Project Overview:
 
-1. Developing specialized multi-agents system based on customizing open-source LLMs for specific tasks, such as bias detection, Fact-checking, knowledge graph maintenance, data collection from news open source API, and chatbot functionality.
+The goal of this project is to design, develop, and validate a multi-agent chatbot that is capable of detecting media bias in news articles and providing unbiased and fact-check of News topics/Articles.
+This project explores how integrating structured knowledge graphs as shared memory enhances multi-agent systems for news evaluation tasks. We compare three distinct approaches:
 
-2. Evaluating the effect of shared memory on a multi agent system, specifically focusing on the effect of deploying dynamic knowledge graphs compared to other methods. Evaluation metrics will focus on system performance improvement, reducing redundancy of collected information, accuracy of bias classification and fact-checking, for quality of news.
+1. **RAG Baseline**: Retrieval-Augmented Generation using unstructured document retrieval
+2. **LLM-Only**: Direct prompting without external knowledge
+3. **LLM+KG** (Our System): Multi-agent system with structured knowledge graph integration
+
+### Key Findings
+
+Our experiments demonstrate that structured knowledge graph integration significantly outperforms both unstructured retrieval (RAG) and direct LLM prompting:
+
+**Bias Detection (Weighted F1):**
+- RAG: 0.287
+- LLM-only: 0.713
+- **LLM+KG: 0.901** ✅ (214% improvement over RAG, 26% over LLM-only)
+
+**Fact-Checking (Weighted F1):**
+- RAG: 0.661
+- LLM-only: 0.721
+- **LLM+KG: 0.794** ✅ (20% improvement over RAG, 10% over LLM-only)
+
+All improvements are statistically significant (p < 0.01) based on McNemar's test with bootstrap confidence intervals.
 
 
 
@@ -36,12 +56,24 @@ Returns consolidated results to the user interface
 
 **Streamlit UI**: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collaborative intelligence also maintaining specialized expertise in their respective domains. 
 
+### Baseline Systems (For Comparison)
+
+**RAG Baseline**:
+- Embedding Model: Sentence-BERT (all-MiniLM-L6-v2)
+- Vector Database: ChromaDB
+- Generation Model: Mistral-7B-Instruct-v0.2
+- Retrieval: Top-5 most similar articles based on cosine similarity
+
+**LLM-Only Baseline**:
+- Direct prompting with Claude 3.5 Sonnet
+- No external knowledge retrieval or structured memory
 
 ## System Architecture Workflow/Interaction Diagram:
 The system implement a flexible, knowledge -graph -centered architecture with specialized agents that operate independently but share information through a centralized knowledge repository.  
 
-# Processing Route: 
-The system supports three main processing routes:
+# Processing Route:
+The LLM+KG system supports three main processing routes:
+
 1. **full-path** :Complete news analysis workflow
 - Collects news from external sources
 - Performs bias analysis and fact-checking
@@ -93,14 +125,23 @@ Structure:
 ![Pytorch](https://img.shields.io/badge/Aws-%23FF6F00.svg?style=for-the-badge&logo=Aws&logoColor=white)
 
 ## Technologies Used
-
+**LLM+KG System**:
 - **Large Language Models**: Claude 3 via AWS Bedrock
 - **Knowledge Graph**: Neo4j
 - **Backend**: Python
 - **API Integration**: NewsAPI for article collection
 - **Testing Framework**: Pytest
 
+**RAG Baseline**:
+- Generation Model: Mistral-7B-Instruct-v0.2
+- Vector Database: ChromaDB
+- Embedding Model: Sentence-Transformers (all-MiniLM-L6-v2)
 
+**Shared Components**:
+- API Integration: NewsAPI for article collection
+- Testing Framework: Pytest
+
+---
 ## Getting started:
 
 
@@ -142,8 +183,18 @@ NEO4J_PASSWORD=your_neo4j_password
 
 ### Running the system 
 
+**LLM+KG System** (Main):
 ```bash
 python main.py
+```
+**RAG Baseline**:
+```bash
+python rag_baseline/run_rag.py
+```
+
+**LLM-Only Baseline**:
+```bash
+python llm_only_baseline/run_llm_only.py
 ```
 
 ### Testing 
@@ -159,52 +210,92 @@ pytest tests_int_v2/test_integration_real_aws.py
   
 ```
 
-### System Evaluation 
+## System Evaluation 
+### Evaluation Setup
 
-**System Evaluation**
-Evaluation metrics includes  measuring:
+Our evaluation compared three approaches on the same test datasets:
+- **Bias Detection**: 45 news articles (held-out test set from 222-article corpus)
+- **Fact-Checking**: 214 claims from Media Bias/Fact Check
 
-1. Accuracy of bias classification (balanced accuracy, Cohen's kappa)
+### Metrics
 
-2. Fact-checking performance (precision, recall, F1 scores)
+**Bias Detection**:
+- Balanced Accuracy
+- Cohen's Kappa
+- Matthews Correlation Coefficient
+- Weighted F1
 
-3. Overall system quality (weighted F1, Matthews correlation)
+**Fact-Checking**:
+- Precision, Recall, F1 (per class)
+- Weighted F1
+- Macro F1
 
-The system evaluation focused on comparing performance between LLM-only and LLM+KG configurations across several metrics:
+**Statistical Testing**:
+- McNemar's test for pairwise comparisons
+- Bootstrap confidence intervals (95%, 1000 iterations)
+- Random seed = 42 for reproducibility
 
-1. **Fact-Checking Performance**
+### Running Evaluations
 
-- Precision: LLM-Only  vs. LLM+KG 
-
-- Recall for True Claims: LLM-Only  vs. LLM+KG 
-
-- Overall F1-Score: LLM-Only vs. LLM+KG 
-
-2 **Bias Detection Performance**
-
-- Balanced Accuracy: LLM-Only vs. LLM+KG
-
-- Cohen's Kappa: LLM-Only  vs. LLM+KG 
-
-- Matthews Correlation: LLM-Only vs. LLM+KG 
-
-- Weighted F1: LLM-Only  vs. LLM+KG 
-
-3 **Knowledge Graph Integration Effectiveness**
-
-- Most significant improvements in inter-rater reliability metrics (Cohen's Kappa: 53% increase)
-
-- Substantial improvement in true claim detection (257% increase in recall)
-
-- Enhanced contextual understanding for political content analysis
-
-
-Run the evaluation 
-
-```bash 
+**Bias Detection**:
+```bash
+# LLM+KG
 python sys_evaluation/evaluate_bias.py
+
+# RAG Baseline
+python sys_evaluation/evaluate_bias_rag.py
+
+ LLM-Only
+python sys_evaluation/evaluate_bias_llm_only.py
 ```
 
+**Fact-Checking**:
+```bash
+# LLM+KG
+python sys_evaluation/evaluate_factcheck.py
+
+# RAG Baseline
+python sys_evaluation/evaluate_factcheck_rag.py
+
+# LLM-Only
+python sys_evaluation/evaluate_factcheck_llm_only.py
+```
+
+**Statistical Analysis**:
+```bash
+python sys_evaluation/statistical_tests.py
+```
+---
+
+## Key Results
+
+### Bias Detection Performance
+
+| System | Weighted F1 | Balanced Accuracy | Cohen's Kappa |
+|--------|-------------|-------------------|---------------|
+| RAG | 0.287 [0.139-0.446] | 0.164 | -0.195 |
+| LLM-only | 0.713 [0.594-0.827] | 0.722 | 0.488 |
+| **LLM+KG** | **0.901 [0.817-0.978]** | **0.857** | **0.745** |
+
+**Statistical Significance**:
+- RAG vs LLM-only: p < 0.001***
+- RAG vs LLM+KG: p < 0.001***
+- LLM-only vs LLM+KG: p = 0.0055**
+
+### Fact-Checking Performance
+
+| System | Weighted F1 | True Recall | False F1 |
+|--------|-------------|-------------|----------|
+| RAG | 0.661 [0.585-0.728] | 0.05 | 0.78 |
+| LLM-only | 0.721 [0.643-0.795] | 0.07 | 0.87 |
+| **LLM+KG** | **0.794 [0.722-0.858]** | **0.25** | **0.89** |
+
+**Statistical Significance**:
+- RAG vs LLM-only: p < 0.001***
+- RAG vs LLM+KG: p < 0.001***
+- LLM-only vs LLM+KG: p = 0.0019**
+
+---
 
 
 ### AWS Credentials in Educational Environment 
@@ -235,7 +326,13 @@ Our system provides an intuitive chat interface built with Streamlit:
 ![Project Visualization Summary](visualization_slideshow/visualization_slideshow.gif)
 
 ```
+### Data Availability
 
+- News articles collected via NewsAPI (cannot be redistributed due to API terms)
+- Bias ratings from AllSides (publicly available)
+- Fact-checking claims from Media Bias/Fact Check (publicly available)
+- Labeled datasets and evaluation results available in `sys_evaluation/results/`
+---
 
 ## Project  Folder Structure
 
@@ -246,6 +343,7 @@ project_root/
 ├── src/
 │   ├── component/
 │   │   ├── bias_analyzer_agent/
+|   |   |--- rag_baseline/
 │   │   ├── fact_checker_agent/
 │   │   ├── KG Builder/
 │   │   
@@ -325,4 +423,15 @@ ___
 
    GitHub: https://github.com/amir-jafari/Capstone
 
+## Citation
 
+If you use this work, please cite:
+```bibtex
+@article{fagbenro2025multiagent,
+  title={Improved Multi-Agent Knowledge Sharing System using Knowledge Graphs for News Bias Detection and Fact-Checking},
+  author={Fagbenro, Modupeola and Washer, Christopher and Chella, Pavani and Jafari, Amir},
+  journal={Neural Computing and Applications},
+  year={2025},
+  note={Under Review}
+}
+```
