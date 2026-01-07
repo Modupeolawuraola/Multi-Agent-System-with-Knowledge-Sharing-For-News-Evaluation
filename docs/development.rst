@@ -23,6 +23,70 @@ Setup environment variables create .env file in the src directory with the follo
     NEO4J_USERNAME=your_neo4j_username
     NEO4J_PASSWORD=your_neo4j_password
 
+Running Different Systems
+-------------------------
+
+The repository includes three system implementations:
+
+**LLM+KG System (Main)**
+
+.. code-block:: bash
+
+    python main.py
+
+**RAG Baseline**
+
+.. code-block:: bash
+
+    # Install additional dependencies
+    pip install chromadb sentence-transformers mistralai
+
+    # Run RAG system
+    python rag_baseline/run_rag.py
+
+**LLM-Only Baseline**
+
+.. code-block:: bash
+
+    python llm_only_baseline/run_llm_only.py
+
+Evaluation
+----------
+
+Run system evaluations:
+
+**Bias Detection**
+
+.. code-block:: bash
+
+    # LLM+KG
+    python sys_evaluation/evaluate_bias.py
+
+    # RAG Baseline
+    python sys_evaluation/evaluate_bias_rag.py
+
+    # LLM-Only
+    python sys_evaluation/evaluate_bias_llm_only.py
+
+**Fact-Checking**
+
+.. code-block:: bash
+
+    # LLM+KG
+    python sys_evaluation/evaluate_factcheck.py
+
+    # RAG Baseline
+    python sys_evaluation/evaluate_factcheck_rag.py
+
+    # LLM-Only
+    python sys_evaluation/evaluate_factcheck_llm_only.py
+
+**Statistical Analysis**
+
+.. code-block:: bash
+
+    python sys_evaluation/statistical_tests.py
+
 
 Testing
 -------

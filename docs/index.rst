@@ -20,26 +20,53 @@ This project implements a multi-agent with integrated dynamic KG system capable 
 
 Key Features
 -----------
-* Multi-agent system working collaboratively
+* Multi-agent system with Structure knowledge graph
+* Three-way comparison:  RAG vs. LLM-only VS LLM+KG
 * Dynamic knowledge graph integration
 * Specialized Bias detection and analysis agent
 * Specialized Fact_checking agent
+* Statistical validation with McNemar's test
 
 System Architecture
 -----------------
 The system consists of several specialized agents:
 
-![multiagent-diagram_v3](https://github.com/user-attachments/assets/bb406a4a-0e7c-464a-8c91-30fd90d342ea)
+.. figure:: _static/images/architecture.png
+    :alt: System Architecture Diagram
+    :width: 800px
+    :align: center
+
+    Multi-agent system architecture diagram
+
 
 - **Knowledge Graph** : A Neo4j-based dynamic knowledge graph that stores news articles and entity relationships
 - **Specialized Agents** : Bias Analyzer Agent : Analyzes political news articles bias and leaning
-- **Fact Checker Agent : Verifies factual claims against knowledge graph context and internal knowledge
+- **Fact Checker Agent** : Verifies factual claims against knowledge graph context and internal knowledge
 - **Agent Manager** :Orchestrates workflow between agents Routes user requests to appropriate processing paths Returns consolidated results to the user interface
 
-Integration Framework:
+** Integration Framework**:
+
 - **GraphState Schema**: Standardized data structure for agent communication
 
-- ***Streamlit UI***: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collaborative intelligence also maintaining specialized expertise in their respective domains.
+- **Streamlit UI**: User-friendly interface for interacting with the multi-agent system. This streamlined architecture enables efficient information sharing through the knowledge graph, allowing agents to leverage collaborative intelligence also maintaining specialized expertise in their respective domains.
+
+Key Findings
+-----------
+Our experiments demonstrate that structured knowledge graph integration significantly outperforms both unstructured retrieval (RAG) and direct LLM prompting:
+
+**Bias Detection (Weighted F1):**
+
+* RAG Baseline: 0.287
+* LLM-only: 0.713
+* **LLM+KG: 0.901** (214% improvement over RAG, 26% over LLM-only)
+
+**Fact-Checking (Weighted F1):**
+
+* RAG Baseline: 0.661
+* LLM-only: 0.721
+* **LLM+KG: 0.794** (20% improvement over RAG, 10% over LLM-only)
+
+All improvements are statistically significant (p < 0.01) based on McNemar's test with bootstrap confidence intervals.
 
 
 Tech Stack
