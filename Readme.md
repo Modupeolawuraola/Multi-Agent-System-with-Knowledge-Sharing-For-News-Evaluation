@@ -1,11 +1,16 @@
 ## Project: Group 6: Improved Multi-Agent Knowledge Sharing Systems
 ### Title: Improved  Multi-Agent Knowledge Sharing System using Dynamic Knowledge Graphs for News Bias Detection and Fact-Checking
 
-**Status:** Under review at Neural Computing and Applications (Submitted)
+**Status:** ✅ Published in Neural Computing and Applications (March, 2026)
 
+**Read the paper:** https://link.springer.com/article/10.1007/s00521-026-11944-0
 A multi-agent system that uses dynamic knowledge graph to detect and analyze media bias in news articles , fact-check the news topics/articles.
 
-Proposed by Group6 Students  
+**Citation:**
+Fagbenro, M., Washer, C., Chella, P., & Jafari, A. (2026). 
+Improved multi-agent knowledge sharing system using knowledge 
+graphs for news bias detection and fact-checking. 
+*Neural Computing and Applications*.  Published [March, 2026]
 
 ## Project Overview:
 
