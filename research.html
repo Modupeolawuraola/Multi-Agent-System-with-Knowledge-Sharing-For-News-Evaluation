@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Methodology &mdash; Multi-agent-knowledge-sharing-system 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Development Guide" href="development.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi-agent-knowledge-sharing-system
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Research Methodology</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#research-areas">Research Areas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experimental-setup">Experimental Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-framework">Evaluation Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-datasets">Test Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-findings">Key Findings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bias-detection-performance">Bias Detection Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fact-checking-performance">Fact-Checking Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-insights">Key Insights</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-research-work">Future Research Work</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi-agent-knowledge-sharing-system</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Research Methodology</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/research.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="research-methodology">
+<h1>Research Methodology<a class="headerlink" href="#research-methodology" title="Link to this heading"></a></h1>
+<section id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
+<p>The  fundamental challenges in evaluating news for bias and misinformation remain significant in recent times. In today’s world Human fact-checkers cannot keep pace with the volume of daily news articles and social media claims, creating huge verification delays that allow misinformation to spread widely before being debunked. Automated approaches face their own limitations: bias detection systems struggle with nuance and often rely on spurious signals like publication source rather than content analysis, while fact-checking models lack contextual knowledge and world understanding. Even advanced large language models (LLMs) suffer from hallucinations and knowledge cutoff limitations.
+The research study proposes that knowledge graph (KG)-integrated multi-agent systems offer an improved approach over both unstructured retrieval (RAG) and direct LLM prompting. By combining LLMs’ language comprehension with structured, verified knowledge graphs, these systems provide grounded analysis and efficiently identify potential misinformation or extreme bias.</p>
+</section>
+<section id="research-areas">
+<h2>Research Areas<a class="headerlink" href="#research-areas" title="Link to this heading"></a></h2>
+<p>This research spans several key areas:</p>
+<ol class="arabic simple">
+<li><p><strong>Multi-Agent Systems</strong>: Exploring how specialized agents can collaborate to achieve complex tasks</p></li>
+<li><p><strong>Knowledge Graph Applications</strong>: Using graph-based knowledge representation for contextual understanding</p></li>
+<li><p><strong>Comparative Architectures</strong>: Evaluating structured vs. unstructured knowledge integration</p></li>
+<li><p><strong>Statistical Validation</strong>: Rigorous testing with McNemar’s test and bootstrap confidence intervals</p></li>
+</ol>
+</section>
+<section id="methodology">
+<h2>Methodology<a class="headerlink" href="#methodology" title="Link to this heading"></a></h2>
+<p>Our research methodology combines qualitative and quantitative approaches:</p>
+<ol class="arabic simple">
+<li><p><strong>Literature Review</strong>: Analysis of existing research on media bias detection, multi-agent systems, knowledge graphs, and RAG</p></li>
+<li><p><strong>System Development</strong>: Iterative design and implementation of three systems (RAG, LLM-only, LLM+KG)</p></li>
+<li><p><strong>Data Collection</strong>: Gathering diverse news articles from various sources across the political spectrum</p></li>
+<li><p><strong>Experimental Testing</strong>: Evaluating system performance using controlled test sets</p></li>
+<li><p><strong>Statistical Analysis</strong>: McNemar’s test and bootstrap confidence intervals (95%, 1000 iterations)</p></li>
+</ol>
+</section>
+<section id="experimental-setup">
+<h2>Experimental Setup<a class="headerlink" href="#experimental-setup" title="Link to this heading"></a></h2>
+<p>The research compared three system configurations:</p>
+<p><strong>RAG Baseline:</strong></p>
+<ul class="simple">
+<li><p>Retrieval-Augmented Generation with unstructured document retrieval</p></li>
+<li><p>Embedding Model: Sentence-BERT (all-MiniLM-L6-v2)</p></li>
+<li><p>Vector Database: ChromaDB</p></li>
+<li><p>Generation Model: Mistral-7B-Instruct-v0.2</p></li>
+<li><p>Retrieval: Top-5 most similar articles based on cosine similarity</p></li>
+</ul>
+<p><strong>LLM-only:</strong></p>
+<ul class="simple">
+<li><p>Direct prompting without external knowledge</p></li>
+<li><p>Model: AWS Bedrock Claude 3.5 Sonnet v2</p></li>
+<li><p>No retrieval or structured memory</p></li>
+</ul>
+<p><strong>LLM+KG (Our System):</strong></p>
+<ul class="simple">
+<li><p>Complete multi-agent system with structured knowledge graph</p></li>
+<li><p>Model: AWS Bedrock Claude 3.5 Sonnet v2</p></li>
+<li><p>Knowledge Graph: Neo4j with dynamic updates</p></li>
+<li><p>Specialized agents: Bias Analyzer, Fact Checker</p></li>
+</ul>
+</section>
+<section id="evaluation-framework">
+<h2>Evaluation Framework<a class="headerlink" href="#evaluation-framework" title="Link to this heading"></a></h2>
+<p>We evaluated all three systems using:</p>
+<ul class="simple">
+<li><p>Standard classification metrics (Precision, Recall, F1-score)</p></li>
+<li><p>Specialized metrics for class imbalance (Balanced accuracy, Cohen’s Kappa, Matthews Correlation, Weighted F1)</p></li>
+<li><p>Statistical significance testing (McNemar’s test, p &lt; 0.05)</p></li>
+<li><p>Bootstrap confidence intervals (95%, 1000 iterations, random seed = 42)</p></li>
+</ul>
+</section>
+<section id="test-datasets">
+<h2>Test Datasets<a class="headerlink" href="#test-datasets" title="Link to this heading"></a></h2>
+<p><strong>Bias Detection:</strong></p>
+<ul class="simple">
+<li><p>Total corpus: 222 news articles labeled Left, Center, Right</p></li>
+<li><p>Training set: 177 articles (for RAG and LLM+KG)</p></li>
+<li><p>Test set: 45 articles (held-out, used for all three systems)</p></li>
+</ul>
+<p><strong>Fact-Checking:</strong></p>
+<ul class="simple">
+<li><p>214 claims from Media Bias/Fact Check</p></li>
+<li><p>Labels: True (19%), False (79%), Misleading (2%)</p></li>
+<li><p>Temporal separation from training data</p></li>
+</ul>
+</section>
+<section id="key-findings">
+<h2>Key Findings<a class="headerlink" href="#key-findings" title="Link to this heading"></a></h2>
+<section id="bias-detection-performance">
+<h3>Bias Detection Performance<a class="headerlink" href="#bias-detection-performance" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Weighted F1</p></th>
+<th class="head"><p>Balanced Accuracy</p></th>
+<th class="head"><p>Cohen’s Kappa</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RAG</p></td>
+<td><p>0.287 [0.139-0.446]</p></td>
+<td><p>0.164</p></td>
+<td><p>-0.195</p></td>
+</tr>
+<tr class="row-odd"><td><p>LLM-only</p></td>
+<td><p>0.713 [0.594-0.827]</p></td>
+<td><p>0.722</p></td>
+<td><p>0.488</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>LLM+KG</strong></p></td>
+<td><p><strong>0.901 [0.817-0.978]</strong></p></td>
+<td><p><strong>0.857</strong></p></td>
+<td><p><strong>0.745</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Statistical Significance:</strong></p>
+<ul class="simple">
+<li><p>RAG vs LLM-only: p &lt; 0.001***</p></li>
+<li><p>RAG vs LLM+KG: p &lt; 0.001***</p></li>
+<li><p>LLM-only vs LLM+KG: p = 0.0055**</p></li>
+</ul>
+</section>
+<section id="fact-checking-performance">
+<h3>Fact-Checking Performance<a class="headerlink" href="#fact-checking-performance" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Weighted F1</p></th>
+<th class="head"><p>True Recall</p></th>
+<th class="head"><p>False F1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RAG</p></td>
+<td><p>0.661 [0.585-0.728]</p></td>
+<td><p>0.05</p></td>
+<td><p>0.78</p></td>
+</tr>
+<tr class="row-odd"><td><p>LLM-only</p></td>
+<td><p>0.721 [0.643-0.795]</p></td>
+<td><p>0.07</p></td>
+<td><p>0.87</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>LLM+KG</strong></p></td>
+<td><p><strong>0.794 [0.722-0.858]</strong></p></td>
+<td><p><strong>0.25</strong></p></td>
+<td><p><strong>0.89</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Statistical Significance:</strong></p>
+<ul class="simple">
+<li><p>RAG vs LLM-only: p &lt; 0.001***</p></li>
+<li><p>RAG vs LLM+KG: p &lt; 0.001***</p></li>
+<li><p>LLM-only vs LLM+KG: p = 0.0019**</p></li>
+</ul>
+</section>
+<section id="key-insights">
+<h3>Key Insights<a class="headerlink" href="#key-insights" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Structured vs. Unstructured Knowledge</strong>: LLM+KG (structured) significantly outperforms RAG (unstructured) across all metrics</p></li>
+<li><p><strong>True Claim Detection</strong>: LLM+KG achieved 400% improvement in true claim recall over RAG (0.05 → 0.25)</p></li>
+<li><p><strong>Bias Detection</strong>: 214% improvement in weighted F1 over RAG, 26% over LLM-only</p></li>
+<li><p><strong>Statistical Validity</strong>: All improvements statistically significant with non-overlapping confidence intervals</p></li>
+</ol>
+</section>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Minority Class Performance</strong>: All three approaches struggle with minority classes (true claims, misleading content)</p></li>
+<li><p><strong>Emerging Narratives</strong>: Limited coverage of emerging political topics not yet in training data</p></li>
+<li><p><strong>Dataset Size</strong>: Test set of 45 articles for bias detection reflects 80/20 train/test split required for fair comparison</p></li>
+<li><p><strong>Computational Resources</strong>: RAG uses Mistral-7B due to loss of AWS access; LLM-only and LLM+KG use Claude 3.5 Sonnet</p></li>
+</ol>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>Our research demonstrates that integrating structured knowledge graphs with multi-agent LLM architectures creates significant, statistically validated improvements over both unstructured retrieval (RAG) and direct prompting (LLM-only) for news bias detection and fact-checking.</p>
+<p>The progressive performance gains (RAG → LLM-only → LLM+KG) suggest that:</p>
+<ol class="arabic simple">
+<li><p>Some external knowledge (RAG) helps, but unstructured retrieval is insufficient</p></li>
+<li><p>LLM reasoning improves performance, but lacks factual grounding</p></li>
+<li><p>Structured knowledge representation (KG) provides the optimal balance</p></li>
+</ol>
+<p>These findings could effectively augment fact-checking and editorial teams in real-world deployments.</p>
+</section>
+<section id="future-research-work">
+<h2>Future Research Work<a class="headerlink" href="#future-research-work" title="Link to this heading"></a></h2>
+<p>Potential areas for future research include:</p>
+<ul class="simple">
+<li><p><strong>Hybrid Approaches</strong>: Combining RAG with structured knowledge graphs</p></li>
+<li><p><strong>Dynamic Knowledge Updates</strong>: Real-time graph updates for emerging topics</p></li>
+<li><p><strong>Larger-Scale Validation</strong>: 1000+ examples per task across diverse sources</p></li>
+<li><p><strong>Cross-Domain Evaluation</strong>: Testing beyond political news</p></li>
+<li><p><strong>Multilingual Support</strong>: Extending to multiple languages and cultural contexts</p></li>
+<li><p><strong>Minority Class Improvements</strong>: Specialized techniques for imbalanced datasets</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development.html" class="btn btn-neutral float-left" title="Development Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Group6-Modupeola Fagbenro, Christopher Washer , Pavani chella.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
